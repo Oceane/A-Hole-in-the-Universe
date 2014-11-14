@@ -14,8 +14,8 @@ public class SpaceObjectBouncingThread extends Thread{
 	public void run() {
 		while(true) {
 			// update position
-//			myBall.locationX += myBall.speedX;
-//			myBall.locationY += myBall.speedY;
+			myBall.locationX += myBall.speedX;
+			myBall.locationY += myBall.speedY;
 			
 			// check x bound
 			if (myBall.locationX-myBall.radius<0) {

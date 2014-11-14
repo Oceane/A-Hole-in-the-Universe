@@ -7,9 +7,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 
 public class GameUI {
+	private final int width = 1600;
+	private final int height = 1400;
 	private Timer timer = new Timer();
 	private static Random rand;
 	private KeyWatcher kw;
@@ -24,13 +25,13 @@ public class GameUI {
 	
 	private void setJFrame(JFrame frame) {
 		// initial setup
-		frame.setSize(800,600);
+		frame.setSize(this.width,this.height);
 		frame.setLocation(20, 20);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.setMinimumSize(new Dimension(800,600));
 		frame.setVisible(true);
-		frame.setResizable(false);
+//		frame.setResizable(false);
 	}
 	
 	private void setPlayground(JFrame frame) {
