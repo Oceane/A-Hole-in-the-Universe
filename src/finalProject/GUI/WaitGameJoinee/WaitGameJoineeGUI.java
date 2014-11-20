@@ -1,4 +1,4 @@
-package WaitGameJoinee;
+package finalProject.GUI.WaitGameJoinee;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;

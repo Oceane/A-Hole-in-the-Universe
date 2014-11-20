@@ -1,4 +1,4 @@
-package edu.usc.finalProject;
+package finalProject.GUI.game;
 
 public class SpaceObjectBouncingThread extends Thread{
 	private SpaceObject myBall;

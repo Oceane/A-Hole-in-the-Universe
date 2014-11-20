@@ -1,4 +1,4 @@
-package JoinGame;
+package finalProject.GUI.JoinGame;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

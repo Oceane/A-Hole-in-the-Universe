@@ -1,4 +1,4 @@
-package edu.usc.finalProject;
+package finalProject.GUI.game;
 
 import java.awt.Color;
 import java.awt.Graphics;

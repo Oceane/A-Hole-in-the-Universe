@@ -1,4 +1,4 @@
-package WaitGameCreator;
+package finalProject.GUI.WaitGameCreator;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
