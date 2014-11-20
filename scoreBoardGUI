@@ -1,0 +1,198 @@
+package aHoleInTheUniverse;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+
+
+
+
+public class scoreBoardGUI extends JFrame {
+	
+	//declaration of table variables. If the table value is an integer, a separate variable is declared
+	//that is equal to the String form of that integer, in order to be drawn into the table by the painComponent
+	//method.
+	public static String playerOneUsername = "Player One";
+	public static String playerTwoUsername = "Player Two";
+	public static int playerOneTotalScore = 100;
+	public static String playerOneTotalScoreString = Integer.toString(playerOneTotalScore);
+	public static int playerTwoTotalScore = 75;
+	public static String playerTwoTotalScoreString = Integer.toString(playerTwoTotalScore);
+	public static int playerOneComets = 12;
+	public static String playerOneCometsString = Integer.toString(playerOneComets);
+	public static int playerTwoComets = 8;
+	public static String playerTwoCometsString = Integer.toString(playerTwoComets);
+	public static int playerOneSpin = 15;
+	public static String playerOneSpinString = Integer.toString(playerOneSpin);
+	public static int playerTwoSpin = 18;
+	public static String playerTwoSpinString = Integer.toString(playerTwoSpin);
+	public static int playerOneVelocity = 12;
+	public static String playerOneVelocityString = Integer.toString(playerOneVelocity);
+	public static int playerTwoVelocity = 15;
+	public static String playerTwoVelocityString = Integer.toString(playerTwoVelocity);
+	public static int playerOnePowerUpsUsed = 8;
+	public static String playerOnePowerUpsUsedString = Integer.toString(playerOnePowerUpsUsed);
+	public static int playerTwoPowerUpsUsed = 4;
+	public static String playerTwoPowerUpsUsedString = Integer.toString(playerTwoPowerUpsUsed);
+	//public static int playerOneDeaths = 3;
+	//public static String playerOneDeathsString = Integer.toString(playerOneDeaths);
+	//public static int playerTwoDeaths = 12;
+	//public static String playerTwoDeathsString = Integer.toString(playerTwoDeaths);
+	
+	
+	//constructor for scoreBoardGUI()
+	public scoreBoardGUI() throws IOException{
+		setTitle("A Hole in the Universe");
+		setSize(950,650);
+		setLocationRelativeTo(null);
+		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
+		//This class is also overriden by the paintComponent method to draw the table and title, and adds the 
+		//Quit and Home JButtons.
+		add(new ImagePanel("/Users/natalieanndunn/Documents/space.jpg"));
+		pack();
+
+
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+		
+	}
+	
+	
+	public static class ImagePanel extends JPanel {
+
+        BufferedImage img;
+        //constructor for ImagePanel- takes name of file and constructs a background image by adding it to a JLabel.
+        ImagePanel(String name) {
+            this.add(new JLabel(name));
+            try {
+                img = ImageIO.read(new File(name));
+                this.setPreferredSize(new Dimension(
+                    img.getWidth(), img.getHeight()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            //declares and adds the Quit and To Home JButtons
+        	JButton quitButton = new JButton("Quit");
+        	JButton toHomeButton = new JButton("To Home");
+
+        	setLayout(null);
+        	toHomeButton.setLocation(560,530);
+        	toHomeButton.setSize(100,50);
+        	quitButton.setLocation(350,530);
+        	quitButton.setSize(100,50);
+        	this.add(toHomeButton);
+        	this.add(quitButton);
+
+        	
+        	
+        	//exits application when clicked
+    		quitButton.addActionListener(new ActionListener(){
+    			public void actionPerformed(ActionEvent ae){
+    				System.exit(0);
+    			}
+    				
+    			});
+    		//show Home Page card in CardLayout implementation
+    		toHomeButton.addActionListener(new ActionListener(){
+    			public void actionPerformed(ActionEvent ae){
+    				
+    			}
+    				
+    			});
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+        	//draws the background image to fit the size of the JFrame
+            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+           
+            //sets color and font for the Score Board title
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+            g.drawString("Score Board", 400,100);
+           
+            //draws table row and column outlines
+            g.drawLine(50,200,970,200);
+            g.drawLine(50,450,970,450);
+            g.drawLine(50,200,50,450);
+            g.drawLine(970,200,970,450);
+            g.drawLine(50, 262, 970, 262);
+            g.drawLine(50,355,970,355);
+            
+            g.drawLine(203, 200, 203, 450);
+            g.drawLine(356,200,356,450);
+            g.drawLine(509,200,509,450);
+            g.drawLine(662,200,662,450);
+            g.drawLine(815,200,815,450);
+            //g.drawLine(836,200,836,450);
+            
+            //draws column headers after setting font and text size
+            g.setFont(new Font("TimesRoman",Font.ITALIC,12));
+            g.drawString("Username",95,235);
+            g.drawString("Score",260,235);
+            g.drawString("Comets Knocked In",375,235);
+            g.drawString("Spin",575,235);
+            g.drawString("Velocity",715,235);
+            g.drawString("Power Ups Used",845,235);
+            //g.drawString("Total Deaths", 865, 235);
+            
+            //changes font size and type. Draws tables values in- table values retrieved from global variables
+            //previously defined.
+            g.setFont(new Font("TimesNewRoman",Font.BOLD,17));
+            g.drawString(playerOneUsername, 78,316);
+            g.drawString(playerTwoUsername, 78,410);
+            g.drawString(playerOneTotalScoreString, 260,316);
+            g.drawString(playerTwoTotalScoreString, 267, 410);
+            g.drawString(playerOneCometsString, 422,316);
+            g.drawString(playerTwoCometsString, 427,410);
+            g.drawString(playerOneSpinString, 570,316);
+            g.drawString(playerTwoSpinString, 570,410);
+            g.drawString(playerOneVelocityString, 730,316);
+            g.drawString(playerTwoVelocityString, 730,410);
+            g.drawString(playerOnePowerUpsUsedString, 885, 316);
+            g.drawString(playerTwoPowerUpsUsedString, 885,410);
+            //g.drawString(playerOneDeathsString, 900,316);
+            //g.drawString(playerTwoDeathsString, 895,410);
+            
+            
+            
+
+        }
+ 
+    
+        
+   }
+ 
+//main method creates instance of scoreBoardGUI()
+public static void main (String [] args) throws IOException{
+	
+	scoreBoardGUI instance = new scoreBoardGUI();
+	
+	
+}
+	
+}
