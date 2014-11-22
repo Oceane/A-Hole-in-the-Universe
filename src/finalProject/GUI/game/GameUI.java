@@ -9,8 +9,8 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 
 public class GameUI {
-	private final int width = 1600;
-	private final int height = 1400;
+	private final int width = 800;
+	private final int height = 600;
 	private Timer timer = new Timer();
 	private static Random rand;
 	private KeyWatcher kw;
@@ -36,20 +36,28 @@ public class GameUI {
 	}
 	
 	private void setPlayground(JFrame frame) {
-		SpaceObject player = new SpaceObject(50, 100, 100, 3, 4, "blue");
+		int width = frame.getContentPane().getWidth();
+		int height = frame.getContentPane().getHeight();
+		SpaceObject player = new SpaceObject(SpaceObjectType.planet,50, width/2, height/2, 0, 0, "blue");
+		SpaceObject comet = new SpaceObject(SpaceObjectType.comet, "red", width, height);
 		frame.add(player);
+		frame.add(comet);
+		// pass player to KeyWatcher to control its speed
 		this.kw = new KeyWatcher(player);
 		frame.addKeyListener(kw);
 		// for some reason pack has to be called for player.getWidth() to return non-zero values
-		frame.pack();
-		SpaceObjectBouncingThread playerThread = new SpaceObjectBouncingThread(player, frame.getWidth(), frame.getHeight());
+//		frame.pack();
+		SpaceObjectBouncingThread playerThread = new SpaceObjectBouncingThread(player, width, height);
+		SpaceObjectBouncingThread cometThread = new SpaceObjectBouncingThread(comet, width, height);
 		playerThread.start();
+		cometThread.start();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
 				player.setLocation((int)(player.locationX-player.radius), (int)(player.locationY-player.radius));
-				frame.revalidate();
-				frame.repaint();
+				comet.setLocation((int)(comet.locationX-comet.radius), (int)(comet.locationY-comet.radius));
+//				frame.revalidate();
+//				frame.repaint();
 			}
 		}, 0, (long) (1000/player.refreshRate));
 	}

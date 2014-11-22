@@ -17,24 +17,27 @@ public class SpaceObjectBouncingThread extends Thread{
 			myBall.locationX += myBall.speedX;
 			myBall.locationY += myBall.speedY;
 			
-			// check x bound
-			if (myBall.locationX-myBall.radius<0) {
-				myBall.speedX = -myBall.speedX;
-				myBall.locationX = myBall.radius;
-			}
-			else if (myBall.locationX+myBall.radius>boundX) {
-				myBall.speedX = -myBall.speedX;
-				myBall.locationX = boundX-myBall.radius;
-			}
-			
-			// check y bound
-			if (myBall.locationY-myBall.radius<0) {
-				myBall.speedY = -myBall.speedY;
-				myBall.locationY = myBall.radius;
-			}
-			else if (myBall.locationY+myBall.radius>boundY) {
-				myBall.speedY = -myBall.speedY;
-				myBall.locationY = boundY-myBall.radius;
+			// if comet, don't check bound
+			if (!myBall.type.equals(SpaceObjectType.comet)) {
+				// check x bound
+				if (myBall.locationX-myBall.radius<0) {
+					myBall.speedX = -myBall.speedX;
+					myBall.locationX = myBall.radius;
+				}
+				else if (myBall.locationX+myBall.radius>boundX) {
+					myBall.speedX = -myBall.speedX;
+					myBall.locationX = boundX-myBall.radius;
+				}
+
+				// check y bound
+				if (myBall.locationY-myBall.radius<0) {
+					myBall.speedY = -myBall.speedY;
+					myBall.locationY = myBall.radius;
+				}
+				else if (myBall.locationY+myBall.radius>boundY) {
+					myBall.speedY = -myBall.speedY;
+					myBall.locationY = boundY-myBall.radius;
+				}
 			}
 			
 			// delay
