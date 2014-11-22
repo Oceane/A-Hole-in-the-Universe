@@ -24,6 +24,7 @@ public class SpaceObject extends JPanel{
 		this.locationY = locationY;
 		this.speedX = speedX;
 		this.speedY = speedY;
+		this.setBounds(0, 0, (int)radius*2, (int)radius*2);
 		
 		// get color
 		try {
@@ -69,10 +70,10 @@ public class SpaceObject extends JPanel{
 		// get width and height of the panel to paint to black
 		panelWidth = getWidth();
 		panelHeight = getHeight();
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, panelWidth, panelHeight);
+//		g.setColor(Color.white);
+//		g.fillRect(0, 0, panelWidth, panelHeight);
 		g.setColor(SpaceObject.myColor);
-		g.fillOval((int)(locationX-radius), (int)(locationY-radius), (int)(radius*2), (int)(radius*2));
+		g.fillOval(0, 0, (int)(radius*2), (int)(radius*2));
 	}
 	
 	public int getMyWidth() {

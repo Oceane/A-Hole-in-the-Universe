@@ -1,6 +1,6 @@
 package finalProject.GUI.game;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Random;
 import java.util.Timer;
@@ -28,9 +28,10 @@ public class GameUI {
 		frame.setSize(this.width,this.height);
 		frame.setLocation(20, 20);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new BorderLayout());
+		frame.setLayout(null);
 		frame.setMinimumSize(new Dimension(800,600));
 		frame.setVisible(true);
+		frame.setBackground(Color.black);
 //		frame.setResizable(false);
 	}
 	
@@ -41,16 +42,18 @@ public class GameUI {
 		frame.addKeyListener(kw);
 		// for some reason pack has to be called for player.getWidth() to return non-zero values
 		frame.pack();
-		SpaceObjectBouncingThread playerThread = new SpaceObjectBouncingThread(player, player.getWidth(), player.getHeight());
+		SpaceObjectBouncingThread playerThread = new SpaceObjectBouncingThread(player, frame.getWidth(), frame.getHeight());
 		playerThread.start();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				player.repaint();
+				player.setLocation((int)(player.locationX-player.radius), (int)(player.locationY-player.radius));
+				frame.revalidate();
+				frame.repaint();
 			}
 		}, 0, (long) (1000/player.refreshRate));
 	}
-	
+
 	/**
 	 * Returns a pseudo-random number between min and max, inclusive.
 	 * The difference between min and max can be at most

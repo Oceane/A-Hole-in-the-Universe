@@ -1,4 +1,4 @@
-package Intro;
+package finalProject.GUI;
 import java.awt.*;
 import java.awt.event.*;
 
