@@ -1,6 +1,6 @@
 <document>
 	<players_available>
-		<player ip_address="1983.498.745" username="tommy" character="planet1">
+		<player ip_address="1983.498.745" username="tommy" character="Neslaou">
 			<ready>true</ready>
 			<score>0</score>
 			<comets>0</comets>
@@ -11,7 +11,7 @@
 			<notifications>
 			</notifications>
 		</player>
-		<player ip_address="1983.498.745" username="sandy" character="planet2">
+		<player ip_address="1983.498.745" username="sandy" character="Earth">
 			<ready>true</ready>
 			<score>0</score>
 			<comets>0</comets>
@@ -26,7 +26,7 @@
 
 	<games_available>
 		<game title="Planet of the Apes" total_time="mm:ss" remaining_time="mm:ss" max_players="2">
-			<player ip_address="1983.498.745" username="jane" character="planet1">
+			<player ip_address="1983.498.745" username="jane" character="OU">
 				<ready>true</ready>
 				<score>0</score>
 				<comets>0</comets>
@@ -37,7 +37,7 @@
 				<notifications>
 				</notifications>
 			</player>
-			<player ip_address="1983.498.745" username="samuel" character="planet3">	
+			<player ip_address="1983.498.745" username="samuel" character="Gigolo">	
 				<ready>false</ready>
 				<score>0</score>
 				<comets>0</comets>
