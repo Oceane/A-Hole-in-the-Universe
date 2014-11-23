@@ -13,6 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -34,8 +37,13 @@ import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class createProfile extends JFrame implements MouseListener {
 	public JPanel namePanel = new JPanel();
@@ -48,6 +56,19 @@ public class createProfile extends JFrame implements MouseListener {
 	int selectedPlanet = 0; // 1=Ora Uhlsax, 2 = Neslaou, 3 = Earth, 4 = Gigolo
 	JLabel submit = new JLabel(new ImageIcon("Icons/submit.png"));
 	boolean playedSound = false;
+	
+	//XML
+	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	DocumentBuilder db;
+	Document doc = null;
+	
+	//Audio
+
+	File yourFile;
+	static AudioInputStream stream;
+	static AudioFormat format;
+	static DataLine.Info info;
+	static Clip clip;
 
 	public JPanel planetsPanel = new JPanel();
 
@@ -252,12 +273,53 @@ public class createProfile extends JFrame implements MouseListener {
 		} else if (selectedPlanet == 0) {
 			JOptionPane.showMessageDialog(this, "You must select a planet.",
 					"Hold your horses...", JOptionPane.WARNING_MESSAGE);
+		} else //check XML File for taken username
+			if(!checkDataBaseForUsername(Benutzername)){
+				JOptionPane.showMessageDialog(this, "Your username has been taken. Please try again :)", "Awww... :(", JOptionPane.WARNING_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(this, Benutzername
 					+ ", your character has been saved!");
 			// send data to XML file
+			
 			this.dispose();
+			//load Join Game GUI
+			JoinGameGUI.main(null);
 		}
+	}
+	
+	public void setUpXMLConnection(){
+		try {
+			db = dbf.newDocumentBuilder();
+
+			doc = db.parse(new File("XML/Datenbank.xml"));
+		} catch (ParserConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		doc.getDocumentElement().normalize();
+	}
+	
+	public boolean checkDataBaseForUsername(String name){
+		String namez = "";
+		
+		NodeList nList = doc.getElementsByTagName("player");
+		for(int i = 0; i < nList.getLength(); i++){
+			namez = nList.item(i).getAttributes().getNamedItem("username").toString().replaceAll("username=", "");
+			namez = namez.replaceAll("\"", "");
+			System.out.println(namez);
+			if(name.equals(namez))
+				return false;
+		}
+		return true;
 	}
 
 	public static void main(String[] args) {
@@ -329,12 +391,6 @@ public class createProfile extends JFrame implements MouseListener {
 
 	public static synchronized void playSound(final String url) {
 		try {
-			File yourFile;
-			AudioInputStream stream;
-			AudioFormat format;
-			DataLine.Info info;
-			Clip clip;
-
 			stream = AudioSystem.getAudioInputStream(new File("Sounds/" + url));
 			format = stream.getFormat();
 			info = new DataLine.Info(Clip.class, format);
