@@ -1,3 +1,5 @@
+package aHoleInTheUniverse;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -8,66 +10,92 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class Start extends JPanel {
+public class Start extends JFrame {
 
-	CardLayout cardLayout;
-	JPanel cardPanel;
 	JButton enterButton, quitButton;
 	BufferedImage img;
 	String name = "Backgrounds/universe1.jpg";
 
-	public Start(JPanel cardPanel) {
+	public Start() {
 		// SETUP WINDOW
-		this.cardPanel = cardPanel;
-		cardLayout = (CardLayout) cardPanel.getLayout();
-
-		setLayout(new GridBagLayout());
-
 		window();
+
+		addKeyListener(new KeyListener() {
+
+			public void keyPressed(KeyEvent e) {
+				int key = e.getKeyCode();
+				if (key == e.VK_ESCAPE) {
+					System.exit(0);
+				} else {
+					new Title();
+					dispose();
+				}
+
+			}
+
+			public void keyReleased(KeyEvent e) {
+
+			}
+
+			public void keyTyped(KeyEvent e) {
+
+			}
+
+		});
+
+		setTitle("A Hole In The Universe");
+		setSize(950, 650);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setVisible(true);
+
 	}
 
 	private void window() {
-		enterButton = new JButton("Enter");
-		quitButton = new JButton("Quit");
-
-		enterButton.setPreferredSize(new Dimension(300, 100));
-		enterButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				cardLayout.show(cardPanel, "titlePanel");
-			}
-		});
-		quitButton.setPreferredSize(new Dimension(300, 100));
-		quitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				System.exit(0);
-			}
-		});
-
-		GridBagConstraints gbc = new GridBagConstraints();
-
-		gbc.gridy = 0;
-		add(enterButton, gbc);
-
-		gbc.gridy = 1;
-		add(quitButton, gbc);
+		JPanel startPanel = new StartPanel();
+		startPanel.setLayout(new GridBagLayout());
 
 		try {
 			img = ImageIO.read(new File(name));
-			this.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
+			startPanel.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		add(startPanel);
 	}
 
-	protected void paintComponent(Graphics g) {
-		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+	public class StartPanel extends JPanel {
 
-		g.setColor(Color.WHITE);
-		g.setFont(new Font("Times New Roman", Font.PLAIN, 60));
-		g.drawString("A Hole In The Universe", 180, 120);
+		public StartPanel() {
+
+			try {
+				img = ImageIO.read(new File(name));
+				this.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		protected void paintComponent(Graphics g) {
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Times New Roman", Font.PLAIN, 60));
+			g.drawString("A Hole In The Universe", 180, 120);
+
+			g.setFont(new Font("Times New Roman", Font.PLAIN, 36));
+			g.drawString("Press anything to start, [esc] to quit", 240, 500);
+		}
+	}
+
+	public static void main(String[] args) {
+		new Start();
+
 	}
 
 }
