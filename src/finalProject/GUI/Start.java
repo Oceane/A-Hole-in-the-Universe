@@ -1,4 +1,3 @@
-package finalProject.GUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -15,7 +14,7 @@ public class Start extends JPanel {
 	JPanel cardPanel;
 	JButton enterButton, quitButton;
 	BufferedImage img;
-	String name = "universe1.jpg";
+	String name = "Backgrounds/universe1.jpg";
 
 	public Start(JPanel cardPanel) {
 		// SETUP WINDOW
