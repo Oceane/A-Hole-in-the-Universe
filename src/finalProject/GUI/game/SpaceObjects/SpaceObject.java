@@ -11,18 +11,26 @@ import finalProject.GUI.game.GameUI;
 
 public class SpaceObject extends JPanel{
 	private static final long serialVersionUID = 1L;
-	protected int rad, velX, velY;
+	private static final int OFFSET = 2;
+	public static final double MAX_VEL = 20;
+	public static final double MIN_VEL = 0.5;
+	protected int rad;
+	protected double x, y, velX, velY;
 	protected JPanel uPanel;
 	final int refreshRate = 30;
 	private Color myColor;
 
-	public SpaceObject(Color uColor, int rad, JPanel uPanel) {
+	public SpaceObject(Color uColor, int rad, int x, int y, JPanel uPanel) {
 		this.rad = rad;
 		this.uPanel = uPanel;
 		this.myColor = uColor;
+		this.x = x;
+		this.y = y;
+		this.setBounds(x, y, rad*2 + OFFSET, rad*2 + OFFSET); //an offset is required to prevent clipping
 		this.setBorder(new LineBorder(Color.GREEN));
 		this.setBackground(Color.GREEN);
 		this.setOpaque(false);
+		uPanel.add(this);
 	}
 	
 	protected void paintComponent(Graphics g) {
@@ -31,63 +39,71 @@ public class SpaceObject extends JPanel{
 		g.fillOval(0, 0, (rad*2), (rad*2));
 	}
 	
-	public void updatePos(){
-		this.setLocation(this.getLocation().x + this.getVelX(), this.getLocation().y + this.getVelY());
+	public synchronized void updatePos(){
+		this.x += this.velX;
+		this.y += this.velY;
+		this.setLocation((int)(this.x), (int)(this.y));
 	}
 	
-	public int getX(){
-		return (this.getLocation().x + this.rad);
+	public synchronized double getCenterX(){
+		return (this.x + this.rad);
 	}
 	
-	public void setX(int x){
-		this.setLocation(x - this.rad, this.getLocation().y);
+	public synchronized void setCenterX(double x){
+		this.x = x - this.rad;
+		this.setLocation((int)this.x, this.getLocation().y);
 	}
 	
-	public int getY(){
-		return (this.getLocation().y + this.rad);
+	public synchronized double getCenterY(){
+		return (this.y + this.rad);
 	}
 	
-	public void setY(int y){
-		this.setLocation(this.getLocation().x, y - this.rad);
+	public synchronized void setCenterY(double y){
+		this.y = y - this.rad;
+		this.setLocation(this.getLocation().x, (int)this.y);
 	}
 	
-	public int getVelX(){
+	public synchronized double getVelX(){
 		return this.velX;
 	}
 	
-	public void setVelX(int velX){
+	public synchronized void setVelX(double velX){
 		this.velX = velX;
 	}
 	
-	public int getVelY(){
+	public synchronized double getVelY(){
 		return this.velY;
 	}
 	
-	public void setVelY(int velY){
+	public synchronized void setVelY(double velY){
 		this.velY = velY;
 	}
 	
-	public int getRad(){
+	public synchronized int getRad(){
 		return this.rad;
 	}
 	
-	public void setRad(int rad){
+	public synchronized void setRad(int rad){
 		this.rad = rad;
 	}
 	
-	public void invertVelX(){
+	public synchronized void invertVelX(){
 		this.velX = -this.velX;
 	}
 	
-	public void invertVelY(){
+	public synchronized void invertVelY(){
 		this.velY = -this.velY;
 	}
 	
-	public void addVelX(int nAddVel){
+	public synchronized void addVelX(double nAddVel){
 		this.velX += nAddVel;
 	}
 	
-	public void addVelY(int nAddVel){
+	public synchronized void addVelY(double nAddVel){
 		this.velY += nAddVel;
+	}
+	
+	public synchronized double getTotVel(){
+		return Math.sqrt(this.velX*this.velX + this.velY*this.velY);
 	}
 }

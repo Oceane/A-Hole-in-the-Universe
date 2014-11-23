@@ -2,15 +2,18 @@ package finalProject.GUI.game;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import finalProject.GUI.game.SpaceObjects.BlackHole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
@@ -18,15 +21,15 @@ import finalProject.GUI.game.SpaceObjects.SpaceObject;
 public class GameUI {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 600;
-	private Timer timer = new Timer();
+	private final int OFFSET = 9;
+	private final int NUM_COMETS = 10;
 	private static Random rand;
-	private KeyWatcher kw;
+	private Vector<SpaceObject> vObjs;
 	
 	public static void main(String [] args) {
 		GameUI myGame = new GameUI();
 		JFrame frame = new JFrame("A Hole in the Universe");
 		frame.setLayout(null);
-//		JLayeredPane layeredPane = frame.getLayeredPane();
 		myGame.setJFrame(frame);
 		myGame.setPlayground(frame);
 	}
@@ -43,26 +46,19 @@ public class GameUI {
 	}
 	
 	private void setPlayground(JFrame frame) {
+		vObjs = new Vector<SpaceObject>();
 		JPanel uPanel = new JPanel();
-		uPanel.setBounds(0, 0, frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
+		uPanel.setBounds(0, 0, frame.getContentPane().getWidth() + OFFSET, frame.getContentPane().getHeight() + OFFSET);
+		//uPanel.setBounds(0, 0, WIDTH, HEIGHT);
 		uPanel.setBorder(new LineBorder(Color.GREEN));
 		uPanel.setLayout(null);
-		int width = uPanel.getWidth();
-		int height = uPanel.getHeight();
-		SpaceObject player = new Player(Color.BLUE, uPanel, WIDTH/2, HEIGHT/2);
-		SpaceObject comet = new Comet(Color.RED, uPanel);
-		uPanel.add(player);
-		uPanel.add(comet);
+		vObjs.add(new Player(100, 100, uPanel, frame));
+		for(int i=0; i<NUM_COMETS; i++){
+			vObjs.add(new Comet(uPanel));
+		}
 		frame.add(uPanel);
-		// pass player to KeyWatcher to control its speed
-		this.kw = new KeyWatcher(player);
-		frame.addKeyListener(kw);
-		// for some reason pack has to be called for player.getWidth() to return non-zero values
-//		frame.pack();
-		SpaceObjectBouncingThread playerThread = new SpaceObjectBouncingThread(player, uPanel);
-		SpaceObjectBouncingThread cometThread = new SpaceObjectBouncingThread(comet, uPanel);
-		playerThread.start();
-		cometThread.start();
+		SpaceObjectManger uObjMan = new SpaceObjectManger(vObjs, new BlackHole(uPanel), uPanel);
+		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPanel);
 	}
 
 	/**

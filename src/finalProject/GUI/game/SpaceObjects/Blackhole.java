@@ -4,10 +4,14 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
-public class Blackhole extends SpaceObject{
-
-	Blackhole(Color uColor, JPanel uPanel){
-		super(uColor, 10, uPanel);
+public class BlackHole extends SpaceObject{
+	public static final int RAD = 50;
+	public static final double G = 0.009;
+	
+	public BlackHole(JPanel uPanel){
+		super(Color.BLACK, RAD, 0, 0, uPanel);	
+		this.setCenterX(uPanel.getWidth()/2);
+		this.setCenterY(uPanel.getHeight()/2);
 	}
 	
 }

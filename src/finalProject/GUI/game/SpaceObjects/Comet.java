@@ -7,52 +7,55 @@ import javax.swing.JPanel;
 import finalProject.GUI.game.GameUI;
 
 public class Comet extends SpaceObject{
-
-	public Comet(Color uColor, JPanel uPanel){
-		super(uColor, 10, uPanel);
+	public static final int MAX_RAD = 30;
+	public static final int MIN_RAD = 10;
+	public static final int MAX_VEL = 1;
+	public static final int MIN_VEL = 1;
+	
+	public Comet(JPanel uPanel){
+		super(Color.RED, 10, 0, 0, uPanel);
 		
-		this.rad = GameUI.randInt(20, 80);
+		double sign = GameUI.randInt(0, 1)*2 - 1; //either 1 or -1
+		this.rad = GameUI.randInt(MIN_RAD, MAX_RAD);
 		int side = GameUI.randInt(1, 4);
 		switch(side) {
 		//  going in from top
 		case 1:{
-			this.setY(0-this.rad);
-			this.setX(GameUI.randInt(0-(int)this.rad, (int) (uPanel.getWidth()+this.rad)));
-			this.setVelX(GameUI.randInt(-30, 30));
-			this.setVelY(GameUI.randInt(5, 30));
+			this.setCenterY(-this.rad);
+			this.setCenterX(GameUI.randInt(0, (uPanel.getWidth()+2*this.rad)-this.rad));
+			this.setVelX(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
+			this.setVelY(GameUI.randInt(MIN_VEL, MAX_VEL));
 			break;
 		}
 		// going in from left
 		case 2:{
-			this.setY(GameUI.randInt(0-(int)this.rad, (int) (uPanel.getHeight()+this.rad)));
-			this.setX(0-this.rad);
-			this.setVelX(GameUI.randInt(5, 30));
-			this.setVelY(GameUI.randInt(-30, 30));
+			this.setCenterY(GameUI.randInt(0, (uPanel.getHeight()+2*this.rad)-this.rad));
+			this.setCenterX(-this.rad);
+			this.setVelX(GameUI.randInt(MIN_VEL, MAX_VEL));
+			this.setVelY(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
 			break;
 		}
 		// going in from bottom
 		case 3:{
-			this.setY(this.rad+uPanel.getHeight());
-			this.setX(GameUI.randInt(0-(int)this.rad, (int) (uPanel.getWidth()+this.rad)));
-			this.setVelX(GameUI.randInt(-30, 30));
-			this.setVelY(GameUI.randInt(-30, -5));
+			this.setCenterY(this.rad+uPanel.getHeight());
+			this.setCenterX(GameUI.randInt(0, (uPanel.getWidth()+2*this.rad)-this.rad));
+			this.setVelX(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
+			this.setVelY(-GameUI.randInt(MIN_VEL, MAX_VEL));
 			break;
 		}
 		
 		// going in from right
 		case 4:{
-			this.setY(GameUI.randInt(0-(int)this.rad, (int) (uPanel.getHeight()+this.rad)));
-			this.setX(this.rad+uPanel.getWidth());
-			this.setVelX(GameUI.randInt(-30, -5));
-			this.setVelY(GameUI.randInt(-30, 30));
+			this.setCenterY(GameUI.randInt(0, (uPanel.getHeight()+2*this.rad)-this.rad));
+			this.setCenterX(this.rad+uPanel.getWidth());
+			this.setVelX(-GameUI.randInt(MIN_VEL, MAX_VEL));
+			this.setVelY(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
 			break;
 		}
 		}
 		
 		// panel general settings
-		this.setBounds(0, 0, (int)this.rad*2, (int)this.rad*2);
-		
-		
+		this.setBounds(0, 0, this.rad*2, this.rad*2);	
 	}
 	
 }
