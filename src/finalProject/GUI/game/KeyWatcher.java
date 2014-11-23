@@ -3,6 +3,8 @@ package finalProject.GUI.game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import finalProject.GUI.game.SpaceObjects.SpaceObject;
+
 // from http://stackoverflow.com/questions/616924/how-to-check-if-the-key-pressed-was-an-arrow-key-in-java-keylistener
 public class KeyWatcher extends KeyAdapter {
 	private SpaceObject myBall;
@@ -33,16 +35,16 @@ public class KeyWatcher extends KeyAdapter {
 			break;
 		}
 		if (this.bDown) {
-			this.myBall.speedY+=2;
+			this.myBall.setVelY(this.myBall.getVelY() + 2);
 		}
 		if (this.bUp) {
-			this.myBall.speedY-=2;
+			this.myBall.setVelY(this.myBall.getVelY() - 2);
 		}
 		if (this.bLeft) {
-			this.myBall.speedX-=2;
+			this.myBall.setVelX(this.myBall.getVelX() - 2);
 		}
 		if (this.bRight) {
-			this.myBall.speedX+=2;
+			this.myBall.setVelX(this.myBall.getVelX() + 2);
 		}
 	}
 

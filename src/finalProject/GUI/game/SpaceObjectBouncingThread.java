@@ -1,48 +1,51 @@
 package finalProject.GUI.game;
 
+import javax.swing.JPanel;
+
+import finalProject.GUI.game.SpaceObjects.Player;
+import finalProject.GUI.game.SpaceObjects.SpaceObject;
+
 public class SpaceObjectBouncingThread extends Thread{
+	public static final int REFRESH_RATE = 30;
 	private SpaceObject myBall;
 	private int boundX, boundY;  // these are the bounds of the panel that the SpaceObject is in
+	private JPanel uPanel;
 	
 	
-	public SpaceObjectBouncingThread(SpaceObject ball, int boundX, int boundY) {
+	public SpaceObjectBouncingThread(SpaceObject ball, JPanel uPanel) {
 		this.myBall = ball;
-		this.boundX = boundX;
-		this.boundY = boundY;
+		this.boundX = uPanel.getWidth();
+		this.boundY = uPanel.getHeight();
+		this.uPanel = uPanel;
 	}
 	
 	public void run() {
 		while(true) {
 			// update position
-			myBall.locationX += myBall.speedX;
-			myBall.locationY += myBall.speedY;
+			myBall.updatePos();
 			
 			// if comet, don't check bound
-			if (!myBall.type.equals(SpaceObjectType.comet)) {
+			if (myBall instanceof Player) {
 				// check x bound
-				if (myBall.locationX-myBall.radius<0) {
-					myBall.speedX = -myBall.speedX;
-					myBall.locationX = myBall.radius;
+				if (myBall.getX()<0) {
+					myBall.invertVelX();
 				}
-				else if (myBall.locationX+myBall.radius>boundX) {
-					myBall.speedX = -myBall.speedX;
-					myBall.locationX = boundX-myBall.radius;
+				else if (myBall.getX() + myBall.getRad()*2>boundX) {
+					myBall.invertVelX();				
 				}
-
 				// check y bound
-				if (myBall.locationY-myBall.radius<0) {
-					myBall.speedY = -myBall.speedY;
-					myBall.locationY = myBall.radius;
+				if (myBall.getY()<0) {
+					myBall.invertVelY();
 				}
-				else if (myBall.locationY+myBall.radius>boundY) {
-					myBall.speedY = -myBall.speedY;
-					myBall.locationY = boundY-myBall.radius;
+				else if (myBall.getY() + myBall.getRad()*2>boundY) {
+					myBall.invertVelY();			
 				}
 			}
-			
+			uPanel.revalidate();
+			uPanel.repaint();
 			// delay
 			try {
-				Thread.sleep(1000/myBall.refreshRate);  // milliseconds
+				Thread.sleep(1000/REFRESH_RATE);  // milliseconds
 			} catch (InterruptedException ex) {
 				System.out.print(ex.getMessage());
 			}

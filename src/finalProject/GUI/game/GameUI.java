@@ -6,11 +6,18 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+import finalProject.GUI.game.SpaceObjects.Comet;
+import finalProject.GUI.game.SpaceObjects.Player;
+import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class GameUI {
-	private final int width = 800;
-	private final int height = 600;
+	private final int WIDTH = 800;
+	private final int HEIGHT = 600;
 	private Timer timer = new Timer();
 	private static Random rand;
 	private KeyWatcher kw;
@@ -18,6 +25,7 @@ public class GameUI {
 	public static void main(String [] args) {
 		GameUI myGame = new GameUI();
 		JFrame frame = new JFrame("A Hole in the Universe");
+		frame.setLayout(null);
 //		JLayeredPane layeredPane = frame.getLayeredPane();
 		myGame.setJFrame(frame);
 		myGame.setPlayground(frame);
@@ -25,41 +33,36 @@ public class GameUI {
 	
 	private void setJFrame(JFrame frame) {
 		// initial setup
-		frame.setSize(this.width,this.height);
+		frame.setSize(this.WIDTH, this.HEIGHT);
 		frame.setLocation(20, 20);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(null);
-		frame.setMinimumSize(new Dimension(800,600));
-		frame.setVisible(true);
+		frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		frame.setBackground(Color.black);
-//		frame.setResizable(false);
+		frame.setVisible(true);
+		frame.setResizable(false);
 	}
 	
 	private void setPlayground(JFrame frame) {
-		int width = frame.getContentPane().getWidth();
-		int height = frame.getContentPane().getHeight();
-		SpaceObject player = new SpaceObject(SpaceObjectType.planet,50, width/2, height/2, 0, 0, "blue");
-		SpaceObject comet = new SpaceObject(SpaceObjectType.comet, "red", width, height);
-		frame.add(player);
-		frame.add(comet);
+		JPanel uPanel = new JPanel();
+		uPanel.setBounds(0, 0, frame.getContentPane().getWidth(), frame.getContentPane().getHeight());
+		uPanel.setBorder(new LineBorder(Color.GREEN));
+		uPanel.setLayout(null);
+		int width = uPanel.getWidth();
+		int height = uPanel.getHeight();
+		SpaceObject player = new Player(Color.BLUE, uPanel, WIDTH/2, HEIGHT/2);
+		SpaceObject comet = new Comet(Color.RED, uPanel);
+		uPanel.add(player);
+		uPanel.add(comet);
+		frame.add(uPanel);
 		// pass player to KeyWatcher to control its speed
 		this.kw = new KeyWatcher(player);
 		frame.addKeyListener(kw);
 		// for some reason pack has to be called for player.getWidth() to return non-zero values
 //		frame.pack();
-		SpaceObjectBouncingThread playerThread = new SpaceObjectBouncingThread(player, width, height);
-		SpaceObjectBouncingThread cometThread = new SpaceObjectBouncingThread(comet, width, height);
+		SpaceObjectBouncingThread playerThread = new SpaceObjectBouncingThread(player, uPanel);
+		SpaceObjectBouncingThread cometThread = new SpaceObjectBouncingThread(comet, uPanel);
 		playerThread.start();
 		cometThread.start();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				player.setLocation((int)(player.locationX-player.radius), (int)(player.locationY-player.radius));
-				comet.setLocation((int)(comet.locationX-comet.radius), (int)(comet.locationY-comet.radius));
-//				frame.revalidate();
-//				frame.repaint();
-			}
-		}, 0, (long) (1000/player.refreshRate));
 	}
 
 	/**
