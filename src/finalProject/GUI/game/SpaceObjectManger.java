@@ -98,28 +98,25 @@ public class SpaceObjectManger extends Thread{
 		}
 	}
 	
-	private void detectOffEdge(SpaceObject uObj){
+	private boolean isOffEdge(SpaceObject uObj){
 		
 		//Left boundary:
 		if (uObj.getCenterX() + uObj.getRad()<0) {
-			vObjs.remove(uObj);
-			vObjs.add(new Comet(uPanel));
+			return true;
 		}
 		//Right boundary:
 		else if (uObj.getCenterX() - uObj.getRad()>uPanel.getWidth()) {
-			vObjs.remove(uObj);
-			vObjs.add(new Comet(uPanel));			
+			return true;		
 		}
 		//Top boundary:
 		else if (uObj.getCenterY() + uObj.getRad()<0) {
-			vObjs.remove(uObj);
-			vObjs.add(new Comet(uPanel));
+			return true;
 		}
 		//Bottom boundary:
 		else if (uObj.getCenterY() - uObj.getRad()>uPanel.getHeight()) {
-			vObjs.remove(uObj);
-			vObjs.add(new Comet(uPanel));			
+			return true;			
 		}
+		return false;
 	}
 	
 	private void bounceOffObjects(SpaceObject uObj){
@@ -251,11 +248,16 @@ public class SpaceObjectManger extends Thread{
 				//Process comet:
 				if(uObj instanceof Comet){
 					bounceOffObjects(uObj);
-					detectOffEdge(uObj);
+					if(isOffEdge(uObj)){
+						vObjs.remove(uObj);
+						vObjs.add(new Comet(uPanel));
+					}
 				}
 				//Process powerup:
 				if(uObj instanceof PowerUp){
-					detectOffEdge(uObj);
+					if(isOffEdge(uObj)){
+						vObjs.remove(uObj);
+					}
 				}
 				//Accelerate all objects towards the black hole:
 				accellToBlackHole(uObj);
