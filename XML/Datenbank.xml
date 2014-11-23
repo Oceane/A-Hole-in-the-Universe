@@ -1,0 +1,115 @@
+<document>
+	<players_available>
+		<player ip_address="1983.498.745" username="tommy" character="planet1">
+			<ready>true</ready>
+			<score>0</score>
+			<comets>0</comets>
+			<deaths>0</deaths>
+			<powerups>0</powerups>
+			<max_spin>0</max_spin>
+			<max_vel>0</max_vel>
+			<notifications>
+			</notifications>
+		</player>
+		<player ip_address="1983.498.745" username="sandy" character="planet2">
+			<ready>true</ready>
+			<score>0</score>
+			<comets>0</comets>
+			<deaths>0</deaths>
+			<powerups>0</powerups>
+			<max_spin>0</max_spin>
+			<max_vel>0</max_vel>
+			<notifications>
+			</notifications>
+		</player>
+	</players_available>
+
+	<games_available>
+		<game title="Planet of the Apes" total_time="mm:ss" remaining_time="mm:ss" max_players="2">
+			<player ip_address="1983.498.745" username="jane" character="planet1">
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				</notifications>
+			</player>
+			<player ip_address="1983.498.745" username="samuel" character="planet3">	
+				<ready>false</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				</notifications>
+			</player>
+		</game>
+	</games_available>
+
+	<games_active>
+		<game title="Planet of the Apes" total_time="mm:ss" remaining_time="mm:ss" max_players="2">
+			<player ip_address="1983.498.745" username="jane" character="planet1">
+				<score>50000</score>
+				<comets>30</comets>
+				<deaths>4</deaths>
+				<powerups>2</powerups>
+				<max_spin>45</max_spin>
+				<max_vel>3</max_vel>
+				<notifications>
+					<notification>That was ******* amazing!</notification>
+					<notification>Play with me!</notification>
+					<notification>Good game!</notification>
+				</notifications>
+			</player>
+			<player ip_address="1983.498.745" username="samuel" character="spaceship3">
+				<score>50000</score>
+				<comets>30</comets>
+				<deaths>4</deaths>
+				<powerups>2</powerups>
+				<max_spin>1</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+					<notification>That was ******* amazing!</notification>
+					<notification>Play with me!</notification>
+					<notification>Good game!</notification>
+				</notifications>		
+			</player>
+		</game>
+	</games_active>
+
+	<games_history>
+		<game title="Planet of the Apes" total_time="mm:ss" remaining_time="mm:ss" max_players="2">
+			<player ip_address="1983.498.745" username="jane" character="planet1">
+				<score>50000</score>
+				<comets>30</comets>
+				<deaths>4</deaths>
+				<powerups>2</powerups>
+				<max_spin>2</max_spin>
+				<max_vel>3</max_vel>
+				<notifications>
+					<notification>That was ******* amazing!</notification>
+					<notification>Play with me!</notification>
+					<notification>Good game!</notification>
+				</notifications>
+			</player>
+			<player ip_address="1983.498.745" username="samuel" character="planet3">
+				<score>50000</score>
+				<comets>30</comets>
+				<deaths>4</deaths>
+				<powerups>2</powerups>
+				<max_spin>7</max_spin>
+				<max_vel>6</max_vel>
+				<notifications>
+					<notification>That was ******* amazing!</notification>
+					<notification>Play with me!</notification>
+					<notification>Good game!</notification>
+				</notifications>		
+			</player>
+		</game>
+	</games_history>
+</document>
