@@ -1,3 +1,5 @@
+package aHoleInTheUniverse;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -12,12 +14,13 @@ public class Title extends JFrame {
 
 	BufferedImage img;
 	String name = "Backgrounds/universe5.jpg";
-	JButton aboutButton, helpButton, createButton, returnButton;
+	JButton aboutButton, helpButton, createButton;
 	CardLayout cardLayout = new CardLayout();
 	JPanel cardPanel;
-	JPanel titlePanel, aboutPanel, helpPanel, startPanel;
+	JPanel titlePanel, aboutPanel, helpPanel;
 
-	Title() {
+	// CONSTRUCTOR
+	public Title() {
 
 		// INSTANTIATE PANELS
 		cardPanel = new JPanel();
@@ -25,13 +28,11 @@ public class Title extends JFrame {
 		titlePanel = new TitlePanel();
 		aboutPanel = new About(cardPanel);
 		helpPanel = new Help(cardPanel);
-		startPanel = new Start(cardPanel);
 
 		// CARDLAYOUT
 		cardPanel.add(titlePanel, "titlePanel");
 		cardPanel.add(aboutPanel, "aboutPanel");
 		cardPanel.add(helpPanel, "helpPanel");
-		cardPanel.add(startPanel, "startPanel");
 
 		// TITLE PAGE PANEL
 		titlePanel.setLayout(new GridBagLayout());
@@ -40,13 +41,13 @@ public class Title extends JFrame {
 		// buttons
 		createButton = new JButton("Start");
 		createButton.setPreferredSize(new Dimension(300, 100));
-		createButton.addActionListener(new ActionListener(){
+		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 				createProfile.main(null);
 			}
 		});
-		
+
 		helpButton = new JButton("Help");
 		helpButton.setPreferredSize(new Dimension(300, 100));
 		helpButton.addActionListener(new ActionListener() {
@@ -62,14 +63,6 @@ public class Title extends JFrame {
 			}
 		});
 
-		returnButton = new JButton("Return");
-		returnButton.setPreferredSize(new Dimension(300, 100));
-		returnButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				cardLayout.show(cardPanel, "startPanel");
-			}
-		});
-
 		// buttons layout
 		gbc.weightx = 0;
 		titlePanel.add(createButton, gbc);
@@ -77,19 +70,39 @@ public class Title extends JFrame {
 		titlePanel.add(helpButton, gbc);
 		gbc.gridy = 2;
 		titlePanel.add(aboutButton, gbc);
-		gbc.gridy = 3;
-		titlePanel.add(returnButton, gbc);
 
 		add(cardPanel);
 
-		cardLayout.show(cardPanel, "startPanel");
+		// KEY LISTENER
+		setFocusable(true);
+
+		addKeyListener(new KeyListener() {
+
+			public void keyPressed(KeyEvent e) {
+				int key = e.getKeyCode();
+				if (key == e.VK_BACK_SPACE || key == e.VK_ESCAPE) {
+					new Start();
+					dispose();
+				}
+
+			}
+
+			public void keyReleased(KeyEvent e) {
+
+			}
+
+			public void keyTyped(KeyEvent e) {
+
+			}
+
+		});
 
 		setTitle("A Hole In The Universe");
 		setSize(950, 650);
-		setLocation(200, 100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
+
 	}
 
 	public class TitlePanel extends JPanel {
@@ -111,7 +124,4 @@ public class Title extends JFrame {
 		}
 	}
 
-	public static void main(String[] args) {
-		new Title();
-	}
 }
