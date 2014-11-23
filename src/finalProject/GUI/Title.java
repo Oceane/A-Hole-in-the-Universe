@@ -1,4 +1,3 @@
-package finalProject.GUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -12,7 +11,7 @@ import javax.swing.*;
 public class Title extends JFrame {
 
 	BufferedImage img;
-	String name = "universe5.jpg";
+	String name = "Backgrounds/universe5.jpg";
 	JButton aboutButton, helpButton, createButton, returnButton;
 	CardLayout cardLayout = new CardLayout();
 	JPanel cardPanel;
@@ -41,6 +40,13 @@ public class Title extends JFrame {
 		// buttons
 		createButton = new JButton("Start");
 		createButton.setPreferredSize(new Dimension(300, 100));
+		createButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				createProfile.main(null);
+			}
+		});
+		
 		helpButton = new JButton("Help");
 		helpButton.setPreferredSize(new Dimension(300, 100));
 		helpButton.addActionListener(new ActionListener() {
@@ -82,6 +88,7 @@ public class Title extends JFrame {
 		setSize(950, 650);
 		setLocation(200, 100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 
