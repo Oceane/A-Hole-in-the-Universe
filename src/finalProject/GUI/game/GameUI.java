@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import finalProject.Client.Client;
 import finalProject.GUI.game.SpaceObjects.Blackhole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
@@ -25,6 +26,7 @@ public class GameUI {
 	private final int NUM_COMETS = 5;
 	private static Random rand;
 	private Vector<SpaceObject> vObjs;
+	private Client uClient;
 	
 	public static void main(String [] args) {
 		GameUI myGame = new GameUI();
@@ -32,6 +34,10 @@ public class GameUI {
 		frame.setLayout(null);
 		myGame.setJFrame(frame);
 		myGame.setPlayground(frame);
+		myGame.uClient = new Client("localhost");
+		for(int i=0; i<100; i++){
+			myGame.uClient.sendMsg("Hello Server, lovely day aint it?");
+		}
 	}
 	
 	private void setJFrame(JFrame frame) {
@@ -57,7 +63,7 @@ public class GameUI {
 			vObjs.add(new Comet(uPanel));
 		}
 		frame.add(uPanel);
-		SpaceObjectManger uObjMan = new SpaceObjectManger(vObjs, new Blackhole(uPanel), uPanel);
+		SpaceObjectManger uObjMan = new SpaceObjectManger(vObjs, new Blackhole(uPanel), new ScorePanel(uPanel), uPanel);
 		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPanel);
 	}
 

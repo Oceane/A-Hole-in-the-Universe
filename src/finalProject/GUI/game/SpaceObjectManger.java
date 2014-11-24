@@ -12,11 +12,13 @@ public class SpaceObjectManger extends Thread{
 	public static final int REFRESH_RATE = 40;
 	private Vector<SpaceObject> vObjs;
 	private SpaceObject uBlackHole;
+	private ScorePanel uScorePanel;
 	private JPanel uPanel;
 	
-	public SpaceObjectManger(Vector<SpaceObject> vObjs, SpaceObject uBlackHole, JPanel uPanel){
+	public SpaceObjectManger(Vector<SpaceObject> vObjs, SpaceObject uBlackHole, ScorePanel uScorePanel, JPanel uPanel){
 		this.vObjs = vObjs;
 		this.uBlackHole = uBlackHole;
+		this.uScorePanel = uScorePanel;
 		this.uPanel = uPanel;
 		this.start();
 	}
@@ -45,7 +47,7 @@ public class SpaceObjectManger extends Thread{
 		}
 		if (uObj.getPressedUp()) {
 			if(uObj.getVelY() > -Player.INIT_VEL){
-				uObj.addVelY(-Player.INIT_VEL);
+				uObj.setVelY(-Player.INIT_VEL);
 			}
 			uObj.addVelY(-Player.ACCEL);
 		}
@@ -215,9 +217,6 @@ public class SpaceObjectManger extends Thread{
 				if(collision(uObj, uPowerUp)){
 					uPanel.remove(uPowerUp);
 					vObjs.remove(uPowerUp);
-					if(vObjs.contains(uPowerUp)){
-						System.out.println("blah blah");
-					}
 				}
 			}
 		}
@@ -241,6 +240,7 @@ public class SpaceObjectManger extends Thread{
 			playerObj.setCenterY(GameUI.randInt(playerObj.getRad(), uPanel.getHeight()-playerObj.getRad()));
 			playerObj.setVelX(0);
 			playerObj.setVelY(0);
+			uScorePanel.subtract(10000);
 		}
 	}
 	
@@ -249,6 +249,7 @@ public class SpaceObjectManger extends Thread{
 			uPanel.remove(cometObj);
 			vObjs.remove(cometObj);
 			vObjs.add(new Comet(uPanel));
+			uScorePanel.add(100*cometObj.getRad());
 		}
 	}
 	

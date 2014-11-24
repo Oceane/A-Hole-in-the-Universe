@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 public class Blackhole extends SpaceObject{
 	public static final int RAD = 50;
-	public static final double G = 0.005;
+	public static final double G = 0.001;
 	
 	public Blackhole(JPanel uPanel){
 		super(Color.BLACK, RAD, 0, 0, uPanel);	

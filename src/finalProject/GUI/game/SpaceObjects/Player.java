@@ -9,7 +9,7 @@ import finalProject.GUI.game.KeyWatcher;
 
 public class Player extends SpaceObject{
 	public static final int RAD = 20;
-	public static final double ACCEL = 2;
+	public static final double ACCEL = 0.5;
 	public static final double INIT_VEL = 0;
 	public static enum eType{
 		MARS,
