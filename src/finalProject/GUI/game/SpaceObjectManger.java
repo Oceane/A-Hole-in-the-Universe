@@ -1,11 +1,7 @@
 package finalProject.GUI.game;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
-
 import javax.swing.JPanel;
-
 import finalProject.GUI.game.SpaceObjects.BlackHole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
@@ -114,7 +110,7 @@ public class SpaceObjectManger extends Thread{
 		}
 		//Bottom boundary:
 		else if (uObj.getCenterY() - uObj.getRad()>uPanel.getHeight()) {
-			return true;			
+			return true;
 		}
 		return false;
 	}
@@ -213,9 +209,9 @@ public class SpaceObjectManger extends Thread{
 			if(vObjs.get(i) instanceof PowerUp){
 				PowerUp uPowerUp = (PowerUp)vObjs.get(i);
 				if(collision(uObj, uPowerUp)){
+					uPanel.remove(uPowerUp);
 					vObjs.remove(uPowerUp);
 				}
-				
 			}
 		}
 	}
@@ -232,6 +228,23 @@ public class SpaceObjectManger extends Thread{
 		}
 	}
 	
+	private void blackHoleEatsPlayer(SpaceObject playerObj) {
+		if (collision(playerObj, uBlackHole)) {
+			playerObj.setCenterX(GameUI.randInt(playerObj.getRad(), uPanel.getWidth()-playerObj.getRad()));
+			playerObj.setCenterY(GameUI.randInt(playerObj.getRad(), uPanel.getHeight()-playerObj.getRad()));
+			playerObj.setVelX(0);
+			playerObj.setVelY(0);
+		}
+	}
+	
+	private void blackHoleEatsComet(SpaceObject cometObj) {
+		if (collision(cometObj, uBlackHole)) {
+			uPanel.remove(cometObj);
+			vObjs.remove(cometObj);
+			vObjs.add(new Comet(uPanel));
+		}
+	}
+	
 	public void run() {
 		SpaceObject uObj;
 		
@@ -241,6 +254,7 @@ public class SpaceObjectManger extends Thread{
 				//Process player:
 				if(uObj instanceof Player){
 					processInputPlayer((Player)uObj);
+					blackHoleEatsPlayer(uObj);
 					bounceOffBorders(uObj);
 					bounceOffObjects(uObj);
 					collectPowerUp(uObj);
@@ -248,6 +262,7 @@ public class SpaceObjectManger extends Thread{
 				//Process comet:
 				if(uObj instanceof Comet){
 					bounceOffObjects(uObj);
+					blackHoleEatsComet(uObj);
 					if(isOffEdge(uObj)){
 						vObjs.remove(uObj);
 						vObjs.add(new Comet(uPanel));
@@ -267,8 +282,8 @@ public class SpaceObjectManger extends Thread{
 			for(int i=0; i<vObjs.size(); i++){
 				//Update the position of the object and repaint:
 				vObjs.get(i).updatePos();
-				uPanel.revalidate();
-				uPanel.repaint();
+//				uPanel.revalidate();
+//				uPanel.repaint();
 			}
 			
 			// Delay to get the correct frame rate:
