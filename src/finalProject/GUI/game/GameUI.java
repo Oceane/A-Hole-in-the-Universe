@@ -22,7 +22,7 @@ public class GameUI {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 600;
 	private final int OFFSET = 9;
-	private final int NUM_COMETS = 3;
+	private final int NUM_COMETS = 5;
 	private static Random rand;
 	private Vector<SpaceObject> vObjs;
 	

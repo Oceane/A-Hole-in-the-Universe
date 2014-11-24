@@ -152,38 +152,50 @@ public class SpaceObjectManger extends Thread{
 				uObj2 = vObjs.get(i);
 				//Reflect object off any objects it has collided with: R = 2 * N * (N dot I) - I
 				//Normal obj:
-				normX = uObj2.getCenterX() - uObj.getCenterX();
-				normY = uObj2.getCenterY() - uObj.getCenterY();
+				normX = uObj.getCenterX() - uObj2.getCenterX();
+				normY = uObj.getCenterY() - uObj2.getCenterY();
 				normLength = Math.sqrt(normX*normX + normY*normY);
+				if(normLength == 0){
+					continue;
+				}
 				normUnitX = normX / normLength;
 				normUnitY = normY / normLength;
 				//Incident obj:
 				velX = uObj.getVelX();
 				velY = uObj.getVelY();
 				velTot = Math.sqrt(velX*velX + velY * velY);
+				if(velTot == 0){
+					continue;
+				}
 				velUnitX = velX / velTot;
 				velUnitY = velY / velTot;
 				NdotI = velUnitX * normUnitX + velUnitY * normUnitY;
-				refVelX = -2*normUnitX*NdotI + velUnitX;
-				refVelY = -2*normUnitY*NdotI + velUnitY;
+				if(NdotI > 0){
+					continue;
+				}
+				refVelX = -(2*normUnitX*NdotI - velUnitX);
+				refVelY = -(2*normUnitY*NdotI - velUnitY);
 				//Normal obj2:
-				normUnitX2 = - normUnitX;
+				normUnitX2 = -normUnitX;
 				normUnitY2 = -normUnitY;
 				//Incident obj2:
 				velX2 = uObj2.getVelX();
 				velY2 = uObj2.getVelY();
 				velTot2 = Math.sqrt(velX2*velX2 + velY2 * velY2);
+				if(velTot2 == 0){
+					continue;
+				}
 				velUnitX2 = velX2 / velTot2;
 				velUnitY2 = velY2 / velTot2;
 				NdotI2 = velUnitX2 * normUnitX2 + velUnitY2 * normUnitY2;
-				refVelX2 = -2*normUnitX2*NdotI2 + velUnitX2;
-				refVelY2 = -2*normUnitY2*NdotI2 + velUnitY2;
+				refVelX2 = -(2*normUnitX2*NdotI2 - velUnitX2);
+				refVelY2 = -(2*normUnitY2*NdotI2 - velUnitY2);
 				//Move the objects so they are no longer intersecting:
-				disToMove = ((uObj.getRad()+uObj2.getRad()) - distance(uObj, uObj2)); //overlap between the objects
-				uObj.setCenterX(uObj.getCenterX() + refVelX*disToMove);
-				uObj.setCenterY(uObj.getCenterY() + refVelY*disToMove);
-				uObj2.setCenterX(uObj2.getCenterX() + refVelX2*disToMove);
-				uObj2.setCenterY(uObj2.getCenterY() + refVelY2*disToMove);
+				disToMove = ((uObj.getRad()+uObj2.getRad()) - distance(uObj, uObj2)) / 2; //overlap between the objects
+				uObj.setCenterX(uObj.getCenterX() - normUnitX*disToMove);
+				uObj.setCenterY(uObj.getCenterY() - normUnitY*disToMove);
+				uObj2.setCenterX(uObj2.getCenterX() - normUnitX2*disToMove);
+				uObj2.setCenterY(uObj2.getCenterY() - normUnitY2*disToMove);
 				//Calculate new velocities:
 				//massRatio = uObj.getRad() / uObj2.getRad();
 				massRatio = 1;
@@ -191,6 +203,9 @@ public class SpaceObjectManger extends Thread{
 				uObj.setVelY(velTot2 * refVelY / massRatio);
 				uObj2.setVelX(velTot * refVelX2 * massRatio);
 				uObj2.setVelY(velTot * refVelY2 * massRatio);
+				while(collision(uObj, uObj2)){
+					vObjs.get(i).updatePos();
+				}
 				// Delay to get the correct frame rate:
 				/*
 				try {
@@ -275,7 +290,7 @@ public class SpaceObjectManger extends Thread{
 					}
 				}
 				//Accelerate all objects towards the black hole:
-				accellToBlackHole(uObj);
+				//accellToBlackHole(uObj);
 			}
 			
 			//After all calculations, update positions of objects simultaneously:
