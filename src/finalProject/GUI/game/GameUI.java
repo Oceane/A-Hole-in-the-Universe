@@ -58,13 +58,14 @@ public class GameUI {
 		//uPanel.setBounds(0, 0, WIDTH, HEIGHT);
 		uPanel.setBorder(new LineBorder(Color.GREEN));
 		uPanel.setLayout(null);
-		vObjs.add(new Player(100, 100, uPanel, frame));
+		Player uPlayer = new Player(100, 100, uPanel, frame);
+		vObjs.add(uPlayer);
 		for(int i=0; i<NUM_COMETS; i++){
 			vObjs.add(new Comet(uPanel));
 		}
 		frame.add(uPanel);
 		SpaceObjectManger uObjMan = new SpaceObjectManger(vObjs, new Blackhole(uPanel), new ScorePanel(uPanel), uPanel);
-		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPanel);
+		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPlayer, uPanel);
 	}
 
 	/**

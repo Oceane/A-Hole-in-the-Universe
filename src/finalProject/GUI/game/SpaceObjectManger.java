@@ -40,28 +40,28 @@ public class SpaceObjectManger extends Thread{
 	
 	private void processInputPlayer(Player uObj){
 		if (uObj.getPressedDown()) {
-			if(uObj.getVelY() < Player.INIT_VEL){
-				uObj.setVelY(Player.INIT_VEL);
+			if(uObj.getVelY() < uObj.getInitVel()){
+				uObj.setVelY(uObj.getInitVel());
 			}
-			uObj.addVelY(Player.ACCEL);
+			uObj.addVelY(uObj.getAccel());
 		}
 		if (uObj.getPressedUp()) {
-			if(uObj.getVelY() > -Player.INIT_VEL){
-				uObj.setVelY(-Player.INIT_VEL);
+			if(uObj.getVelY() > -uObj.getInitVel()){
+				uObj.setVelY(-uObj.getInitVel());
 			}
-			uObj.addVelY(-Player.ACCEL);
+			uObj.addVelY(-uObj.getAccel());
 		}
 		if (uObj.getPressedLeft()) {
-			if(uObj.getVelX() > -Player.INIT_VEL){
-				uObj.setVelX(-Player.INIT_VEL);
+			if(uObj.getVelX() > -uObj.getInitVel()){
+				uObj.setVelX(-uObj.getInitVel());
 			}
-			uObj.addVelX(-Player.ACCEL);
+			uObj.addVelX(-uObj.getAccel());
 		}
 		if (uObj.getPressedRight()) {
-			if(uObj.getVelX() < Player.INIT_VEL){
-				uObj.setVelX(Player.INIT_VEL);
+			if(uObj.getVelX() < uObj.getInitVel()){
+				uObj.setVelX(uObj.getInitVel());
 			}
-			uObj.addVelX(Player.ACCEL);
+			uObj.addVelX(uObj.getAccel());
 		}
 	}
 	
@@ -210,13 +210,19 @@ public class SpaceObjectManger extends Thread{
 		}
 	}
 	
-	private void collectPowerUp(SpaceObject uObj){
+	private void collectPowerUp(Player uObj){
+		PowerUp uPowerUp;
 		for(int i=0; i<vObjs.size(); i++){
 			if(vObjs.get(i) instanceof PowerUp){
-				PowerUp uPowerUp = (PowerUp)vObjs.get(i);
+				uPowerUp = (PowerUp)vObjs.get(i);
+				//Remove powerup from the vector:
 				if(collision(uObj, uPowerUp)){
+					//Add powerup to the player:
+					uObj.setPowerUp(uPowerUp);
+					//Remove powerup from vector:
 					uPanel.remove(uPowerUp);
 					vObjs.remove(uPowerUp);
+					break;
 				}
 			}
 		}
@@ -234,13 +240,21 @@ public class SpaceObjectManger extends Thread{
 		}
 	}
 	
-	private void blackHoleEatsPlayer(SpaceObject playerObj) {
-		if (collision(playerObj, uBlackHole)) {
-			playerObj.setCenterX(GameUI.randInt(playerObj.getRad(), uPanel.getWidth()-playerObj.getRad()));
-			playerObj.setCenterY(GameUI.randInt(playerObj.getRad(), uPanel.getHeight()-playerObj.getRad()));
-			playerObj.setVelX(0);
-			playerObj.setVelY(0);
+	private void blackHoleEatsPlayer(Player uObj) {
+		if(uObj.getPowerUp() != null){
+			if(uObj.getPowerUp().getType() == PowerUp.eType.INVINCIBILITY)
+			return;
+		}
+		if(collision(uObj, uBlackHole)){
 			uScorePanel.subtract(10000);
+		}
+		//This is a while loop to ensure the player is not generated over the black hole
+		//which would cause points to be subtracted more than once
+		while(collision(uObj, uBlackHole)) {
+			uObj.setCenterX(GameUI.randInt(uObj.getRad(), uPanel.getWidth()-uObj.getRad()));
+			uObj.setCenterY(GameUI.randInt(uObj.getRad(), uPanel.getHeight()-uObj.getRad()));
+			uObj.setVelX(0);
+			uObj.setVelY(0);
 		}
 	}
 	
@@ -262,9 +276,9 @@ public class SpaceObjectManger extends Thread{
 				//Process player:
 				if(uObj instanceof Player){
 					processInputPlayer((Player)uObj);
-					blackHoleEatsPlayer(uObj);
+					blackHoleEatsPlayer((Player)uObj);
 					bounceOffBorders(uObj);
-					collectPowerUp(uObj);
+					collectPowerUp((Player)uObj);
 					bounceOffObjects(uObj);
 				}
 				//Process comet:

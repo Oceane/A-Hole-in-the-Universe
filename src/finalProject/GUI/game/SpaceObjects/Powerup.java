@@ -7,13 +7,25 @@ import javax.swing.JPanel;
 import finalProject.GUI.game.GameUI;
 
 public class PowerUp extends SpaceObject{
+	public static final int SECONDS_PER_POWERUP = 3;
 	public static final int RAD = 20;
 	public static final int MAX_VEL = 2;
 	public static final int MIN_VEL = 1;
+	public static final int PL_RAD_LARGE = 50;
+	public static final int PL_RAD_SMALL = 10;
+	public static final int PL_ACCEL = 1;
+	
+	public static enum eType{
+		SPEED,
+		ENLARGE,
+		SHRINK,
+		INVINCIBILITY,
+	}
+	private eType uType;
 	
 	public PowerUp(JPanel uPanel){
 		super(Color.GREEN, RAD, 0, 0, uPanel);
-		
+		this.uType = eType.values()[GameUI.randInt(0, eType.values().length-1)]; //generate a random powerup type
 		int side = GameUI.randInt(1, 4);
 		switch(side) {
 			//  going in from top
@@ -52,6 +64,10 @@ public class PowerUp extends SpaceObject{
 		}
 		// panel general settings
 		this.setBounds(0, 0, this.rad*2, this.rad*2);
+	}
+	
+	public eType getType(){
+		return this.uType;
 	}
 	
 }
