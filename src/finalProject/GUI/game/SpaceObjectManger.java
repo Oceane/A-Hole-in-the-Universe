@@ -2,7 +2,7 @@ package finalProject.GUI.game;
 
 import java.util.Vector;
 import javax.swing.JPanel;
-import finalProject.GUI.game.SpaceObjects.BlackHole;
+import finalProject.GUI.game.SpaceObjects.Blackhole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
 import finalProject.GUI.game.SpaceObjects.PowerUp;
@@ -41,33 +41,25 @@ public class SpaceObjectManger extends Thread{
 			if(uObj.getVelY() < Player.INIT_VEL){
 				uObj.setVelY(Player.INIT_VEL);
 			}
-			else{
-				uObj.setVelY(uObj.getVelY() + Player.ACCEL);
-			}
+			uObj.addVelY(Player.ACCEL);
 		}
 		if (uObj.getPressedUp()) {
 			if(uObj.getVelY() > -Player.INIT_VEL){
-				uObj.setVelY(-Player.INIT_VEL);
+				uObj.addVelY(-Player.INIT_VEL);
 			}
-			else{
-				uObj.setVelY(uObj.getVelY() - Player.ACCEL);
-			}
+			uObj.addVelY(-Player.ACCEL);
 		}
 		if (uObj.getPressedLeft()) {
 			if(uObj.getVelX() > -Player.INIT_VEL){
 				uObj.setVelX(-Player.INIT_VEL);
 			}
-			else{
-				uObj.setVelX(uObj.getVelX() - Player.ACCEL);
-			}
+			uObj.addVelX(-Player.ACCEL);
 		}
 		if (uObj.getPressedRight()) {
 			if(uObj.getVelX() < Player.INIT_VEL){
 				uObj.setVelX(Player.INIT_VEL);
 			}
-			else{
-				uObj.setVelX(uObj.getVelX() + Player.ACCEL);
-			}
+			uObj.addVelX(Player.ACCEL);
 		}
 	}
 	
@@ -169,10 +161,7 @@ public class SpaceObjectManger extends Thread{
 				}
 				velUnitX = velX / velTot;
 				velUnitY = velY / velTot;
-				NdotI = velUnitX * normUnitX + velUnitY * normUnitY;
-				if(NdotI > 0){
-					continue;
-				}
+				NdotI = -Math.abs(velUnitX * normUnitX + velUnitY * normUnitY);
 				refVelX = -(2*normUnitX*NdotI - velUnitX);
 				refVelY = -(2*normUnitY*NdotI - velUnitY);
 				//Normal obj2:
@@ -187,7 +176,7 @@ public class SpaceObjectManger extends Thread{
 				}
 				velUnitX2 = velX2 / velTot2;
 				velUnitY2 = velY2 / velTot2;
-				NdotI2 = velUnitX2 * normUnitX2 + velUnitY2 * normUnitY2;
+				NdotI2 = -Math.abs(velUnitX2 * normUnitX2 + velUnitY2 * normUnitY2);
 				refVelX2 = -(2*normUnitX2*NdotI2 - velUnitX2);
 				refVelY2 = -(2*normUnitY2*NdotI2 - velUnitY2);
 				//Move the objects so they are no longer intersecting:
@@ -226,6 +215,9 @@ public class SpaceObjectManger extends Thread{
 				if(collision(uObj, uPowerUp)){
 					uPanel.remove(uPowerUp);
 					vObjs.remove(uPowerUp);
+					if(vObjs.contains(uPowerUp)){
+						System.out.println("blah blah");
+					}
 				}
 			}
 		}
@@ -238,8 +230,8 @@ public class SpaceObjectManger extends Thread{
 		double disXUnit = disX / disTot;
 		double disYUnit = disY / disTot;
 		if(disTot != 0){
-			uObj.addVelX((disXUnit * BlackHole.G * (double)uObj.getRad() / disTot*disTot));
-			uObj.addVelY((disYUnit * BlackHole.G * (double)uObj.getRad()/ disTot*disTot));
+			uObj.addVelX((disXUnit * Blackhole.G * (double)uObj.getRad() / disTot*disTot));
+			uObj.addVelY((disYUnit * Blackhole.G * (double)uObj.getRad()/ disTot*disTot));
 		}
 	}
 	
@@ -271,8 +263,8 @@ public class SpaceObjectManger extends Thread{
 					processInputPlayer((Player)uObj);
 					blackHoleEatsPlayer(uObj);
 					bounceOffBorders(uObj);
-					bounceOffObjects(uObj);
 					collectPowerUp(uObj);
+					bounceOffObjects(uObj);
 				}
 				//Process comet:
 				if(uObj instanceof Comet){
@@ -290,15 +282,15 @@ public class SpaceObjectManger extends Thread{
 					}
 				}
 				//Accelerate all objects towards the black hole:
-				//accellToBlackHole(uObj);
+				accellToBlackHole(uObj);
 			}
 			
 			//After all calculations, update positions of objects simultaneously:
 			for(int i=0; i<vObjs.size(); i++){
 				//Update the position of the object and repaint:
 				vObjs.get(i).updatePos();
-//				uPanel.revalidate();
-//				uPanel.repaint();
+				uPanel.revalidate();
+				uPanel.repaint();
 			}
 			
 			// Delay to get the correct frame rate:

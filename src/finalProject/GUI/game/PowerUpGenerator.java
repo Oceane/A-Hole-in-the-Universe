@@ -8,7 +8,7 @@ import finalProject.GUI.game.SpaceObjects.PowerUp;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class PowerUpGenerator extends Thread{
-	public static final int SECONDS_PER_POWERUP = 10;
+	public static final int SECONDS_PER_POWERUP = 1;
 	Vector<SpaceObject> vObjs;
 	JPanel uPanel;
 	
@@ -28,13 +28,15 @@ public class PowerUpGenerator extends Thread{
 	}
 	
 	public void run(){
-		try {
-			Thread.sleep(1000 * SECONDS_PER_POWERUP);  // milliseconds
-		} catch (InterruptedException ex) {
-			System.out.print(ex.getMessage());
-		}
-		if(!containsPowerUp()){
-			vObjs.add(new PowerUp(this.uPanel));
+		while(true){
+			try {
+				Thread.sleep(1000 * SECONDS_PER_POWERUP);  // milliseconds
+			} catch (InterruptedException ex) {
+				System.out.print(ex.getMessage());
+			}
+			if(!containsPowerUp()){
+				vObjs.add(new PowerUp(this.uPanel));
+			}
 		}
 	}
 }

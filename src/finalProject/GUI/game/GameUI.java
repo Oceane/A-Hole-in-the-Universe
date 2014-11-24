@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import finalProject.GUI.game.SpaceObjects.BlackHole;
+import finalProject.GUI.game.SpaceObjects.Blackhole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
@@ -57,7 +57,7 @@ public class GameUI {
 			vObjs.add(new Comet(uPanel));
 		}
 		frame.add(uPanel);
-		SpaceObjectManger uObjMan = new SpaceObjectManger(vObjs, new BlackHole(uPanel), uPanel);
+		SpaceObjectManger uObjMan = new SpaceObjectManger(vObjs, new Blackhole(uPanel), uPanel);
 		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPanel);
 	}
 
