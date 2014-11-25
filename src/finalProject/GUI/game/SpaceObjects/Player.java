@@ -28,8 +28,7 @@ public class Player extends SpaceObject implements Runnable{
 		this.dInitVel = INIT_VEL;
 		//Add a keylistener to the frame to control player movement:
 		uFrame.addKeyListener(new KeyWatcher(this));
-		Thread uThread = new Thread(this);
-		uThread.start();
+		new Thread(this).start();
 	}
 	
 	public void setPowerUp(PowerUp uPowerUp){
@@ -114,6 +113,7 @@ public class Player extends SpaceObject implements Runnable{
 				//Delete the player's powerup and restore values:
 				this.uPowerUp = null;
 				this.rad = RAD;
+				this.setSize(new Dimension(this.rad*2, this.rad*2));
 			}
 		}
 	}

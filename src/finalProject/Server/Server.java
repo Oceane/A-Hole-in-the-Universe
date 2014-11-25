@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -45,6 +47,13 @@ public class Server extends JFrame implements Runnable{
 		this.add(uLabelConnections, BorderLayout.NORTH);
 		this.add(uScrollPane);
 		this.add(uClearButton, BorderLayout.SOUTH);
+		
+		try {
+			uTextArea.append(InetAddress.getLocalHost().getHostAddress() + "\n");
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		try {
 			ss = new ServerSocket(PORT_NUM); //bind to port

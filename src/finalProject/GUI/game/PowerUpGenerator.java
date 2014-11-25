@@ -26,9 +26,10 @@ public class PowerUpGenerator extends Thread{
 		if(uPlayer.getPowerUp() != null){
 			return true;
 		}
-		//Check to see if 
+		//Check to see if the vector has a powerup:
 		for(int i=0; i<vObjs.size(); i++){
-			if(vObjs.get(i) instanceof PowerUp){
+			SpaceObject uObj = vObjs.get(i);
+			if(uObj instanceof PowerUp){
 				return true;
 			}
 		}

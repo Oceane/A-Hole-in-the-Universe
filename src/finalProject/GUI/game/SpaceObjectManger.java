@@ -293,6 +293,7 @@ public class SpaceObjectManger extends Thread{
 				//Process powerup:
 				if(uObj instanceof PowerUp){
 					if(isOffEdge(uObj)){
+						uPanel.remove(uObj);
 						vObjs.remove(uObj);
 					}
 				}
