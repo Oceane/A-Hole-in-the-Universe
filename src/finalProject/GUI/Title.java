@@ -43,8 +43,8 @@ public class Title extends JFrame {
 		createButton.setPreferredSize(new Dimension(300, 100));
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				new createProfile();
 				dispose();
-				createProfile.main(null);
 			}
 		});
 

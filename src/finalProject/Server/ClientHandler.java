@@ -21,7 +21,6 @@ public class ClientHandler extends Thread{
 		} catch (IOException ioe) {
 			System.out.println("ioe in ChatThread constructor: " + ioe.getMessage());
 		}
-		this.start();
 	}
 	
 	public Socket getSocket(){

@@ -34,8 +34,7 @@ public class GameUI {
 		frame.setLayout(null);
 		myGame.setJFrame(frame);
 		myGame.setPlayground(frame);
-		myGame.uClient = new Client("10.121.3.192");
-		//10.120.22.60
+		myGame.uClient = new Client();
 		for(int i=0; i<100; i++){
 			myGame.uClient.sendMsg("Hello Server, lovely day aint it?");
 		}
