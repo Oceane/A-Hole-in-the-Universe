@@ -9,7 +9,7 @@ import finalProject.GUI.game.SpaceObjects.Powerup;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class PowerUpGenerator extends Thread{
-	public static final int SECONDS_PER_POWERUP = 1;
+	public static final int SECONDS_PER_POWERUP = 5;
 	Vector<SpaceObject> vObjs;
 	Player uPlayer;
 	JPanel uPanel;
@@ -27,10 +27,11 @@ public class PowerUpGenerator extends Thread{
 			return true;
 		}
 		//Check to see if the vector has a powerup:
-		for(int i=0; i<vObjs.size(); i++){
-			SpaceObject uObj = vObjs.get(i);
-			if(uObj instanceof Powerup){
-				return true;
+		synchronized(this.vObjs){
+			for (SpaceObject ball : this.vObjs) {
+				if (ball instanceof Powerup) {
+					return true;
+				}
 			}
 		}
 		return false;

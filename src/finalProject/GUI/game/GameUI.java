@@ -2,14 +2,15 @@ package finalProject.GUI.game;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 
-import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -20,8 +21,8 @@ import finalProject.GUI.game.SpaceObjects.Player;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class GameUI {
-	private final int WIDTH = 800;
-	private final int HEIGHT = 600;
+	static final int WIDTH = 800;
+	static final int HEIGHT = 600;
 	private final int OFFSET = 9;
 	private final int NUM_COMETS = 5;
 	private static Random rand;
@@ -43,21 +44,29 @@ public class GameUI {
 	
 	private void setJFrame(JFrame frame) {
 		// initial setup
-		frame.setSize(this.WIDTH, this.HEIGHT);
+		frame.setSize(GameUI.WIDTH, GameUI.HEIGHT);
 		frame.setLocation(20, 20);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		frame.setBackground(Color.black);
 		frame.setVisible(true);
 		frame.setResizable(false);
 	}
 	
 	private void setPlayground(JFrame frame) {
 		vObjs = new Vector<SpaceObject>();
-		JPanel uPanel = new JPanel();
+		JPanel uPanel = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				Image img = Toolkit.getDefaultToolkit().getImage("Icons/BackgroundGame2.jpg");  // from a friend of mine
+				g.drawImage(img, 0, 0, GameUI.WIDTH, GameUI.HEIGHT, null);
+			}
+		};
 		uPanel.setBounds(0, 0, frame.getContentPane().getWidth() + OFFSET, frame.getContentPane().getHeight() + OFFSET);
-		//uPanel.setBounds(0, 0, WIDTH, HEIGHT);
-		uPanel.setBorder(new LineBorder(Color.GREEN));
 		uPanel.setLayout(null);
 		Player uPlayer = new Player(100, 100, uPanel, frame);
 		vObjs.add(uPlayer);

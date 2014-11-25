@@ -1,4 +1,4 @@
-package finalProject.GUI;
+package finalProject.GUI.WaitGameJoinee;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
+import finalProject.GUI.JoinGame.JoinGameGUI;
 
 public class WaitGameJoineeGUI extends JFrame {
 	public static final int WINDOW_X = 950;

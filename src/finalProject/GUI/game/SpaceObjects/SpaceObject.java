@@ -2,12 +2,8 @@ package finalProject.GUI.game.SpaceObjects;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.lang.reflect.Field;
-
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-
-import finalProject.GUI.game.GameUI;
 
 public class SpaceObject extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -19,6 +15,7 @@ public class SpaceObject extends JPanel{
 	protected JPanel uPanel;
 	final int refreshRate = 30;
 	private Color myColor;
+	
 
 	public SpaceObject(Color uColor, int rad, int x, int y, JPanel uPanel) {
 		this.rad = rad;
@@ -27,16 +24,17 @@ public class SpaceObject extends JPanel{
 		this.x = x;
 		this.y = y;
 		this.setBounds(x, y, rad*2 + OFFSET, rad*2 + OFFSET); //an offset is required to prevent clipping
-		this.setBorder(new LineBorder(Color.GREEN));
-		this.setBackground(Color.GREEN);
+//		this.setBorder(new LineBorder(Color.GREEN));
+//		this.setBackground(Color.GREEN);
 		this.setOpaque(false);
 		uPanel.add(this);
+		
 	}
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(this.myColor);
-		g.fillOval(0, 0, (rad*2), (rad*2));
+//		g.setColor(this.myColor);
+//		g.fillOval(0, 0, (rad*2), (rad*2));
 	}
 	
 	public synchronized void updatePos(){

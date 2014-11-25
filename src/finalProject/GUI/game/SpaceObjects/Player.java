@@ -2,6 +2,9 @@ package finalProject.GUI.game.SpaceObjects;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,6 +12,10 @@ import javax.swing.JPanel;
 import finalProject.GUI.game.KeyWatcher;
 
 public class Player extends SpaceObject implements Runnable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int RAD = 20;
 	public static final int PU_RAD = 50;
 	public static final double ACCEL = 0.5;
@@ -21,6 +28,8 @@ public class Player extends SpaceObject implements Runnable{
 	private Powerup uPowerUp;
 	private double dAccel;
 	private double dInitVel;
+	private Image img;
+	private boolean invinsible;
 	
 	public Player(int x, int y, JPanel uPanel, JFrame uFrame){
 		super(Color.BLUE, RAD, x, y, uPanel);
@@ -29,6 +38,15 @@ public class Player extends SpaceObject implements Runnable{
 		//Add a keylistener to the frame to control player movement:
 		uFrame.addKeyListener(new KeyWatcher(this));
 		new Thread(this).start();
+		// load image
+		this.img = Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png");  // from http://commons.wikimedia.org/wiki/File:Globe.png
+		this.invinsible = false;
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(this.img, 0, 0, this.rad*2, this.rad*2, null);
 	}
 	
 	public void setPowerUp(Powerup uPowerUp){
@@ -46,6 +64,8 @@ public class Player extends SpaceObject implements Runnable{
 			this.setSize(new Dimension(this.rad*2, this.rad*2));
 			break;
 		case INVINCIBILITY:
+			// TODO
+			this.invinsible = true;
 			break;
 		}
 	}
@@ -113,8 +133,14 @@ public class Player extends SpaceObject implements Runnable{
 				//Delete the player's powerup and restore values:
 				this.uPowerUp = null;
 				this.rad = RAD;
+				this.dAccel = ACCEL;
+				this.invinsible = false;
 				this.setSize(new Dimension(this.rad*2, this.rad*2));
 			}
 		}
+	}
+	
+	public boolean getInvinsible() {
+		return this.invinsible;
 	}
 }

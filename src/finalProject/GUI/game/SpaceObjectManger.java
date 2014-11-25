@@ -276,7 +276,9 @@ public class SpaceObjectManger extends Thread{
 				//Process player:
 				if(uObj instanceof Player){
 					processInputPlayer((Player)uObj);
-					blackHoleEatsPlayer((Player)uObj);
+					if (!((Player)uObj).getInvinsible()) {
+						blackHoleEatsPlayer((Player)uObj);
+					}
 					bounceOffBorders(uObj);
 					collectPowerUp((Player)uObj);
 					bounceOffObjects(uObj);

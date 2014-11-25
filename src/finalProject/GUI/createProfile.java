@@ -39,6 +39,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import finalProject.GUI.JoinGame.JoinGameGUI;
+
 public class createProfile extends JFrame implements MouseListener {
 	public JPanel namePanel = new JPanel();
 	JLabel nameLabel1 = new JLabel();

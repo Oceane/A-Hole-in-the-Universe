@@ -1,6 +1,9 @@
 package finalProject.GUI.game.SpaceObjects;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
@@ -11,6 +14,7 @@ public class Comet extends SpaceObject{
 	public static final int MIN_RAD = 10;
 	public static final int MAX_VEL = 1;
 	public static final int MIN_VEL = 1;
+	private Image img;
 	
 	public Comet(JPanel uPanel){
 		super(Color.RED, 10, 0, 0, uPanel);
@@ -55,7 +59,15 @@ public class Comet extends SpaceObject{
 		}
 		
 		// panel general settings
-		this.setBounds(0, 0, this.rad*2, this.rad*2);	
+		this.setBounds(0, 0, this.rad*2, this.rad*2);
+		
+		// load image
+		this.img = Toolkit.getDefaultToolkit().getImage("Icons/CometGame.png");  // from http://findicons.com/icon/218935/mars02?id=218935
 	}
 	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(this.img, 0, 0, this.rad*2, this.rad*2, null);
+	}
 }
