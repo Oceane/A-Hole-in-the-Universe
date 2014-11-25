@@ -1,4 +1,4 @@
-package finalProject.GUI;
+package finalProject.GUI.JoinGame;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -25,6 +25,10 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
+
+import finalProject.GUI.WaitGameCreatorGUI;
+import finalProject.GUI.WaitGameJoineeGUI;
+import finalProject.GUI.createProfile;
 
 public class JoinGameGUI extends JFrame {
 	public static final int WINDOW_X = 950;
