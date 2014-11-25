@@ -18,7 +18,7 @@ public class Player extends SpaceObject implements Runnable{
 		VENUS,
 	}
 	private boolean bUp, bDown, bLeft, bRight;
-	private PowerUp uPowerUp;
+	private Powerup uPowerUp;
 	private double dAccel;
 	private double dInitVel;
 	
@@ -32,18 +32,18 @@ public class Player extends SpaceObject implements Runnable{
 		uThread.start();
 	}
 	
-	public void setPowerUp(PowerUp uPowerUp){
+	public void setPowerUp(Powerup uPowerUp){
 		this.uPowerUp = uPowerUp;
 		switch(this.uPowerUp.getType()){
 		case SPEED:
-			this.dAccel = PowerUp.PL_ACCEL;
+			this.dAccel = Powerup.PL_ACCEL;
 			break;
 		case ENLARGE:
-			this.rad = PowerUp.PL_RAD_LARGE;
+			this.rad = Powerup.PL_RAD_LARGE;
 			this.setSize(new Dimension(this.rad*2, this.rad*2));
 			break;
 		case SHRINK:
-			this.rad = PowerUp.PL_RAD_SMALL;
+			this.rad = Powerup.PL_RAD_SMALL;
 			this.setSize(new Dimension(this.rad*2, this.rad*2));
 			break;
 		case INVINCIBILITY:
@@ -51,7 +51,7 @@ public class Player extends SpaceObject implements Runnable{
 		}
 	}
 	
-	public PowerUp getPowerUp(){
+	public Powerup getPowerUp(){
 		return this.uPowerUp;
 	}
 	
@@ -107,7 +107,7 @@ public class Player extends SpaceObject implements Runnable{
 		while(true){
 			if(this.uPowerUp != null){
 				try {
-					Thread.sleep(1000 * PowerUp.SECONDS_PER_POWERUP);  // milliseconds delay
+					Thread.sleep(1000 * Powerup.SECONDS_PER_POWERUP);  // milliseconds delay
 				} catch (InterruptedException ex) {
 					System.out.print(ex.getMessage());
 				}

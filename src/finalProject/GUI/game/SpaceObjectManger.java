@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import finalProject.GUI.game.SpaceObjects.Blackhole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
-import finalProject.GUI.game.SpaceObjects.PowerUp;
+import finalProject.GUI.game.SpaceObjects.Powerup;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class SpaceObjectManger extends Thread{
@@ -211,10 +211,10 @@ public class SpaceObjectManger extends Thread{
 	}
 	
 	private void collectPowerUp(Player uObj){
-		PowerUp uPowerUp;
+		Powerup uPowerUp;
 		for(int i=0; i<vObjs.size(); i++){
-			if(vObjs.get(i) instanceof PowerUp){
-				uPowerUp = (PowerUp)vObjs.get(i);
+			if(vObjs.get(i) instanceof Powerup){
+				uPowerUp = (Powerup)vObjs.get(i);
 				//Remove powerup from the vector:
 				if(collision(uObj, uPowerUp)){
 					//Add powerup to the player:
@@ -242,7 +242,7 @@ public class SpaceObjectManger extends Thread{
 	
 	private void blackHoleEatsPlayer(Player uObj) {
 		if(uObj.getPowerUp() != null){
-			if(uObj.getPowerUp().getType() == PowerUp.eType.INVINCIBILITY)
+			if(uObj.getPowerUp().getType() == Powerup.eType.INVINCIBILITY)
 			return;
 		}
 		if(collision(uObj, uBlackHole)){
@@ -291,7 +291,7 @@ public class SpaceObjectManger extends Thread{
 					}
 				}
 				//Process powerup:
-				if(uObj instanceof PowerUp){
+				if(uObj instanceof Powerup){
 					if(isOffEdge(uObj)){
 						vObjs.remove(uObj);
 					}

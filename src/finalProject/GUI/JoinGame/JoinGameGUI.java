@@ -26,6 +26,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 
+import finalProject.GUI.createProfile;
+
 public class JoinGameGUI extends JFrame {
 	public static final int WINDOW_X = 950;
 	public static final int WINDOW_Y = 650;
