@@ -241,13 +241,9 @@ public class SpaceObjectManger extends Thread{
 	}
 	
 	private void blackHoleEatsPlayer(Player uObj) {
-		if(uObj.getPowerUp() != null){
-			if(uObj.getPowerUp().getType() == Powerup.eType.INVINCIBILITY)
-			return;
-		}
-		if(collision(uObj, uBlackHole)){
-			uScorePanel.subtract(10000);
-		}
+//		if(collision(uObj, uBlackHole)){
+//			uScorePanel.subtract(10000);
+//		}
 		//This is a while loop to ensure the player is not generated over the black hole
 		//which would cause points to be subtracted more than once
 		while(collision(uObj, uBlackHole)) {

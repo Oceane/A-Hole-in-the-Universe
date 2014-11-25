@@ -14,15 +14,19 @@ public class ScorePanel extends JPanel{
 	public ScorePanel(JPanel uPanel){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBounds(0, 0, 100, 20);
-		this.setBorder(new LineBorder(Color.BLACK));
-		this.uScoreLabel = new JLabel("Score: 0");
+//		this.setBorder(new LineBorder(Color.BLACK));
+		this.uScoreLabel = new JLabel("Damage: 0");
+//		this.uScoreLabel.setOpaque(true);
+//		this.uScoreLabel.setBackground(Color.black);
+		this.setOpaque(false);
+		this.uScoreLabel.setForeground(Color.white);
 		this.add(uScoreLabel);
 		uPanel.add(this);
 	}
 	
 	public void reset(){
 		this.nScore = 0;
-		this.uScoreLabel.setText("Score: " + this.nScore);
+		this.uScoreLabel.setText("Damage: " + this.nScore);
 	}
 	
 	public void add(int nAdd){
@@ -30,7 +34,7 @@ public class ScorePanel extends JPanel{
 		if(this.nScore < 0){
 			this.nScore = 0;
 		}
-		this.uScoreLabel.setText("Score: " + this.nScore);
+		this.uScoreLabel.setText("Damage: " + this.nScore);
 	}
 	
 	public void subtract(int nSub){
@@ -38,7 +42,6 @@ public class ScorePanel extends JPanel{
 		if(this.nScore < 0){
 			this.nScore = 0;
 		}
-		this.uScoreLabel.setText("Score: " + this.nScore);
+		this.uScoreLabel.setText("Damage: " + this.nScore);
 	}
-	
 }
