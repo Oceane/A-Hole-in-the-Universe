@@ -34,11 +34,11 @@ public class GameUI {
 		frame.setLayout(null);
 		myGame.setJFrame(frame);
 		myGame.setPlayground(frame);
-		myGame.uClient = new Client("10.120.0.138");
-		//10.120.22.60
-		for(int i=0; i<100; i++){
-			myGame.uClient.sendMsg("Hello Server, lovely day aint it?");
-		}
+//		myGame.uClient = new Client("10.120.0.138");
+//		//10.120.22.60
+//		for(int i=0; i<100; i++){
+//			myGame.uClient.sendMsg("Hello Server, lovely day aint it?");
+//		}
 	}
 	
 	private void setJFrame(JFrame frame) {
