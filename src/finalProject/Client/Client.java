@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client{
 	public static final int PORT_NUM = 653;
@@ -12,7 +13,10 @@ public class Client{
 	private BufferedReader br;
 	private PrintWriter pw;
 	
-	public Client(String hostname){
+	public Client(){
+		Scanner scan = new Scanner(System.in);
+		System.out.print("What is the name/IP of the server? ");
+		String hostname = scan.nextLine();
 		try{
 			this.s = new Socket(hostname, PORT_NUM);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));

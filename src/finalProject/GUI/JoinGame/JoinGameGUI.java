@@ -1,9 +1,7 @@
 package finalProject.GUI.JoinGame;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -13,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,13 +19,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
+
 
 import finalProject.GUI.createProfile;
 import finalProject.GUI.WaitGameCreator.WaitGameCreatorGUI;
 import finalProject.GUI.WaitGameJoinee.WaitGameJoineeGUI;
+
 
 public class JoinGameGUI extends JFrame {
 	public static final int WINDOW_X = 950;
