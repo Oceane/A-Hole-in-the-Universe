@@ -44,7 +44,7 @@ public class Server extends JFrame implements Runnable{
 	
 	public Server() throws HeadlessException, UnknownHostException{
 		super("A Hole In The Universe Server " + InetAddress.getLocalHost().getHostAddress());
-		setSize(1200, 700);
+		setSize(1300, 700);
 		setLocation(0, 0);
 		setLayout(new GridLayout(1, 2));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //The program will close when the window is closed
