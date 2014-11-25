@@ -1,4 +1,4 @@
-package finalProject.GUI.JoinGame;
+package finalProject.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -25,8 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
-
-import finalProject.GUI.createProfile;
 
 public class JoinGameGUI extends JFrame {
 	public static final int WINDOW_X = 950;
@@ -205,8 +203,8 @@ public class JoinGameGUI extends JFrame {
 		private void addActionListeners() {
 			uButtonBackToCreateProfile.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
-					dispose();
 					new createProfile();
+					dispose();
 				}
 			});
 
@@ -218,7 +216,8 @@ public class JoinGameGUI extends JFrame {
 			});
 			uButtonJoinGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
-
+					new WaitGameJoineeGUI();
+					dispose();
 				}
 			});
 			uButtonCancelCreateGame.addActionListener(new ActionListener() {
@@ -231,7 +230,8 @@ public class JoinGameGUI extends JFrame {
 			});
 			uButtonDoneCreateGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
-
+					new WaitGameCreatorGUI();
+					dispose();
 				}
 			});
 		}
