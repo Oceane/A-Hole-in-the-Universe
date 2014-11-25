@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.swing.JPanel;
 
 import finalProject.GUI.game.SpaceObjects.Player;
-import finalProject.GUI.game.SpaceObjects.PowerUp;
+import finalProject.GUI.game.SpaceObjects.Powerup;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class PowerUpGenerator extends Thread{
@@ -29,7 +29,7 @@ public class PowerUpGenerator extends Thread{
 		//Check to see if the vector has a powerup:
 		for(int i=0; i<vObjs.size(); i++){
 			SpaceObject uObj = vObjs.get(i);
-			if(uObj instanceof PowerUp){
+			if(uObj instanceof Powerup){
 				return true;
 			}
 		}
@@ -41,7 +41,7 @@ public class PowerUpGenerator extends Thread{
 			try {
 				if(!powerUpExists()){
 					Thread.sleep(1000 * SECONDS_PER_POWERUP);  // milliseconds
-					vObjs.add(new PowerUp(this.uPanel));
+					vObjs.add(new Powerup(this.uPanel));
 				}
 			} catch (InterruptedException ex) {
 				System.out.print(ex.getMessage());

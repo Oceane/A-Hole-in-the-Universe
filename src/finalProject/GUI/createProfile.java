@@ -1,4 +1,7 @@
+package finalProject.GUI;
+
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -13,15 +16,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -37,13 +38,8 @@ import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import finalProject.GUI.JoinGame.JoinGameGUI;
 
 public class createProfile extends JFrame implements MouseListener {
 	public JPanel namePanel = new JPanel();
@@ -51,24 +47,10 @@ public class createProfile extends JFrame implements MouseListener {
 	JLabel nameLabel2 = new JLabel();
 	JLabel nameLabel3 = new JLabel();
 	JTextPane nameTextPane = new JTextPane();
-	String OUBioText = new String(), NBioText = new String(),
-			EBioText = new String(), GBioText = new String();
+	String OUBioText = new String(), NBioText = new String(), EBioText = new String(), GBioText = new String();
 	int selectedPlanet = 0; // 1=Ora Uhlsax, 2 = Neslaou, 3 = Earth, 4 = Gigolo
 	JLabel submit = new JLabel(new ImageIcon("Icons/submit.png"));
 	boolean playedSound = false;
-	
-	//XML
-	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	DocumentBuilder db;
-	Document doc = null;
-	
-	//Audio
-
-	File yourFile;
-	static AudioInputStream stream;
-	static AudioFormat format;
-	static DataLine.Info info;
-	static Clip clip;
 
 	public JPanel planetsPanel = new JPanel();
 
@@ -114,16 +96,16 @@ public class createProfile extends JFrame implements MouseListener {
 		namePanel.add(nameLabel2);
 		namePanel.add(nameLabel3);
 		namePanel.add(Box.createHorizontalGlue());
-		this.namePanel
-				.setLayout(new BoxLayout(this.namePanel, BoxLayout.X_AXIS));
+		this.namePanel.setLayout(new BoxLayout(this.namePanel, BoxLayout.X_AXIS));
 		nameTextPaneConstraints();
 		nameTextPane.setFont(getFont("Lydia", 36));
+		nameTextPane.setMinimumSize(new Dimension(200, 50));
+		nameTextPane.setBorder(BorderFactory.createLineBorder(Color.black));
 		nameTextPane.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				String txt = nameTextPane.getText().replaceAll("\r", "");
 				nameTextPane.setText(txt.replaceAll("\n", ""));
-				nameTextPane.setText(nameTextPane.getText().replaceAll(
-						"[^a-zA-Z]+", ""));
+				nameTextPane.setText(nameTextPane.getText().replaceAll("[^a-zA-Z]+", ""));
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					submit();
 				}
@@ -132,15 +114,13 @@ public class createProfile extends JFrame implements MouseListener {
 			public void keyReleased(KeyEvent arg0) {
 				String txt = nameTextPane.getText().replaceAll("\r", "");
 				nameTextPane.setText(txt.replaceAll("\n", ""));
-				nameTextPane.setText(nameTextPane.getText().replaceAll(
-						"[^a-zA-Z]+", ""));
+				nameTextPane.setText(nameTextPane.getText().replaceAll("[^a-zA-Z]+", ""));
 			}
 
 			public void keyTyped(KeyEvent e) {
 				String txt = nameTextPane.getText().replaceAll("\r", "");
 				nameTextPane.setText(txt.replaceAll("\n", ""));
-				nameTextPane.setText(nameTextPane.getText().replaceAll(
-						"[^a-zA-Z]+", ""));
+				nameTextPane.setText(nameTextPane.getText().replaceAll("[^a-zA-Z]+", ""));
 			}
 		});
 		JPanel namerPanel = new JPanel();
@@ -242,10 +222,12 @@ public class createProfile extends JFrame implements MouseListener {
 		Font fawnt = new Font("Helvetica", 0, 36);
 		try {
 			fawnt = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-		} catch (FontFormatException | IOException e) {
-			// TODO Auto-generated catch block
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		Font f = fawnt.deriveFont(Font.PLAIN, size);
 		return f;
 	}
@@ -263,63 +245,17 @@ public class createProfile extends JFrame implements MouseListener {
 	public void submit() {
 		String Benutzername = nameTextPane.getText();
 		if (Benutzername.length() <= 0) {
-			JOptionPane.showMessageDialog(this,
-					"Your username must have at least one character.",
-					"Oh, come on...", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Your username must have at least one character.", "Oh, come on...", JOptionPane.WARNING_MESSAGE);
 		} else if (Benutzername.length() > 16) {
-			JOptionPane.showMessageDialog(this,
-					"Your username must be shorter than 16 characters.",
-					"Now hold on there...", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Your username must be shorter than 16 characters.", "Now hold on there...", JOptionPane.WARNING_MESSAGE);
 		} else if (selectedPlanet == 0) {
-			JOptionPane.showMessageDialog(this, "You must select a planet.",
-					"Hold your horses...", JOptionPane.WARNING_MESSAGE);
-		} else //check XML File for taken username
-			if(!checkDataBaseForUsername(Benutzername)){
-				JOptionPane.showMessageDialog(this, "Your username has been taken. Please try again :)", "Awww... :(", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "You must select a planet.", "Hold your horses...", JOptionPane.WARNING_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(this, Benutzername
-					+ ", your character has been saved!");
+			JOptionPane.showMessageDialog(this, Benutzername + ", your character has been saved!");
 			// send data to XML file
-			
+			new JoinGameGUI();
 			this.dispose();
-			//load Join Game GUI
-			JoinGameGUI.main(null);
 		}
-	}
-	
-	public void setUpXMLConnection(){
-		try {
-			db = dbf.newDocumentBuilder();
-
-			doc = db.parse(new File("XML/Datenbank.xml"));
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		doc.getDocumentElement().normalize();
-	}
-	
-	public boolean checkDataBaseForUsername(String name){
-		String namez = "";
-		
-		NodeList nList = doc.getElementsByTagName("player");
-		for(int i = 0; i < nList.getLength(); i++){
-			namez = nList.item(i).getAttributes().getNamedItem("username").toString().replaceAll("username=", "");
-			namez = namez.replaceAll("\"", "");
-			System.out.println(namez);
-			if(name.equals(namez))
-				return false;
-		}
-		return true;
 	}
 
 	public static void main(String[] args) {
@@ -353,7 +289,7 @@ public class createProfile extends JFrame implements MouseListener {
 				}
 				planetsPanel.removeAll();
 				createPlanetsPanel();
-				revalidate();
+				validate();
 				repaint();
 			}
 		} else if (x >= 545 && x <= 866) {
@@ -361,7 +297,7 @@ public class createProfile extends JFrame implements MouseListener {
 				selectedPlanet = 2;
 				planetsPanel.removeAll();
 				createPlanetsPanel();
-				revalidate();
+				validate();
 				repaint();
 			}
 		}
@@ -370,7 +306,7 @@ public class createProfile extends JFrame implements MouseListener {
 				selectedPlanet = 3;
 				planetsPanel.removeAll();
 				createPlanetsPanel();
-				revalidate();
+				validate();
 				repaint();
 			}
 		} else if (x >= 558 && x <= 856) {
@@ -378,7 +314,7 @@ public class createProfile extends JFrame implements MouseListener {
 				selectedPlanet = 4;
 				planetsPanel.removeAll();
 				createPlanetsPanel();
-				revalidate();
+				validate();
 				repaint();
 			}
 		}
@@ -391,6 +327,12 @@ public class createProfile extends JFrame implements MouseListener {
 
 	public static synchronized void playSound(final String url) {
 		try {
+			File yourFile;
+			AudioInputStream stream;
+			AudioFormat format;
+			DataLine.Info info;
+			Clip clip;
+
 			stream = AudioSystem.getAudioInputStream(new File("Sounds/" + url));
 			format = stream.getFormat();
 			info = new DataLine.Info(Clip.class, format);

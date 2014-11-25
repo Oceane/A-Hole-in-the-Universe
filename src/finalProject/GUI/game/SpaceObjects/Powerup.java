@@ -6,8 +6,9 @@ import javax.swing.JPanel;
 
 import finalProject.GUI.game.GameUI;
 
-public class PowerUp extends SpaceObject{
-	public static final int SECONDS_PER_POWERUP = 1;
+public class Powerup extends SpaceObject{
+	public static final int SECONDS_PER_POWERUP = 3;
+
 	public static final int RAD = 20;
 	public static final int MAX_VEL = 2;
 	public static final int MIN_VEL = 1;
@@ -23,7 +24,7 @@ public class PowerUp extends SpaceObject{
 	}
 	private eType uType;
 	
-	public PowerUp(JPanel uPanel){
+	public Powerup(JPanel uPanel){
 		super(Color.GREEN, RAD, 0, 0, uPanel);
 		this.uType = eType.values()[GameUI.randInt(0, eType.values().length-1)]; //generate a random powerup type
 		int side = GameUI.randInt(1, 4);
