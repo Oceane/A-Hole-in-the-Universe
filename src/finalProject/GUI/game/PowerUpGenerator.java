@@ -40,8 +40,8 @@ public class PowerUpGenerator extends Thread{
 	public void run(){
 		while(true){
 			try {
+				Thread.sleep(1000 * SECONDS_PER_POWERUP);  // milliseconds
 				if(!powerUpExists()){
-					Thread.sleep(1000 * SECONDS_PER_POWERUP);  // milliseconds
 					vObjs.add(new Powerup(this.uPanel));
 				}
 			} catch (InterruptedException ex) {
