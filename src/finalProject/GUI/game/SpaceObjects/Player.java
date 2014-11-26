@@ -37,10 +37,11 @@ public class Player extends SpaceObject implements Runnable{
 		this.dInitVel = INIT_VEL;
 		//Add a keylistener to the frame to control player movement:
 		uFrame.addKeyListener(new KeyWatcher(this));
-		new Thread(this).start();
 		// load image
 		this.img = Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png");  // from http://commons.wikimedia.org/wiki/File:Globe.png
 		this.invinsible = false;
+		uPanel.add(this);
+		new Thread(this).start(); //start player thread after all other initialization
 	}
 	
 	@Override
@@ -132,9 +133,9 @@ public class Player extends SpaceObject implements Runnable{
 				}
 				//Delete the player's powerup and restore values:
 				this.uPowerUp = null;
-				this.rad = RAD;
 				this.dAccel = ACCEL;
 				this.invinsible = false;
+				this.rad = RAD;
 				this.setSize(new Dimension(this.rad*2, this.rad*2));
 			}
 		}

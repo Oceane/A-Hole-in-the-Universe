@@ -26,14 +26,14 @@ public class Comet extends SpaceObject{
 		//  going in from top
 		case 1:{
 			this.setCenterY(-this.rad);
-			this.setCenterX(GameUI.randInt(0, (uPanel.getWidth()+2*this.rad)-this.rad));
+			this.setCenterX(GameUI.randInt(0, (uPanel.getWidth()+2*this.rad))-this.rad);
 			this.setVelX(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
 			this.setVelY(GameUI.randInt(MIN_VEL, MAX_VEL));
 			break;
 		}
 		// going in from left
 		case 2:{
-			this.setCenterY(GameUI.randInt(0, (uPanel.getHeight()+2*this.rad)-this.rad));
+			this.setCenterY(GameUI.randInt(0, (uPanel.getHeight()+2*this.rad))-this.rad);
 			this.setCenterX(-this.rad);
 			this.setVelX(GameUI.randInt(MIN_VEL, MAX_VEL));
 			this.setVelY(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
@@ -42,7 +42,7 @@ public class Comet extends SpaceObject{
 		// going in from bottom
 		case 3:{
 			this.setCenterY(this.rad+uPanel.getHeight());
-			this.setCenterX(GameUI.randInt(0, (uPanel.getWidth()+2*this.rad)-this.rad));
+			this.setCenterX(GameUI.randInt(0, (uPanel.getWidth()+2*this.rad))-this.rad);
 			this.setVelX(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
 			this.setVelY(-GameUI.randInt(MIN_VEL, MAX_VEL));
 			break;
@@ -50,7 +50,7 @@ public class Comet extends SpaceObject{
 		
 		// going in from right
 		case 4:{
-			this.setCenterY(GameUI.randInt(0, (uPanel.getHeight()+2*this.rad)-this.rad));
+			this.setCenterY(GameUI.randInt(0, (uPanel.getHeight()+2*this.rad))-this.rad);
 			this.setCenterX(this.rad+uPanel.getWidth());
 			this.setVelX(-GameUI.randInt(MIN_VEL, MAX_VEL));
 			this.setVelY(sign*GameUI.randInt(MIN_VEL, MAX_VEL));
@@ -59,10 +59,11 @@ public class Comet extends SpaceObject{
 		}
 		
 		// panel general settings
+		this.repaint();
 		this.setBounds(0, 0, this.rad*2, this.rad*2);
-		
 		// load image
 		this.img = Toolkit.getDefaultToolkit().getImage("Icons/CometGame.png");  // from http://findicons.com/icon/218935/mars02?id=218935
+		uPanel.add(this);
 	}
 	
 	@Override

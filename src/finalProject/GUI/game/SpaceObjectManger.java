@@ -284,6 +284,7 @@ public class SpaceObjectManger extends Thread{
 					bounceOffObjects(uObj);
 					blackHoleEatsComet(uObj);
 					if(isOffEdge(uObj)){
+						uPanel.remove(uObj);
 						vObjs.remove(uObj);
 						vObjs.add(new Comet(uPanel));
 					}

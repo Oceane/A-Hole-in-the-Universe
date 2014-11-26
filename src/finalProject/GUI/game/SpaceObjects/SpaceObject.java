@@ -27,14 +27,14 @@ public class SpaceObject extends JPanel{
 //		this.setBorder(new LineBorder(Color.GREEN));
 //		this.setBackground(Color.GREEN);
 		this.setOpaque(false);
-		uPanel.add(this);
-		
 	}
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-//		g.setColor(this.myColor);
-//		g.fillOval(0, 0, (rad*2), (rad*2));
+		g.setColor(this.myColor);
+		//g.fillOval(0, 0, (rad*2), (rad*2));
+		g.fillOval((this.getWidth() - this.rad*2)/2, (this.getHeight() - this.rad*2)/2, (rad*2), (rad*2));
+
 	}
 	
 	public synchronized void updatePos(){
@@ -44,20 +44,24 @@ public class SpaceObject extends JPanel{
 	}
 	
 	public synchronized double getCenterX(){
-		return (this.x + this.rad);
+		//extra (this.getWidth() - this.rad*2)/2 term allows object smaller than its container to be centered
+		return (this.x + this.rad + (this.getWidth() - this.rad*2)/2);
 	}
 	
 	public synchronized void setCenterX(double x){
-		this.x = x - this.rad;
+		//extra (this.getWidth() - this.rad*2)/2 term allows object smaller than its container to be centered
+		this.x = x - this.rad - (this.getWidth() - this.rad*2)/2;
 		this.setLocation((int)this.x, this.getLocation().y);
 	}
 	
 	public synchronized double getCenterY(){
-		return (this.y + this.rad);
+		//extra (this.getHeight() - this.rad*2)/2 term allows object smaller than its container to be centered
+		return (this.y + this.rad + (this.getHeight() - this.rad*2)/2);
 	}
 	
 	public synchronized void setCenterY(double y){
-		this.y = y - this.rad;
+		//extra (this.getHeight() - this.rad*2)/2 term allows object smaller than its container to be centered
+		this.y = y - this.rad - (this.getHeight() - this.rad*2)/2;
 		this.setLocation(this.getLocation().x, (int)this.y);
 	}
 	

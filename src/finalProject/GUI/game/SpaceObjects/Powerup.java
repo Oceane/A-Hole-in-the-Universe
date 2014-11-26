@@ -72,6 +72,7 @@ public class Powerup extends SpaceObject{
 		
 		// load image
 		this.img = Toolkit.getDefaultToolkit().getImage("Icons/PowerupGame.jpg");  // from https://lh4.googleusercontent.com/-dsEpTjgb8EE/AAAAAAAAAAI/AAAAAAAAAAA/swMctonVNEc/photo.jpg
+		uPanel.add(this);
 	}
 	
 	public eType getType(){
