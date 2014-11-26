@@ -16,8 +16,8 @@ public class ScorePanel extends JPanel{
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBounds(0, 0, 100, 20);
 		this.setBackground(uSemiTrans);
-		this.uScoreLabel.setForeground(Color.white);
 		this.uScoreLabel = new JLabel("Damage: 0");
+		this.uScoreLabel.setForeground(Color.white);
 		this.add(uScoreLabel);
 		uPanel.add(this);
 	}
