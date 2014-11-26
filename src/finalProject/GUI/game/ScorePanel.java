@@ -8,18 +8,16 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class ScorePanel extends JPanel{
+	public static final Color uSemiTrans = new Color(0, 0, 0, 150);
 	private int nScore;
 	private JLabel uScoreLabel;
 	
 	public ScorePanel(JPanel uPanel){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBounds(0, 0, 100, 20);
-//		this.setBorder(new LineBorder(Color.BLACK));
-		this.uScoreLabel = new JLabel("Damage: 0");
-//		this.uScoreLabel.setOpaque(true);
-//		this.uScoreLabel.setBackground(Color.black);
-		this.setOpaque(false);
+		this.setBackground(uSemiTrans);
 		this.uScoreLabel.setForeground(Color.white);
+		this.uScoreLabel = new JLabel("Damage: 0");
 		this.add(uScoreLabel);
 		uPanel.add(this);
 	}
