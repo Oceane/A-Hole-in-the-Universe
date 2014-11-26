@@ -308,6 +308,9 @@ public class SpaceObjectManger extends Thread{
 				uPanel.repaint();
 			}
 			
+			//Send the black hole to the back:
+			uPanel.setComponentZOrder(uBlackHole, uPanel.getComponents().length - 1);
+			
 			// Delay to get the correct frame rate:
 			try {
 				Thread.sleep(1000/REFRESH_RATE);  // milliseconds

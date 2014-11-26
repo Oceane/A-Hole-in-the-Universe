@@ -23,6 +23,7 @@ import finalProject.GUI.game.SpaceObjects.SpaceObject;
 public class GameUI {
 	static final int WIDTH = 800;
 	static final int HEIGHT = 600;
+	static final Image BG_IMG = Toolkit.getDefaultToolkit().getImage("Icons/BackgroundGame2.jpg");  // from a friend of mine
 	private final int OFFSET = 9;
 	private final int NUM_COMETS = 5;
 	private static Random rand;
@@ -59,8 +60,8 @@ public class GameUI {
 
 			@Override
 			protected void paintComponent(Graphics g) {
-				Image img = Toolkit.getDefaultToolkit().getImage("Icons/BackgroundGame2.jpg");  // from a friend of mine
-				g.drawImage(img, 0, 0, GameUI.WIDTH, GameUI.HEIGHT, null);
+				
+				g.drawImage(BG_IMG, 0, 0, GameUI.WIDTH, GameUI.HEIGHT, null);
 			}
 		};
 		uPanel.setBounds(0, 0, frame.getContentPane().getWidth() + OFFSET, frame.getContentPane().getHeight() + OFFSET);

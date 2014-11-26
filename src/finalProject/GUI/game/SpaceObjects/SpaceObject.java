@@ -32,8 +32,7 @@ public class SpaceObject extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(this.myColor);
-		//g.fillOval(0, 0, (rad*2), (rad*2));
-		g.fillOval((this.getWidth() - this.rad*2)/2, (this.getHeight() - this.rad*2)/2, (rad*2), (rad*2));
+		//g.fillOval((this.getWidth() - this.rad*2)/2, (this.getHeight() - this.rad*2)/2, (rad*2), (rad*2));
 
 	}
 	

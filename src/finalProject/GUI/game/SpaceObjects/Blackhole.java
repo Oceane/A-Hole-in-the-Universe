@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 public class Blackhole extends SpaceObject{
 	public static final int INNER_RAD = 15;
 	public static final int OUTER_RAD = 50;
+	public static final Image IMG = Toolkit.getDefaultToolkit().getImage("Icons/BlackholeGame.png");;
 	public static final double G = 0.001;
 	private Image img;
 	
@@ -19,7 +20,7 @@ public class Blackhole extends SpaceObject{
 		this.setCenterY(uPanel.getHeight()/2);
 		this.rad = INNER_RAD;
 		// load image
-		this.img = Toolkit.getDefaultToolkit().getImage("Icons/BlackholeGame.png");  // from http://icons.iconarchive.com/icons/zairaam/bumpy-planets/256/blackhole-icon.png
+		this.img = IMG;  // from http://icons.iconarchive.com/icons/zairaam/bumpy-planets/256/blackhole-icon.png
 		uPanel.add(this);
 	}
 	
