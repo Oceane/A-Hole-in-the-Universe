@@ -17,7 +17,6 @@ public class Player extends SpaceObject implements Runnable{
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final int RAD = 20;
-	public static final int PU_RAD = 50;
 	public static final double ACCEL = 0.5;
 	public static final double INIT_VEL = 0;
 	public static enum eType{
@@ -65,7 +64,6 @@ public class Player extends SpaceObject implements Runnable{
 			this.setSize(new Dimension(this.rad*2, this.rad*2));
 			break;
 		case INVINCIBILITY:
-			// TODO
 			this.invinsible = true;
 			break;
 		}
@@ -124,20 +122,20 @@ public class Player extends SpaceObject implements Runnable{
 	}
 	
 	public void run(){
-		while(true){
-			if(this.uPowerUp != null){
-				try {
-					Thread.sleep(1000 * Powerup.SECONDS_PER_POWERUP);  // milliseconds delay
-				} catch (InterruptedException ex) {
-					System.out.print(ex.getMessage());
+		try {	
+			while(true){
+				Thread.sleep(1000 * Powerup.SECONDS_PER_POWERUP);  // milliseconds delay
+				if(this.uPowerUp != null){
+					//Delete the player's powerup and restore values:
+					this.uPowerUp = null;
+					this.dAccel = ACCEL;
+					this.invinsible = false;
+					this.rad = RAD;
+					this.setSize(new Dimension(this.rad*2, this.rad*2));
 				}
-				//Delete the player's powerup and restore values:
-				this.uPowerUp = null;
-				this.dAccel = ACCEL;
-				this.invinsible = false;
-				this.rad = RAD;
-				this.setSize(new Dimension(this.rad*2, this.rad*2));
 			}
+		} catch (InterruptedException ex) {
+			System.out.print(ex.getMessage());
 		}
 	}
 	

@@ -1,7 +1,9 @@
 package finalProject.GUI.game.SpaceObjects;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -86,6 +88,7 @@ public class SpaceObject extends JPanel{
 	
 	public synchronized void setRad(int rad){
 		this.rad = rad;
+		this.setSize(new Dimension(this.rad*2, this.rad*2));
 	}
 	
 	public synchronized void invertVelX(){

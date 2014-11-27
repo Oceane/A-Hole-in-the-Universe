@@ -11,7 +11,7 @@ import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class CometGenerator extends Thread {
 	public static final int MAX_COMETS = 20;
-	public static final int SECONDS_PER_COMET = 10;
+	public static final int SECONDS_PER_COMET = 20;
 	Vector<SpaceObject> vObjs;
 	JPanel uPanel;
 	

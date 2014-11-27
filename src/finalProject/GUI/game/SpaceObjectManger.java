@@ -11,11 +11,11 @@ import finalProject.GUI.game.SpaceObjects.SpaceObject;
 public class SpaceObjectManger extends Thread{
 	public static final int REFRESH_RATE = 40;
 	private Vector<SpaceObject> vObjs;
-	private SpaceObject uBlackHole;
+	private Blackhole uBlackHole;
 	private ScorePanel uScorePanel;
 	private JPanel uPanel;
 	
-	public SpaceObjectManger(Vector<SpaceObject> vObjs, SpaceObject uBlackHole, ScorePanel uScorePanel, JPanel uPanel){
+	public SpaceObjectManger(Vector<SpaceObject> vObjs, Blackhole uBlackHole, ScorePanel uScorePanel, JPanel uPanel){
 		this.vObjs = vObjs;
 		this.uBlackHole = uBlackHole;
 		this.uScorePanel = uScorePanel;

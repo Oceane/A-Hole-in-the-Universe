@@ -9,7 +9,7 @@ import finalProject.GUI.game.SpaceObjects.Powerup;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class PowerUpGenerator extends Thread{
-	public static final int SECONDS_PER_POWERUP = 5;
+	public static final int SECONDS_PER_POWERUP = 20;
 	Vector<SpaceObject> vObjs;
 	Player uPlayer;
 	JPanel uPanel;
