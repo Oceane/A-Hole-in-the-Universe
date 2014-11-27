@@ -17,12 +17,9 @@ public class Player extends SpaceObject implements Runnable{
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final int RAD = 20;
-	public static final double ACCEL = 0.5;
+	public static final double ACCEL = 0.3;
 	public static final double INIT_VEL = 0;
-	public static enum eType{
-		MARS,
-		VENUS,
-	}
+	private String sCharacter;
 	private boolean bUp, bDown, bLeft, bRight;
 	private Powerup uPowerUp;
 	private double dAccel;
@@ -30,17 +27,27 @@ public class Player extends SpaceObject implements Runnable{
 	private Image img;
 	private boolean invinsible;
 	
-	public Player(int x, int y, JPanel uPanel, JFrame uFrame){
+	public Player(String sCharacter, int x, int y, JPanel uPanel, JFrame uFrame){
 		super(Color.BLUE, RAD, x, y, uPanel);
 		this.dAccel = ACCEL;
 		this.dInitVel = INIT_VEL;
+		this.sCharacter = sCharacter;
 		//Add a keylistener to the frame to control player movement:
 		uFrame.addKeyListener(new KeyWatcher(this));
 		// load image
-		this.img = Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png");  // from http://commons.wikimedia.org/wiki/File:Globe.png
+		this.img =  getCharacterImg(sCharacter);
 		this.invinsible = false;
 		uPanel.add(this);
 		new Thread(this).start(); //start player thread after all other initialization
+	}
+	
+	static Image getCharacterImg(String sCharacter){
+		switch(sCharacter){
+		case "earth":
+			return Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png"); // from http://commons.wikimedia.org/wiki/File:Globe.png
+		} 
+		//Make earth the default image:
+		return Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png");
 	}
 	
 	@Override

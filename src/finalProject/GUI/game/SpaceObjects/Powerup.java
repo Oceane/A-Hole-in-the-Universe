@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 import finalProject.GUI.game.GameUI;
 
 public class Powerup extends SpaceObject{
-	public static final int SECONDS_PER_POWERUP = 20;
+	public static final int SECONDS_PER_POWERUP = 30;
 
 	public static final int RAD = 20;
-	public static final int MAX_VEL = 4;
-	public static final int MIN_VEL = 3;
+	public static final int MAX_VEL = 2;
+	public static final int MIN_VEL = 1;
 	public static final int PL_RAD_LARGE = 50;
 	public static final int PL_RAD_SMALL = 10;
-	public static final int PL_ACCEL = 2;
+	public static final int PL_ACCEL = 1;
 	private Image img;
 	
 	public static enum eType{

@@ -10,8 +10,8 @@ import finalProject.GUI.game.SpaceObjects.Powerup;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class CometGenerator extends Thread {
-	public static final int MAX_COMETS = 20;
-	public static final int SECONDS_PER_COMET = 20;
+	public static final int MAX_COMETS = 15;
+	public static final int SECONDS_PER_COMET = 30;
 	Vector<SpaceObject> vObjs;
 	JPanel uPanel;
 	
@@ -23,9 +23,11 @@ public class CometGenerator extends Thread {
 	
 	private int numComets(){
 		int nCometCount = 0;
-		for(int i=0; i<vObjs.size(); i++){
-			if(vObjs.get(i) instanceof Comet){
-				nCometCount++;
+		synchronized(vObjs){
+			for(SpaceObject uObj : vObjs){
+				if(uObj instanceof Comet){
+					nCometCount++;
+				}
 			}
 		}
 		return nCometCount;

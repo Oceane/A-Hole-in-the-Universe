@@ -66,7 +66,7 @@ public class GameUI {
 		};
 		uPanel.setBounds(0, 0, frame.getContentPane().getWidth() + OFFSET, frame.getContentPane().getHeight() + OFFSET);
 		uPanel.setLayout(null);
-		Player uPlayer = new Player(100, 100, uPanel, frame);
+		Player uPlayer = new Player("earth", 100, 100, uPanel, frame);
 		vObjs.add(uPlayer);
 		for(int i=0; i<NUM_COMETS; i++){
 			vObjs.add(new Comet(uPanel));
