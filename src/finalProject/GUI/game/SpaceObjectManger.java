@@ -111,7 +111,12 @@ public class SpaceObjectManger extends Thread{
 	
 	private void bounceOffObjects(SpaceObject uObj){
 		double disToMove;
-		double massRatio;
+		double mass;
+		double mass2;
+		double massSum;
+		double massPercent;
+		double massPercent2;
+		double velSum;
 		//Obj:
 		double normX;
 		double normY;
@@ -188,23 +193,21 @@ public class SpaceObjectManger extends Thread{
 				uObj2.setCenterX(uObj2.getCenterX() - normUnitX2*disToMove);
 				uObj2.setCenterY(uObj2.getCenterY() - normUnitY2*disToMove);
 				//Calculate new velocities:
-				//massRatio = uObj.getRad() / uObj2.getRad();
-				massRatio = 1;
-				uObj.setVelX(velTot2 * refVelX / massRatio);
-				uObj.setVelY(velTot2 * refVelY / massRatio);
-				uObj2.setVelX(velTot * refVelX2 * massRatio);
-				uObj2.setVelY(velTot * refVelY2 * massRatio);
-				while(collision(uObj, uObj2)){
-					vObjs.get(i).updatePos();
-				}
-				// Delay to get the correct frame rate:
-				/*
-				try {
-					Thread.sleep(1000);  // milliseconds
-				} catch (InterruptedException ex) {
-					System.out.print(ex.getMessage());
-				}
-				*/
+				mass = uObj.getRad()*uObj.getRad()*uObj.getRad();
+				mass2 = uObj2.getRad()*uObj2.getRad()*uObj2.getRad();
+				massSum = mass + mass2;
+				massPercent = mass / massSum;
+				massPercent2 = 1 - massPercent;
+				massPercent = 1;
+				velSum = velTot + velTot2;
+				uObj.setVelX(massPercent2 * velSum * refVelX);
+				uObj.setVelY(massPercent2 * velSum * refVelY);
+				uObj2.setVelX(massPercent * velSum * refVelX2);
+				uObj2.setVelY(massPercent * velSum * refVelY2);
+					while(collision(uObj, uObj2)){ //update positions until the objects are not overlapping:
+						uObj.updatePos();
+						uObj2.updatePos();
+					}
 				}
 			}
 		}
