@@ -72,7 +72,7 @@ public class GameUI {
 			vObjs.add(new Comet(uPanel));
 		}
 		frame.add(uPanel);
-		SpaceObjectManger uObjMan = new SpaceObjectManger(vObjs, new Blackhole(uPanel), new ScorePanel(uPanel), uPanel);
+		SpaceObjectManager uObjMan = new SpaceObjectManager(vObjs, new Blackhole(vObjs, uPanel), new ScorePanel(uPanel), uPanel);
 		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPlayer, uPanel);
 		CometGenerator uCMGen = new CometGenerator(vObjs, uPanel);
 	}
