@@ -248,6 +248,10 @@ public class SpaceObjectManager extends Thread{
 	}
 	
 	private void blackHoleEatsPlayer(Player uObj) {
+		if(uObj.getPowerUp() != null){
+			if(uObj.getPowerUp().getType() == Powerup.eType.INVINCIBILITY)
+			return;
+		}		
 		if(collision(uObj, uBlackHole)){
 			uScorePanel.add(100 * uObj.getRad()); //player can inflict damage on own blackhole
 			vObjs.remove(uObj);

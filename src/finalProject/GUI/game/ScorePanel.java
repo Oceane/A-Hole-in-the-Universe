@@ -42,4 +42,5 @@ public class ScorePanel extends JPanel{
 		}
 		this.uScoreLabel.setText("Damage: " + this.nScore);
 	}
+	
 }
