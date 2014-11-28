@@ -62,7 +62,7 @@ public class Comet extends SpaceObject{
 		this.repaint();
 		this.setBounds(0, 0, this.rad*2, this.rad*2);
 		// load image
-		this.img = Toolkit.getDefaultToolkit().getImage("Icons/CometGame.png");  // from http://findicons.com/icon/218935/mars02?id=218935
+		this.img = Toolkit.getDefaultToolkit().getImage("Icons/Comet.png");  // from http://findicons.com/icon/218935/mars02?id=218935
 		uPanel.add(this);
 	}
 	

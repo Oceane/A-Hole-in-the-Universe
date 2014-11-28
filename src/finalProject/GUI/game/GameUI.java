@@ -21,8 +21,8 @@ import finalProject.GUI.game.SpaceObjects.Player;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
 public class GameUI {
-	static final int WIDTH = 800;
-	static final int HEIGHT = 600;
+	static final int WIDTH = 950;
+	static final int HEIGHT = 650;
 	static final Image BG_IMG = Toolkit.getDefaultToolkit().getImage("Icons/BackgroundGame2.jpg");  // from a friend of mine
 	private final int OFFSET = 9;
 	private final int NUM_COMETS = 5;
