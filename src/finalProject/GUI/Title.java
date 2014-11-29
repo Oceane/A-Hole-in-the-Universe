@@ -10,6 +10,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import finalProject.Client.Client;
+
 public class Title extends JFrame {
 
 	BufferedImage img;
@@ -18,9 +20,11 @@ public class Title extends JFrame {
 	CardLayout cardLayout = new CardLayout();
 	JPanel cardPanel;
 	JPanel titlePanel, aboutPanel, helpPanel;
-
+	private Client uClient;
+	
 	// CONSTRUCTOR
-	public Title() {
+	public Title(final Client uClient) {
+		this.uClient = uClient;
 
 		// INSTANTIATE PANELS
 		cardPanel = new JPanel();
@@ -81,7 +85,7 @@ public class Title extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				int key = e.getKeyCode();
 				if (key == e.VK_BACK_SPACE || key == e.VK_ESCAPE) {
-					new Start();
+					new Start(uClient);
 					dispose();
 				}
 

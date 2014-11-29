@@ -10,13 +10,18 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import finalProject.Client.Client;
+
 public class Start extends JFrame {
 
 	JButton enterButton, quitButton;
 	BufferedImage img;
 	String name = "Backgrounds/universe1.jpg";
-
-	public Start() {
+	private Client uClient;
+	
+	public Start(final Client uClient) {
+		//Clients
+		this.uClient = uClient;
 		// SETUP WINDOW
 		window();
 
@@ -27,7 +32,7 @@ public class Start extends JFrame {
 				if (key == e.VK_ESCAPE) {
 					System.exit(0);
 				} else {
-					new Title();
+					new Title(uClient);
 					dispose();
 				}
 
@@ -48,7 +53,8 @@ public class Start extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
+		
+		//Connect client to server
 	}
 
 	private void window() {
@@ -92,10 +98,4 @@ public class Start extends JFrame {
 			g.drawString("Press anything to start, [esc] to quit", 240, 500);
 		}
 	}
-
-	public static void main(String[] args) {
-		new Start();
-
-	}
-
 }
