@@ -1,10 +1,8 @@
 package finalProject.Server;
 
 import java.io.File;
-import finalProject.Server.ClientHandler;
-
 import java.io.IOException;
-
+import finalProject.Server.ClientHandler;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -82,12 +80,14 @@ public class Server extends JFrame implements Runnable {
 	private static org.w3c.dom.Document doc = null;
 
 	public Server() throws HeadlessException, UnknownHostException {
-		super("A Hole In The Universe Server " + InetAddress.getLocalHost().getHostAddress());
+		super("A Hole In The Universe Server "
+				+ InetAddress.getLocalHost().getHostAddress());
 		setSize(1300, 700);
 		setLocationRelativeTo(null);
 		setLayout(new GridLayout(1, 2));
-		// The program will close when the window is closed
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // The program will
+														// close when the window
+														// is closed
 
 		uClearButton = new JButton("Clear");
 		uScrollPaneMsg = new JScrollPane(uTextAreaMsg);
@@ -153,10 +153,13 @@ public class Server extends JFrame implements Runnable {
 			msgSend = "Dear client, the server deems this day to be beautiful as well.";
 			break;
 		case 'U':
-			String uName = msgReceived.substring(msgReceived.indexOf('%'), msgReceived.indexOf('#'));
+			String uName = msgReceived.substring(msgReceived.indexOf('%'),
+					msgReceived.indexOf('#'));
 			if (isUsernameNotTaken(uName)) {
 				msgSend = "Adding Username to XML...";
-				String Character = msgReceived.substring(msgReceived.indexOf('#'), msgReceived.indexOf('$'));
+				String Character = msgReceived.substring(
+						msgReceived.indexOf('#'), msgReceived.indexOf('$'));
+				String ipAdd = msgReceived.substring(msgReceived.indexOf('&'), msgReceived.indexOf('@'));
 			} else {
 				msgSend = "Username is Taken";
 			}
@@ -234,7 +237,9 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static boolean isUsernameNotTaken(String uName) {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			String name = nList.item(i).getAttributes().getNamedItem("username").toString().replaceAll("username=", "");
+			String name = nList.item(i).getAttributes()
+					.getNamedItem("username").toString()
+					.replaceAll("username=", "");
 			name = name.replaceAll("\"", "");
 			if (uName.equals(name))
 				return false;
@@ -243,7 +248,8 @@ public class Server extends JFrame implements Runnable {
 		return true;
 	}
 
-	public synchronized static boolean addUsernameToXML(String uName, String Character, String ipAddress) {
+	public synchronized static boolean addUsernameToXML(String uName,
+			String Character, String ipAddress) {
 		// get parent
 		NodeList parentList = doc.getElementsByTagName("players_available");
 		System.out.println(parentList.toString());
@@ -314,7 +320,8 @@ public class Server extends JFrame implements Runnable {
 		try {
 			// write the updated document to file or console
 			doc.getDocumentElement().normalize();
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(DB));
