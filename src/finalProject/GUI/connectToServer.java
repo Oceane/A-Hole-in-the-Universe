@@ -1,4 +1,4 @@
-package aHoleInTheUniverse;
+package finalProject.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,17 +19,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import aHoleInTheUniverse.scoreBoardGUI.ImagePanel;
+
+import finalProject.Client.Client;
 
 public class connectToServer extends JFrame {
 	
 	//Server's IP address stored as String value
-	static String serverIPAddress = null;
+	public static String serverIPAddress = null;
 	
 	//constructor for connectToServer GUI
 	public connectToServer(){
 		super("Connect to Server");
-		setSize(950,650);
+		setSize(950, 650);
 		setLocationRelativeTo(null);
 
 		//adds new instance of ImagePanel that will add all components to the frame
@@ -40,6 +41,10 @@ public class connectToServer extends JFrame {
 		
 	}
 
+    public static String getServerIp(){
+    	return serverIPAddress;
+    }
+	
 	public static class ImagePanel extends JPanel {
 
         BufferedImage img;
@@ -85,6 +90,7 @@ public class connectToServer extends JFrame {
     				serverIPAddress = JOptionPane.showInputDialog(ImagePanel.this,"Please enter"
     						+ " the Server IP address: ","Connect to Server",
     				JOptionPane.QUESTION_MESSAGE);
+    				new Client(serverIPAddress);
     				}
     				
     			});
@@ -94,14 +100,14 @@ public class connectToServer extends JFrame {
     		this.add(connectToServerButton);    
         }
         
-            protected void paintComponent(Graphics g) {
-            	//draws background image onto frame
-            	 g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
-            	 
-            	 g.setColor(Color.WHITE);
-                 g.setFont(new Font("Avineer", Font.PLAIN, 40));
-                 g.drawString("Connect to Server", 300,250);}
-            }
+        protected void paintComponent(Graphics g) {
+        	//draws background image onto frame
+        	 g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+        	 
+        	 g.setColor(Color.WHITE);
+             g.setFont(new Font("Avineer", Font.PLAIN, 40));
+             g.drawString("Connect to Server", 300,250);}
+        }
 
 public static void main (String [] args){
 	//creates new instance of connectToServer

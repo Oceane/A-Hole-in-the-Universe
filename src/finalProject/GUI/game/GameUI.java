@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import finalProject.Client.Client;
+import finalProject.GUI.connectToServer;
 import finalProject.GUI.game.SpaceObjects.Blackhole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
@@ -36,8 +37,7 @@ public class GameUI {
 		frame.setLayout(null);
 		myGame.setJFrame(frame);
 		myGame.setPlayground(frame);
-		myGame.uClient = new Client();
-		myGame.uClient.sendMsg("Hello Server, lovely day aint it?");
+		Client.uClient.sendMsg("Hello Server, lovely day aint it?");
 	}
 	
 	private void setJFrame(JFrame frame) {

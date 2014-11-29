@@ -8,21 +8,20 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client{
+	public static Client uClient = null;
 	public static final int PORT_NUM = 653;
 	private Socket s;
 	private BufferedReader br;
 	private PrintWriter pw;
 	
-	public Client(){
-		Scanner scan = new Scanner(System.in);
-		System.out.print("What is the name/IP of the server? ");
-		String hostname = scan.nextLine();
+	public Client(String hostname){
 		try{
 			this.s = new Socket(hostname, PORT_NUM);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		} catch(IOException ioe){
 			System.out.println("ioe in Client: " + ioe.getMessage());
 		}
+		uClient = this; //update the public instance of client
 	}
 	
 	//This function will send a message to the server and wait until the server responds.
