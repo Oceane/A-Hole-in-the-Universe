@@ -29,7 +29,6 @@ public class GameUI {
 	private final int NUM_COMETS = 5;
 	private static Random rand;
 	private Vector<SpaceObject> vObjs;
-	private Client uClient;
 	
 	public static void main(String [] args) {
 		GameUI myGame = new GameUI();
