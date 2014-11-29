@@ -148,10 +148,27 @@ public class Server extends JFrame implements Runnable {
 		String msgBody;
 		// Determine ip address of client:
 		sIP = ch.getSocket().getRemoteSocketAddress().toString();
-		switch (msgReceived.charAt(0)) {
-		case 'H':
-			msgSend = "Dear client, the server deems this day to be beautiful as well.";
+		msgType = uScan.next();
+		switch (msgType) {
+		case "CREATE_PLAYER":
+			String sUsername = uScan.next();
+			String sCharacter = uScan.next();
+			if(isUsernameNotTaken(sUsername)){
+				//XML add player node goes here...
+				msgSend = "CREATE_PLAYER SUCCESS";
+			}
+			else{
+				msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
+			}
 			break;
+		case "GET_PLAYER_STATUS":
+			break;
+		//Just continue the pattern from here.
+		//If an operation requires a lot of code, call a function and have it return a msgSend string.
+		//E.g. msgSend = createPlayer();
+		//break;
+		
+		/*
 		case 'U':
 			String uName = msgReceived.substring(msgReceived.indexOf('%'),
 					msgReceived.indexOf('#'));
@@ -164,6 +181,7 @@ public class Server extends JFrame implements Runnable {
 				msgSend = "Username is Taken";
 			}
 			break;
+		*/
 		}
 
 		// Print msg transaction to the screen:
