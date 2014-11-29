@@ -12,17 +12,20 @@ public class Client{
 	private Socket s;
 	private BufferedReader br;
 	private PrintWriter pw;
+	String hostname;
 	
-	public Client(){
-		Scanner scan = new Scanner(System.in);
-		System.out.print("What is the name/IP of the server? ");
-		String hostname = scan.nextLine();
+	public Client(String hostname){
+		this.hostname = hostname;
+	}
+	
+	public boolean connect(){
 		try{
 			this.s = new Socket(hostname, PORT_NUM);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		} catch(IOException ioe){
-			System.out.println("ioe in Client: " + ioe.getMessage());
+			return false;
 		}
+		return true;
 	}
 	
 	//This function will send a message to the server and wait until the server responds.

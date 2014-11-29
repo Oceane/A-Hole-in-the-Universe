@@ -36,7 +36,7 @@ public class GameUI {
 		frame.setLayout(null);
 		myGame.setJFrame(frame);
 		myGame.setPlayground(frame);
-		myGame.uClient = new Client();
+		myGame.uClient = new Client("");
 		myGame.uClient.sendMsg("Hello Server, lovely day aint it?");
 	}
 	
