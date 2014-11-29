@@ -34,7 +34,8 @@ public class connectToServer extends JFrame {
 		setLocationRelativeTo(null);
 
 		//adds new instance of ImagePanel that will add all components to the frame
-		add(new ImagePanel("/Users/natalieanndunn/Documents/workspace/aHoleInTheUniverse/src/aHoleInTheUniverse/space.jpg"));
+		int rand = (int)(Math.random()*10)+1;
+		add(new ImagePanel("Backgrounds/universe"+rand+".jpg"));
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
@@ -90,7 +91,13 @@ public class connectToServer extends JFrame {
     				serverIPAddress = JOptionPane.showInputDialog(ImagePanel.this,"Please enter"
     						+ " the Server IP address: ","Connect to Server",
     				JOptionPane.QUESTION_MESSAGE);
-    				Client.connect(serverIPAddress);
+    				if(Client.connect(serverIPAddress)){
+    					//Open the start and dispose the current
+    					System.exit(0);
+    					new Start();
+    				} else {
+    					JOptionPane.showMessageDialog(null, "You have entered the wrong IP Address.", "Connection Unsuccessful", JOptionPane.WARNING_MESSAGE);
+    				}
     				}
     				
     			});

@@ -17,14 +17,11 @@ public class Start extends JFrame {
 	JButton enterButton, quitButton;
 	BufferedImage img;
 	String name = "Backgrounds/universe1.jpg";
-	private Client uClient;
 	
-	public Start(final Client uClient) {
-		//Clients
-		this.uClient = uClient;
+	public Start() {
 		// SETUP WINDOW
 		window();
-
+		setLocationRelativeTo(null);
 		addKeyListener(new KeyListener() {
 
 			public void keyPressed(KeyEvent e) {
@@ -32,7 +29,7 @@ public class Start extends JFrame {
 				if (key == e.VK_ESCAPE) {
 					System.exit(0);
 				} else {
-					new Title(uClient);
+					new Title();
 					dispose();
 				}
 

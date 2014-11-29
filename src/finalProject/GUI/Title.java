@@ -23,9 +23,9 @@ public class Title extends JFrame {
 	private Client uClient;
 	
 	// CONSTRUCTOR
-	public Title(final Client uClient) {
-		this.uClient = uClient;
-
+	public Title() {
+		setLocationRelativeTo(null);
+		
 		// INSTANTIATE PANELS
 		cardPanel = new JPanel();
 		cardPanel.setLayout(cardLayout);
@@ -85,7 +85,7 @@ public class Title extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				int key = e.getKeyCode();
 				if (key == e.VK_BACK_SPACE || key == e.VK_ESCAPE) {
-					new Start(uClient);
+					new Start();
 					dispose();
 				}
 

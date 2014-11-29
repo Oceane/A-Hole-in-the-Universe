@@ -12,13 +12,15 @@ public class Client{
 	private static BufferedReader br;
 	private static PrintWriter pw;
 	
-	public static void connect(String hostname){
+	public static boolean connect(String hostname){
 		try{
 			s = new Socket(hostname, PORT_NUM);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		} catch(IOException ioe){
 			System.out.println("ioe in Client: " + ioe.getMessage());
+			return false;
 		}
+		return true;
 	}
 	
 	//This function will send a message to the server and wait until the server responds.
