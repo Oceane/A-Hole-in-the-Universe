@@ -62,7 +62,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Server extends JFrame implements Runnable {
-	public static final int PORT_NUM = 653;
+	public static final int PORT_NUM = 1025;
 	public static final String DB = "DB.xml";
 	private ServerSocket ss;
 	private Vector<ClientHandler> chVector = new Vector<ClientHandler>();
@@ -148,42 +148,49 @@ public class Server extends JFrame implements Runnable {
 		String msgBody;
 		// Determine ip address of client:
 		sIP = ch.getSocket().getRemoteSocketAddress().toString();
+		switch (msgReceived.charAt(0)) {
+		case 'H':
+			msgSend = "Dear client, the server deems this day to be beautiful as well.";
+			break;
+		}
 		msgType = uScan.next();
 		switch (msgType) {
-		case "CREATE_PLAYER":
-			String sUsername = uScan.next();
-			String sCharacter = uScan.next();
-			if(isUsernameNotTaken(sUsername)){
-				//XML add player node goes here...
-				msgSend = "CREATE_PLAYER SUCCESS";
-			}
-			else{
-				msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
-			}
-			break;
-		case "GET_PLAYER_STATUS":
-			break;
+			case "CREATE_PLAYER":
+				String sUsername = uScan.next();
+				String sCharacter = uScan.next();
+				if(isUsernameNotTaken(sUsername)){
+					//XML add player node goes here...
+					msgSend = "CREATE_PLAYER SUCCESS";
+				}
+				else{
+					msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
+				}
+				break;
+			case "GET_PLAYER_STATUS":
+				break;
+		}
 		//Just continue the pattern from here.
 		//If an operation requires a lot of code, call a function and have it return a msgSend string.
 		//E.g. msgSend = createPlayer();
 		//break;
 		
 		/*
-		case 'U':
-			String uName = msgReceived.substring(msgReceived.indexOf('%'),
-					msgReceived.indexOf('#'));
-			if (isUsernameNotTaken(uName)) {
-				msgSend = "Adding Username to XML...";
-				String Character = msgReceived.substring(
-						msgReceived.indexOf('#'), msgReceived.indexOf('$'));
-				String ipAdd = msgReceived.substring(msgReceived.indexOf('&'), msgReceived.indexOf('@'));
-			} else {
-				msgSend = "Username is Taken";
+		case 'C':
+			if(msgReceived.startsWith("CREATE_USERNAME")){
+				String uName = msgReceived.substring(msgReceived.indexOf('%'),
+						msgReceived.indexOf('#'));
+				if (isUsernameNotTaken(uName)) {
+					msgSend = "Adding Username to XML...";
+					String Character = msgReceived.substring(
+							msgReceived.indexOf('#'), msgReceived.indexOf('$'));
+					String ipAdd = msgReceived.substring(msgReceived.indexOf('&'), msgReceived.indexOf('@'));
+				} else {
+					msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
+				}
 			}
 			break;
-		*/
 		}
-
+		*/
 		// Print msg transaction to the screen:
 		uTextAreaMsg.append((nNumLine++) + ". CMD: " + msgReceived + "\n");
 		uTextAreaMsg.append((nNumLine++) + ". ECHO: " + msgSend + "\n");
@@ -250,17 +257,22 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		isUsernameNotTaken("Bobby");
 	}
 
 	public synchronized static boolean isUsernameNotTaken(String uName) {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			String name = nList.item(i).getAttributes()
-					.getNamedItem("username").toString()
-					.replaceAll("username=", "");
-			name = name.replaceAll("\"", "");
-			if (uName.equals(name))
-				return false;
+			Element myEl = (Element)nList.item(i);
+			String name = myEl.getElementsByTagName("username").item(0).getTextContent();
+			System.out.println(name);
+			if (uName.equals(name)){
+				if(nList.item(i).getParentNode().toString().contains("players_available")){
+					//erase this player
+					nList.item(i).getParentNode().removeChild(nList.item(i));
+				} else 
+					return false;
+			}
 		}
 
 		return true;
