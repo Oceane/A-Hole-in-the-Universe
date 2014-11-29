@@ -5,30 +5,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Client{
-	public static Client uClient = null;
 	public static final int PORT_NUM = 653;
-	private Socket s;
-	private BufferedReader br;
-	private PrintWriter pw;
+	private static Socket s;
+	private static BufferedReader br;
+	private static PrintWriter pw;
 	
-	public Client(String hostname){
+	public static void connect(String hostname){
 		try{
-			this.s = new Socket(hostname, PORT_NUM);
+			s = new Socket(hostname, PORT_NUM);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		} catch(IOException ioe){
 			System.out.println("ioe in Client: " + ioe.getMessage());
 		}
-		uClient = this; //update the public instance of client
 	}
 	
 	//This function will send a message to the server and wait until the server responds.
 	//When the server responds, return the message to the caller.
 	//This function is synchronized so that only one thread can send a msg at a time.
-	public synchronized String sendMsg(String msgSend){
-		PrintWriter pw;
+	public static synchronized String sendMsg(String msgSend){
 		String msgReceive = null;
 		try {
 			pw = new PrintWriter(s.getOutputStream());

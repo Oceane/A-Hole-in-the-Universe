@@ -62,7 +62,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Server extends JFrame implements Runnable {
-	public static final int PORT_NUM = 1025;
+	public static final int PORT_NUM = 653;
 	public static final String DB = "DB.xml";
 	private ServerSocket ss;
 	private Vector<ClientHandler> chVector = new Vector<ClientHandler>();

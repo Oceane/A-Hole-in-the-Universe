@@ -90,7 +90,7 @@ public class connectToServer extends JFrame {
     				serverIPAddress = JOptionPane.showInputDialog(ImagePanel.this,"Please enter"
     						+ " the Server IP address: ","Connect to Server",
     				JOptionPane.QUESTION_MESSAGE);
-    				new Client(serverIPAddress);
+    				Client.connect(serverIPAddress);
     				}
     				
     			});
