@@ -34,7 +34,9 @@ public class connectToServer extends JFrame {
 		setLocationRelativeTo(null);
 
 		//adds new instance of ImagePanel that will add all components to the frame
-		add(new ImagePanel("/Users/natalieanndunn/Documents/workspace/aHoleInTheUniverse/src/aHoleInTheUniverse/space.jpg"));
+		int rand = (int)(Math.random()*10)+1;
+		System.out.println(rand);
+		add(new ImagePanel("Backgrounds/universe"+rand+".jpg"));
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
