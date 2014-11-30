@@ -39,6 +39,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import finalProject.Client.Client;
 import finalProject.GUI.JoinGame.JoinGameGUI;
 
 public class createProfile extends JFrame implements MouseListener {
@@ -51,7 +52,7 @@ public class createProfile extends JFrame implements MouseListener {
 	int selectedPlanet = 0; // 1=Ora Uhlsax, 2 = Neslaou, 3 = Earth, 4 = Gigolo
 	JLabel submit = new JLabel(new ImageIcon("Icons/submit.png"));
 	boolean playedSound = false;
-
+	
 	public JPanel planetsPanel = new JPanel();
 
 	public createProfile() {
@@ -251,10 +252,28 @@ public class createProfile extends JFrame implements MouseListener {
 		} else if (selectedPlanet == 0) {
 			JOptionPane.showMessageDialog(this, "You must select a planet.", "Hold your horses...", JOptionPane.WARNING_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(this, Benutzername + ", your character has been saved!");
 			// send data to XML file
-			new JoinGameGUI();
-			this.dispose();
+			String character = "Earth"; //default
+			// 1=Ora Uhlsax, 2 = Neslaou, 3 = Earth, 4 = Gigolo
+			if(selectedPlanet == 1){
+				character = "OraUhlsax";
+			} else if(selectedPlanet == 2){
+				character = "Neslaou";
+			} else if(selectedPlanet == 3){
+				character = "Earth";
+			} else if(selectedPlanet == 4){
+				character = "Gigolo";
+			} 
+			String rec = Client.sendMsg("CREATE_PLAYER "+Benutzername+" "+character);
+			if(rec.contains("SUCCESS")){
+				JOptionPane.showMessageDialog(this, Benutzername + ", your character has been saved!");
+				new JoinGameGUI();
+				this.dispose();
+			} else if(rec.contains("XML")){
+				JOptionPane.showMessageDialog(this, "DataBase error. Please contact your server.", "Uh oh...", JOptionPane.WARNING_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(this, "Your username is taken. Choose a different one.", "Dangit "+Benutzername+"!", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 	}
 
