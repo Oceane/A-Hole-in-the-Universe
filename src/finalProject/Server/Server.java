@@ -172,6 +172,12 @@ public class Server extends JFrame implements Runnable {
 			case "GET_PLAYER_STATUS":
 				msgSend = getPlayerStatus(sIP);
 				break;
+			case "GET_PLAYER_GAME_INDEX":
+				
+				break;
+			case "GET_PLAYER_INFO":
+				msgSend = getPlayerInfo(sIP);
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -243,6 +249,32 @@ public class Server extends JFrame implements Runnable {
 		isUsernameNotTaken("Bobby");
 	}
 	
+	public synchronized static String getPlayerInfo(String uIP){
+		String msg = "GET_PLAYER_INFO FAILURE";
+		
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (ip.equals(uIP)){
+				msg = "GET_PLAYER_INFO";
+				msg += " " + myEl.getElementsByTagName("username").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("character").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("ready").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("score").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("comets").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("deaths").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("powerups").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("max_spin").item(0).getTextContent();
+				msg += " " + myEl.getElementsByTagName("max_vel").item(0).getTextContent();
+				
+				break;
+			}
+		}
+		
+		return msg;
+	}
+	
 	public synchronized static String getPlayerStatus(String uIP){
 		String msg = "GET_PLAYER_STATUS PLAYER_NOT_FOUND";
 		
@@ -260,6 +292,7 @@ public class Server extends JFrame implements Runnable {
 				} else  if(nList.item(i).getParentNode().toString().contains("games_history")){
 					msg = "GET_PLAYER_STATUS SCOREBOARD";
 				}
+				break;
 			}
 		}
 		
