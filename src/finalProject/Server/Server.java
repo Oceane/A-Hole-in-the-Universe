@@ -179,7 +179,10 @@ public class Server extends JFrame implements Runnable {
 				msgSend = getPlayerStatus(sIP);
 				break;
 			case "GET_PLAYER_GAME_INDEX":
-				
+				msgSend = getPlayerGameIndex(sIP);
+				break;
+			case "GET_PLAYER_INDEX":
+				msgSend = getPlayerIndex(sIP);
 				break;
 			case "GET_PLAYER_INFO":
 				msgSend = getPlayerInfo(sIP);
@@ -299,7 +302,38 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(getNotificationAtIndex("1983.498.746", 4));
+	}
+	
+	public synchronized static String getPlayerIndex(String ip){
+		String msg = "GET_PLAYER_INDEX FAILURE";
+		
+		Element p = getPlayerElement(ip);
+		Element r = (Element) p.getParentNode();
+		NodeList nList = r.getChildNodes();
+		for(int i = 0; i < nList.getLength(); i++){
+			if(nList.item(i).equals(p)){
+				msg = "GET_PLAYER_INDEX "+i;
+				break;
+			}
+		}
+		
+		return msg;
+	}
+	
+	public synchronized static String getPlayerGameIndex(String ip){
+		String msg = "GET_PLAYER_GAME_INDEX FAILURE";
+		
+		Element g = getGameElement(ip);
+		Element r = (Element) g.getParentNode();
+		NodeList nList = r.getChildNodes();
+		for(int i = 0; i < nList.getLength(); i++){
+			if(nList.item(i).equals(g)){
+				msg = "GET_PLAYER_GAME_INDEX "+i;
+				break;
+			}
+		}
+		
+		return msg;
 	}
 	
 	public synchronized static String notifyPlayer(String ip, int playerIndex, String msgChat){
