@@ -2,7 +2,9 @@ package finalProject.Server;
 
 import java.io.File;
 import java.io.IOException;
+
 import finalProject.Server.ClientHandler;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -45,6 +48,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -216,31 +220,26 @@ public class Server extends JFrame implements Runnable {
 		return msgSend;
 	}
 
-	public static void updateDBDisplay() {
-		try {
+	public static void updateDBDisplay(){
+    	try {
 			// Open the XML DB reader:
 			BufferedReader br;
 			br = new BufferedReader(new FileReader(DB));
-
-			// Get the current position of the scrollbar:
-			int nPos = uScrollPaneDB.getVerticalScrollBar().getValue();
 			
-			// Clear the DB textarea:
-			uTextAreaDB.setText("");
 			// Write the contents of the XML DB to the DB textarea:
 			String line;
+			String content = "";
 			line = br.readLine();
 			while (line != null) {
-				uTextAreaDB.append(line + "\n");
+				content += line+"\n";
 				line = br.readLine();
 			}
+			uTextAreaDB.setText(content + "\n");
 			// Close the reader:
 			br.close();
-			
-			//Restore the position of the scrollbar:
-			uScrollPaneDB.getVerticalScrollBar().setValue(nPos);
-
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

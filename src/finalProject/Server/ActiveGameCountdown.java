@@ -20,7 +20,6 @@ public class ActiveGameCountdown extends Thread{
 				//Decrement all active game times by 1 second:
 				NodeList activeList = this.doc.getElementsByTagName("games_active");
 				NodeList gamesList = ((Element)activeList.item(0)).getElementsByTagName("game");
-				System.out.println(activeList.getLength());
 				for(int i=0; i<gamesList.getLength(); i++){
 					Node gameNode = (Node)gamesList.item(i);
 					String sTime = gameNode.getAttributes().getNamedItem("remaining_time").getNodeValue();
@@ -40,6 +39,14 @@ public class ActiveGameCountdown extends Thread{
 					}
 					else{
 						//move to games_history
+						Node gamesHistoryNode = doc.getElementsByTagName("games_history").item(0);
+						if(gamesHistoryNode.getChildNodes().getLength() == 0){
+							gamesHistoryNode.appendChild(gameNode);
+						}
+						else{
+							gamesHistoryNode.insertBefore(gameNode, gamesHistoryNode.getFirstChild());
+						}
+						//gameNode.getParentNode().removeChild(gameNode);
 					}	
 				}
 				
