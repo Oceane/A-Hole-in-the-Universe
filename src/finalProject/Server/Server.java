@@ -290,6 +290,21 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(getNotificationAtIndex("", 2));
+	}
+	
+	public synchronized static String getNotificationAtIndex(String ip, int index){
+		String msg = "NOTIFICATION_GET FAILURE";
+		
+		Document p = (Document) getPlayerNode(ip);
+		if(p!=null){
+			NodeList nList = p.getElementsByTagName("notification");
+			if(nList.getLength()>= index){
+				msg = "NOTIFICATION_GET " + nList.item(index).getTextContent();
+			}
+		}
+		
+		return msg;
 	}
 	
 	public synchronized static String getNumNotifications(String ip){
@@ -642,13 +657,14 @@ public class Server extends JFrame implements Runnable {
 			Element myEl = (Element)nList.item(i);
 			String name = myEl.getElementsByTagName("username").item(0).getTextContent();
 			if (uName.equals(name)){
-				if(!nList.item(i).getParentNode().toString().contains("games_history")){
+				if(nList.item(i).getParentNode().toString().contains("players_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_available")){
 					//erase this player
-					//nList.item(i).getParentNode().removeChild(nList.item(i));
+					nList.item(i).getParentNode().removeChild(nList.item(i));
+				} else 
 					return false;
-				}
 			}
 		}
+
 		return true;
 	}
 
