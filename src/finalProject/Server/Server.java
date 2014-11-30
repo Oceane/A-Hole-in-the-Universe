@@ -290,7 +290,7 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(getNotificationAtIndex("", 2));
+		System.out.println(getNotificationAtIndex("1983.498.746", 4));
 	}
 	
 	public synchronized static String getNotificationAtIndex(String ip, int index){
