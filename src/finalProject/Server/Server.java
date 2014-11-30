@@ -208,6 +208,9 @@ public class Server extends JFrame implements Runnable {
 			case "DELETE_GAME":
 				msgSend = deleteGame(uScan.next());
 				break;
+			case "GET_NUM_PLAYERS_AVAILABLE":
+				msgSend = getNumPlayersAvailable();
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -294,6 +297,23 @@ public class Server extends JFrame implements Runnable {
 		return n;
 	}
 	
+	public synchronized static String getNumPlayersAvailable(){
+		String msg = "GET_NUM_PLAYERS_AVAILABLE FAILURE";
+		
+		int count = 0;
+		boolean flag = false;
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			flag = false;
+			if(nList.item(i).getParentNode().toString().equals("players_available"))
+				count++;
+			flag = true;
+		}
+		if(flag)
+			msg = "GET_NUM_PLAYERS_AVAILABLE "+count;
+		return msg;
+	}
+	
 	public synchronized static NodeList getPlayersFromGame(Node g){
 		return g.getChildNodes();
 	}
@@ -301,7 +321,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String deleteGame(String ip){
 		String msg = "DELETE_GAME FAILURE";
 		
-		boolean flag = false;
+		boolean flag = true;
 		//get node
 		Node g = getGameNode(ip);
 		if(g!=null){
@@ -310,12 +330,13 @@ public class Server extends JFrame implements Runnable {
 			for(int i = 0; i < players.getLength(); i++){
 				Element myEl = (Element)players.item(i);
 				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-				leaveGame(uIP);
+				if(leaveGame(uIP).contains("FAIL")){
+					flag = false;
+				}
 			}
 			
 			//remove game
 			g.getParentNode().removeChild(g);
-			flag = true;
 			if(flag && writeToXML()) msg = "DELETE_GAME SUCCESS";
 		}
 		return msg;
