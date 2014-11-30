@@ -300,17 +300,12 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String getNumPlayersAvailable(){
 		String msg = "GET_NUM_PLAYERS_AVAILABLE FAILURE";
 		
-		int count = 0;
-		boolean flag = false;
-		NodeList nList = doc.getElementsByTagName("player");
-		for (int i = 0; i < nList.getLength(); i++) {
-			flag = false;
-			if(nList.item(i).getParentNode().toString().equals("players_available"))
-				count++;
-			flag = true;
+		int numPlayers = 0;
+		Element playersAvailable = (Element)doc.getElementsByTagName("players_available").item(0);
+		if(playersAvailable != null){
+			numPlayers = playersAvailable.getElementsByTagName("player").getLength();
+			msg = "GET_NUM_PLAYERS_AVAILABLE " + numPlayers;
 		}
-		if(flag)
-			msg = "GET_NUM_PLAYERS_AVAILABLE "+count;
 		return msg;
 	}
 	
