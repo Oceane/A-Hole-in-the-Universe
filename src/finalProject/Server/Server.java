@@ -70,13 +70,13 @@ public class Server extends JFrame implements Runnable {
 	private JPanel uPanelDB = new JPanel();
 	private static JTextArea uTextAreaMsg = new JTextArea();
 	private static JTextArea uTextAreaDB = new JTextArea();
-	private JScrollPane uScrollPaneMsg;
-	private JScrollPane uScrollPaneDB;
-	private JButton uClearButton;
-	private JLabel uLabelConnections;
-	private int nNumLine = 1;
-	private DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	private DocumentBuilder db;
+	private static JScrollPane uScrollPaneMsg;
+	private static JScrollPane uScrollPaneDB;
+	private static JButton uClearButton;
+	private static JLabel uLabelConnections;
+	private static int nNumLine = 1;
+	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	private static DocumentBuilder db;
 	private static org.w3c.dom.Document doc = null;
 
 	public Server() throws HeadlessException, UnknownHostException {
@@ -138,6 +138,7 @@ public class Server extends JFrame implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		new ActiveGameCountdown(doc);
 	}
 
 	public synchronized String processMsg(String msgReceived, ClientHandler ch) {
@@ -221,6 +222,9 @@ public class Server extends JFrame implements Runnable {
 			BufferedReader br;
 			br = new BufferedReader(new FileReader(DB));
 
+			// Get the current position of the scrollbar:
+			int nPos = uScrollPaneDB.getVerticalScrollBar().getValue();
+			
 			// Clear the DB textarea:
 			uTextAreaDB.setText("");
 			// Write the contents of the XML DB to the DB textarea:
@@ -232,6 +236,9 @@ public class Server extends JFrame implements Runnable {
 			}
 			// Close the reader:
 			br.close();
+			
+			//Restore the position of the scrollbar:
+			uScrollPaneDB.getVerticalScrollBar().setValue(nPos);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -617,6 +624,10 @@ public class Server extends JFrame implements Runnable {
 
 		return writeToXML();
 	}
+	
+	public synchronized static void getPlayerNode(){
+		
+	}
 
 	public synchronized static boolean writeToXML() {
 		try {
@@ -629,7 +640,7 @@ public class Server extends JFrame implements Runnable {
 			StreamResult result = new StreamResult(new File(DB));
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.transform(source, result);
-			uTextAreaMsg.append("XML file updated successfully");
+			uTextAreaMsg.append("XML file updated successfully \n");
 			updateDBDisplay();
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
