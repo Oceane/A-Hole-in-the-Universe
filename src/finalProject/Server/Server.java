@@ -642,14 +642,13 @@ public class Server extends JFrame implements Runnable {
 			Element myEl = (Element)nList.item(i);
 			String name = myEl.getElementsByTagName("username").item(0).getTextContent();
 			if (uName.equals(name)){
-				if(nList.item(i).getParentNode().toString().contains("players_available")){
+				if(!nList.item(i).getParentNode().toString().contains("games_history")){
 					//erase this player
-					nList.item(i).getParentNode().removeChild(nList.item(i));
-				} else 
+					//nList.item(i).getParentNode().removeChild(nList.item(i));
 					return false;
+				}
 			}
 		}
-
 		return true;
 	}
 
