@@ -722,10 +722,9 @@ public class Server extends JFrame implements Runnable {
 			StreamResult result = new StreamResult(new File(DB));
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.transform(source, result);
-			uTextAreaMsg.append("XML file updated successfully \n");
 			updateDBDisplay();
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
+			uTextAreaMsg.append("Unable to update XML file \n");
 			e.printStackTrace();
 			return false;
 		}
