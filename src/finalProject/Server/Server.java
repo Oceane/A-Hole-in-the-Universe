@@ -181,6 +181,12 @@ public class Server extends JFrame implements Runnable {
 			case "SET_PLAYER_INFO":
 				msgSend = setPlayerInfo(sIP, uScan);
 				break;
+			case "JOIN_GAME":
+				//msgSend = joinGame(sIP,uScan.next());
+				break;
+			case "READY_GAME":
+				msgSend = readyGame(sIP);
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -250,6 +256,23 @@ public class Server extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		isUsernameNotTaken("Bobby");
+	}
+	
+	public synchronized static String readyGame(String ip){
+		String msg = "READY_GAME FAILURE";
+		
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (ip.equals(uIP)){
+				myEl.getElementsByTagName("ready").item(0).setTextContent("true");
+				
+				break;
+			}
+		}
+		
+		return msg;
 	}
 	
 	public synchronized static String setPlayerInfo(String uIP, Scanner uMsg){
