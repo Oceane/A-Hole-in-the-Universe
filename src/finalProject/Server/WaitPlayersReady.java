@@ -25,23 +25,25 @@ public class WaitPlayersReady extends Thread{
 	
 	public void run(){
 		while(true){
-			//For each game under the games_available node, check to see if all the player ready states are true.
-			//If they are all true, move the game to the games_active node.
-			NodeList gamesAvailable = ((Element)this.doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game");
-			for(int i=0; i<gamesAvailable.getLength(); i++){
-				NodeList players = ((Element)(gamesAvailable.item(i))).getElementsByTagName("player");
-				for(int j=0; j<players.getLength(); j++){
-					Node ReadyNode = (Node)((Element)players.item(j)).getElementsByTagName("ready").item(0);
-					if(!ReadyNode.getTextContent().equals("true")){
-						break;
-					}
-					if(j == players.getLength() - 1){
-						activateGame(gamesAvailable.item(i)); //all the players must have ready states of "true" to get here
+			synchronized(this.doc){
+				//For each game under the games_available node, check to see if all the player ready states are true.
+				//If they are all true, move the game to the games_active node.
+				NodeList gamesAvailable = ((Element)this.doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game");
+				for(int i=0; i<gamesAvailable.getLength(); i++){
+					NodeList players = ((Element)(gamesAvailable.item(i))).getElementsByTagName("player");
+					for(int j=0; j<players.getLength(); j++){
+						Node ReadyNode = (Node)((Element)players.item(j)).getElementsByTagName("ready").item(0);
+						if(!ReadyNode.getTextContent().equals("true")){
+							break;
+						}
+						if(j == players.getLength() - 1){
+							activateGame(gamesAvailable.item(i)); //all the players must have ready states of "true" to get here
+						}
 					}
 				}
+				//Write all the changes to the XML file and update the display:
+				Server.writeToXML();
 			}
-			//Write all the changes to the XML file and update the display:
-			Server.writeToXML();
 		}
 	}
 	
