@@ -160,37 +160,20 @@ public class Server extends JFrame implements Runnable {
 				String sCharacter = uScan.next();
 				if(isUsernameNotTaken(sUsername)){
 					//XML add player node goes here...
-					msgSend = "CREATE_PLAYER SUCCESS";
+					if(addUsernameToXML(sUsername,sCharacter,sIP))
+						msgSend = "CREATE_PLAYER SUCCESS";
+					else
+						msgSend = "CREATE_PLAYER FAILURE XML_ERROR";
 				}
 				else{
 					msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
 				}
 				break;
 			case "GET_PLAYER_STATUS":
+				msgSend = getPlayerStatus(sIP);
 				break;
 		}
-		//Just continue the pattern from here.
-		//If an operation requires a lot of code, call a function and have it return a msgSend string.
-		//E.g. msgSend = createPlayer();
-		//break;
 		
-		/*
-		case 'C':
-			if(msgReceived.startsWith("CREATE_USERNAME")){
-				String uName = msgReceived.substring(msgReceived.indexOf('%'),
-						msgReceived.indexOf('#'));
-				if (isUsernameNotTaken(uName)) {
-					msgSend = "Adding Username to XML...";
-					String Character = msgReceived.substring(
-							msgReceived.indexOf('#'), msgReceived.indexOf('$'));
-					String ipAdd = msgReceived.substring(msgReceived.indexOf('&'), msgReceived.indexOf('@'));
-				} else {
-					msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
-				}
-			}
-			break;
-		}
-		*/
 		// Print msg transaction to the screen:
 		uTextAreaMsg.append((nNumLine++) + ". CMD: " + msgReceived + "\n");
 		uTextAreaMsg.append((nNumLine++) + ". ECHO: " + msgSend + "\n");
@@ -259,13 +242,35 @@ public class Server extends JFrame implements Runnable {
 		}
 		isUsernameNotTaken("Bobby");
 	}
+	
+	public synchronized static String getPlayerStatus(String uIP){
+		String msg = "GET_PLAYER_STATUS PLAYER_NOT_FOUND";
+		
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (ip.equals(uIP)){
+				if(nList.item(i).getParentNode().toString().contains("players_available")){
+					msg = "GET_PLAYER_STATUS AVAILABLE";
+				} else  if(nList.item(i).getParentNode().toString().contains("games_available")){
+					msg = "GET_PLAYER_STATUS WAITING";
+				} else  if(nList.item(i).getParentNode().toString().contains("games_active")){
+					msg = "GET_PLAYER_STATUS ACTIVE";
+				} else  if(nList.item(i).getParentNode().toString().contains("games_history")){
+					msg = "GET_PLAYER_STATUS SCOREBOARD";
+				}
+			}
+		}
+		
+		return msg;
+	}
 
 	public synchronized static boolean isUsernameNotTaken(String uName) {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element)nList.item(i);
 			String name = myEl.getElementsByTagName("username").item(0).getTextContent();
-			System.out.println(name);
 			if (uName.equals(name)){
 				if(nList.item(i).getParentNode().toString().contains("players_available")){
 					//erase this player
@@ -331,19 +336,6 @@ public class Server extends JFrame implements Runnable {
 		player.appendChild(notifications);
 
 		return writeToXML();
-	}
-
-	private static void addElement(Document doc) {
-		NodeList employees = doc.getElementsByTagName("Employee");
-		Element emp = null;
-
-		// loop for each employee
-		for (int i = 0; i < employees.getLength(); i++) {
-			emp = (Element) employees.item(i);
-			Element salaryElement = doc.createElement("salary");
-			salaryElement.appendChild(doc.createTextNode("10000"));
-			emp.appendChild(salaryElement);
-		}
 	}
 
 	public synchronized static boolean writeToXML() {
