@@ -221,6 +221,12 @@ public class Server extends JFrame implements Runnable {
 			case "NOTIFICATIONS_GET_NUM":
 				msgSend = getNumNotifications(sIP);
 				break;
+			case "NOTIFICATION_GET":
+				msgSend = getNotificationAtIndex(sIP, uScan.nextInt());
+				break;
+			case "NOTIFY_ALL":
+				msgSend = notifyAll(sIP, uScan.nextLine());
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -291,6 +297,43 @@ public class Server extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		System.out.println(getNotificationAtIndex("1983.498.746", 4));
+	}
+	
+	public synchronized static String notifyAll(String ip, String msgChat){
+		String msg = "NOTIFY_ALL FAILURE";
+		boolean flag = true;
+		
+		//create Message
+		Element p = getPlayerElement(ip);
+		String Vorname = p.getElementsByTagName("username").item(0).toString();
+		msgChat = Vorname +": " + msgChat;
+		
+		//Get Nodelist of all players' notifications
+		NodeList nList = doc.getElementsByTagName("notifications");
+		for(int i = 0; i < nList.getLength(); i++){ //update inboxes
+			if(!sendChatMessage(msgChat,(Element) nList.item(i)))
+				flag = false;
+		}
+		
+		if(flag && writeToXML()) msg = "NOTIFY_ALL SUCCESS";
+		
+		return msg;
+	}
+	
+	public synchronized static boolean sendChatMessage(String message, Element inbox){ //takes in the message and the node of the recipient's inbox
+		try{
+			//loop through inbox, move every item up one
+			NodeList nList = inbox.getElementsByTagName("notification");
+			for(int i = 1; i < nList.getLength(); i++){
+				nList.item(i-1).setTextContent(nList.item(i).getTextContent());
+			}
+			
+			//add new message
+			nList.item(4).setTextContent(message);
+			return true;
+		} catch(NullPointerException e){
+			return false;
+		}
 	}
 	
 	public synchronized static String getNotificationAtIndex(String ip, int index){
