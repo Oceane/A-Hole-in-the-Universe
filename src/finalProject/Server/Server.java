@@ -196,6 +196,9 @@ public class Server extends JFrame implements Runnable {
 			case "DISCONNECT":
 				msgSend = disconnect(sIP);
 				break;
+			case "CREATE_GAME":
+				msgSend = createGame(sIP,uScan.next(),uScan.next(),uScan.next());
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -264,6 +267,40 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public synchronized static String createGame(String uIP, String title, String numMin, String numPla){
+		String msg = "CREATE_GAME FAILURE";
+		
+		// get parent
+		NodeList parentList = doc.getElementsByTagName("games_available");
+		Node parent = parentList.item(0);
+		Element game = doc.createElement("game");
+		parent.appendChild(game);
+		
+		Element titlE = doc.createElement("title");
+		titlE.setTextContent(title);
+		game.appendChild(titlE);
+		
+		Element totalTime = doc.createElement("total_time");
+		totalTime.setTextContent(numMin);
+		game.appendChild(totalTime);
+		
+		Element remTime = doc.createElement("remaining_time");
+		remTime.setTextContent(numMin);
+		game.appendChild(remTime);
+		
+		Element maxPlay = doc.createElement("max_players");
+		maxPlay.setTextContent(numPla);
+		game.appendChild(maxPlay);
+		
+		Element hostIP = doc.createElement("host_ip");
+		hostIP.setTextContent(uIP);
+		game.appendChild(hostIP);
+		
+		if(writeToXML()) msg = "CREATE_GAME SUCCESS";
+		
+		return msg;
 	}
 	
 	public synchronized static String disconnect(String ip){
@@ -486,7 +523,6 @@ public class Server extends JFrame implements Runnable {
 			String Character, String ipAddress) {
 		// get parent
 		NodeList parentList = doc.getElementsByTagName("players_available");
-		System.out.println(parentList.toString());
 		Node parent = parentList.item(0);
 		Element player = doc.createElement("player"); // ip_address=\""+ipAddress+"\" username=\""+uName+"\" character=\""+Character+"\"
 		parent.appendChild(player);
