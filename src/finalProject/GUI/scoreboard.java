@@ -37,23 +37,40 @@ public class scoreBoardGUI extends JFrame {
 	
 	private static Client uClient;
 	public static String serverIPAddress;
-	public static String damage=null;
-
+	static String msg="GET_PLAYER_INFO";
 	
+	//define all scoreboard values for both players
+	public static String allPlayerInfoP1;
+	public static String allPlayerInfoP2;
+	public static String[] array1;
+	public static String[] array2;
+	public static String usernameP1;
+	public static String characterP1;
+	public static String damageP1;
+	public static String cometsP1;
+	public static String deathsP1;
+	public static String powerupsP1;
+	public static String max_velP1;
+	public static String usernameP2;
+	public static String characterP2;
+	public static String damageP2;
+	public static String cometsP2;
+	public static String deathsP2;
+	public static String powerupsP2;
+	public static String max_velP2;
+
+
 	public scoreBoardGUI() throws IOException{
 		setTitle("A Hole in the Universe");
 		setSize(950,650);
 		setLocationRelativeTo(null);
 		
-
 		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
 		//This class is also overriden by the paintComponent method to draw the table and title, and adds the 
 		//Quit and Home JButtons.
 		add(new ImagePanel("Backgrounds/universe1.jpg"));
 		
 		pack();
-
-
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
@@ -64,10 +81,7 @@ public class scoreBoardGUI extends JFrame {
 
         BufferedImage img;
         BufferedImage planet;
-        
-		
-        
-        
+       
         //constructor for ImagePanel- takes name of file and constructs a background image by adding it to a JLabel.
         ImagePanel(String name) {
             this.add(new JLabel(name));
@@ -84,7 +98,6 @@ public class scoreBoardGUI extends JFrame {
             }
             
  
-            
             //will add images of player-chosen planets to username table cell
             /*ImageIcon imageicon= new ImageIcon("/Users/natalieanndunn/Documents/workspace/aHoleInTheUniverse/src/aHoleInTheUniverse/Earth.png");
     		Image filler = imageicon.getImage();
@@ -109,8 +122,6 @@ public class scoreBoardGUI extends JFrame {
         	this.add(quitButton);
         	
 
-        	
-        	
         	//exits application when clicked
     		quitButton.addActionListener(new ActionListener(){
     			public void actionPerformed(ActionEvent ae){
@@ -166,7 +177,50 @@ public class scoreBoardGUI extends JFrame {
             g.drawString("Power Ups Used",690,235);
             g.drawString("Total Deaths", 855, 235);
             
-	
+            
+            //retrieves all player info
+        	//format: "GET_PLAYER_INFO username character ready score comets deaths powerups max_spin max_vel"
+        	allPlayerInfoP1 = uClient.sendMsg(msg);
+        	
+        	//splits all player info by whitespace into array
+        	//format: [GET_PLAYER_INFO, username, character, ready, score, comets, deaths, powerups, max_spin, max_vel]
+        	array1 = allPlayerInfoP1.split("\\s+");
+        	
+        	//assign all values in the array to their respective score board values
+        	array1[1] = usernameP1;
+        	array1[2] = characterP1;
+        	array1[4] = damageP1;
+        	array1[5] = cometsP1;
+        	array1[6] = deathsP1;
+        	array1[7] = powerupsP1;
+        	array1[9] = max_velP1;
+        	
+        	//retrieve info for player 2 and assign values similar to player 1
+        	allPlayerInfoP2 = uClient.sendMsg(msg);
+        	
+        	array2 = allPlayerInfoP2.split("\\s+");
+        	
+        	array2[1] = usernameP2;
+        	array2[2] = characterP2;
+        	array2[4] = damageP2;
+        	array2[5] = cometsP2;
+        	array2[6] = deathsP2;
+        	array2[7] = powerupsP2;
+        	array2[9] = max_velP2;
+            
+             //draws both players info into the table 
+            g.drawString(usernameP1, 85,310);
+            g.drawString(usernameP2, 85,405);
+            g.drawString(damageP1,245,310);
+            g.drawString(damageP2,245,405);
+            g.drawString(cometsP1,400,310);
+            g.drawString(cometsP2,400,405);
+            g.drawString(max_velP1,565,310);
+            g.drawString(max_velP2,565,405);
+            g.drawString(powerupsP1,710,310);
+            g.drawString(powerupsP2,710,405);
+            g.drawString(deathsP1,860,310);
+            g.drawString(deathsP2,860,405);
             }
 
         }
