@@ -35,7 +35,6 @@ import java.io.File;
 public class scoreBoardGUI extends JFrame {
 
 	
-	private static Client uClient;
 	public static String serverIPAddress;
 	static String msg="GET_PLAYER_INFO";
 	
@@ -180,7 +179,7 @@ public class scoreBoardGUI extends JFrame {
             
             //retrieves all player info
         	//format: "GET_PLAYER_INFO username character ready score comets deaths powerups max_spin max_vel"
-        	allPlayerInfoP1 = uClient.sendMsg(msg);
+        	allPlayerInfoP1 = Client.sendMsg(msg);
         	
         	//splits all player info by whitespace into array
         	//format: [GET_PLAYER_INFO, username, character, ready, score, comets, deaths, powerups, max_spin, max_vel]
@@ -196,7 +195,7 @@ public class scoreBoardGUI extends JFrame {
         	array1[9] = max_velP1;
         	
         	//retrieve info for player 2 and assign values similar to player 1
-        	allPlayerInfoP2 = uClient.sendMsg(msg);
+        	allPlayerInfoP2 = Client.sendMsg(msg);
         	
         	array2 = allPlayerInfoP2.split("\\s+");
         	
