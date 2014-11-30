@@ -187,6 +187,9 @@ public class Server extends JFrame implements Runnable {
 			case "READY_GAME":
 				msgSend = readyGame(sIP);
 				break;
+			case "LEAVE_SCOREBOARD":
+				
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -261,6 +264,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String readyGame(String ip){
 		String msg = "READY_GAME FAILURE";
 		
+		boolean flag = false;
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element)nList.item(i);
@@ -268,9 +272,13 @@ public class Server extends JFrame implements Runnable {
 			if (ip.equals(uIP)){
 				myEl.getElementsByTagName("ready").item(0).setTextContent("true");
 				
+				flag = true;
+				
 				break;
 			}
 		}
+		
+		if(flag && writeToXML()) msg = "READY_GAME SUCCESS";
 		
 		return msg;
 	}
