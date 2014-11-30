@@ -190,6 +190,12 @@ public class Server extends JFrame implements Runnable {
 			case "LEAVE_SCOREBOARD":
 				msgSend = leaveScoreboard(sIP);
 				break;
+			case "LEAVE_GAME":
+				msgSend = leaveGame(sIP);
+				break;
+			case "DISCONNECT":
+				msgSend = disconnect(sIP);
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -258,6 +264,65 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public synchronized static String disconnect(String ip){
+		String msg = "DISCONNECT FAILURE";
+		
+		boolean flag = false;
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (ip.equals(uIP)){
+				//remove player
+				nList.item(i).getParentNode().removeChild(nList.item(i));
+				
+				flag = true;
+
+				break;
+			}
+		}
+		
+		if(flag && writeToXML()) msg = "DISCONNECT SUCCESS";
+		
+		return msg;
+	}
+	
+	public synchronized static String leaveGame(String ip){
+		String msg = "LEAVE_GAME FAILURE";
+		
+		boolean flag = false;
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			if(nList.item(i).getParentNode().getParentNode().toString().contains("games_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_active")){
+				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+				if (ip.equals(uIP)){
+					//reset info
+					myEl.getElementsByTagName("score").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("comets").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("deaths").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("powerups").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("ready").item(0).setTextContent("false");
+					
+					//Move player
+					NodeList mList = doc.getElementsByTagName("players_available");
+					mList.item(0).appendChild(myEl);
+					nList.item(i).getParentNode().removeChild(nList.item(i));
+					
+					flag = true;
+
+					break;
+				}
+			}
+		}
+		
+		if(flag && writeToXML()) msg = "LEAVE_GAME SUCCESS";
+		
+		return msg;
 	}
 	
 	public synchronized static String leaveScoreboard(String ip){
