@@ -178,6 +178,9 @@ public class Server extends JFrame implements Runnable {
 			case "GET_PLAYER_INFO":
 				msgSend = getPlayerInfo(sIP);
 				break;
+			case "SET_PLAYER_INFO":
+				msgSend = setPlayerInfo(sIP, uScan);
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -247,6 +250,38 @@ public class Server extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		isUsernameNotTaken("Bobby");
+	}
+	
+	public synchronized static String setPlayerInfo(String uIP, Scanner uMsg){
+		String msg = "SET_PLAYER_INFO FAILURE";
+		
+		boolean flag = false;
+		
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (ip.equals(uIP)){
+				//Set info
+				myEl.getElementsByTagName("username").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("character").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("ready").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("score").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("comets").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("deaths").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("powerups").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("max_spin").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("max_vel").item(0).setTextContent(uMsg.next());
+				
+				flag = true;
+				
+				break;
+			}
+		}
+		
+		if(flag && writeToXML()) msg = "SET_PLAYER_INFO SUCCESS";
+		
+		return msg;
 	}
 	
 	public synchronized static String getPlayerInfo(String uIP){
