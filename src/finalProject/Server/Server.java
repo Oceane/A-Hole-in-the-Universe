@@ -304,34 +304,23 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_NUM_GAMES_AVAILABLE FAILURE";
 		
 		int numGames = 0;
-		boolean flag = true;
-		NodeList nList = doc.getElementsByTagName("game");
-		for (int i = 0; i < nList.getLength(); i++) {
-			flag = false;
-			if(nList.item(i).getParentNode().toString().equals("games_available"))
-				numGames++;
-			flag = true;
+		Element gamesAvailable = (Element)doc.getElementsByTagName("games_available").item(0);
+		if(gamesAvailable != null){
+			numGames = gamesAvailable.getElementsByTagName("game").getLength();
+			msg = "GET_NUM_GAMES_AVAILABLE " + numGames;
 		}
-		
-		if(flag) msg = "GET_NUM_GAMES_AVAILABLE "+ numGames;
-		
 		return msg;
 	}
 	
 	public synchronized static String getNumPlayersAvailable(){
 		String msg = "GET_NUM_PLAYERS_AVAILABLE FAILURE";
 		
-		int count = 0;
-		boolean flag = true;
-		NodeList nList = doc.getElementsByTagName("player");
-		for (int i = 0; i < nList.getLength(); i++) {
-			flag = false;
-			if(nList.item(i).getParentNode().toString().equals("players_available"))
-				count++;
-			flag = true;
+		int numPlayers = 0;
+		Element playersAvailable = (Element)doc.getElementsByTagName("players_available").item(0);
+		if(playersAvailable != null){
+			numPlayers = playersAvailable.getElementsByTagName("player").getLength();
+			msg = "GET_NUM_PLAYERS_AVAILABLE " + numPlayers;
 		}
-		if(flag)
-			msg = "GET_NUM_PLAYERS_AVAILABLE "+count;
 		return msg;
 	}
 	
