@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document>
 	<players_available>
-		<player character="Neslaou" ip_address="1983.498.745" username="tommy">
+		<player>
+			<character>Gigolo</character>
+			<ip_address>1983.492.745</ip_address>
+			<username>Juggalo</username>
 			<ready>true</ready>
 			<score>0</score>
 			<comets>0</comets>
@@ -12,7 +15,10 @@
 			<notifications>
 			</notifications>
 		</player>
-		<player character="Earth" ip_address="1983.498.745" username="sandy">
+		<player>
+			<character>Earth</character>
+			<ip_address>1983.498.745</ip_address>
+			<username>Sandy</username>
 			<ready>true</ready>
 			<score>0</score>
 			<comets>0</comets>
@@ -51,7 +57,10 @@
 
 	<games_history>
 <game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
-			<player character="ZZZ" ip_address="1983.498.745" username="jane">
+			<player>
+				<character>Neslaou</character>
+				<ip_address>2982.492.666</ip_address>
+				<username>SantasLittleHelper</username>
 				<ready>true</ready>
 				<score>0</score>
 				<comets>0</comets>
@@ -62,31 +71,10 @@
 				<notifications>
 				</notifications>
 			</player>
-			<player character="Whatup" ip_address="1983.498.745" username="samuel">	
-				<ready>true</ready>
-				<score>0</score>
-				<comets>0</comets>
-				<deaths>0</deaths>
-				<powerups>0</powerups>
-				<max_spin>0</max_spin>
-				<max_vel>0</max_vel>
-				<notifications>
-				</notifications>
-			</player>
-		</game>
-<game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
-			<player character="OU" ip_address="1983.498.745" username="jane">
-				<ready>true</ready>
-				<score>0</score>
-				<comets>0</comets>
-				<deaths>0</deaths>
-				<powerups>0</powerups>
-				<max_spin>0</max_spin>
-				<max_vel>0</max_vel>
-				<notifications>
-				</notifications>
-			</player>
-			<player character="Gigolo" ip_address="1983.498.745" username="samuel">	
+			<player>	
+				<character>NativeAmerican</character>
+				<ip_address>1983.792.325</ip_address>
+				<username>TheUltimateBro</username>
 				<ready>true</ready>
 				<score>0</score>
 				<comets>0</comets>
@@ -99,7 +87,10 @@
 			</player>
 		</game>
 <game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
-			<player character="ZZZ" ip_address="1983.498.745" username="jane">
+			<player>
+				<character>Ora Uhlsax</character>
+				<ip_address>1983.492.345</ip_address>
+				<username>Gina</username>
 				<ready>true</ready>
 				<score>0</score>
 				<comets>0</comets>
@@ -110,7 +101,10 @@
 				<notifications>
 				</notifications>
 			</player>
-			<player character="Whatup" ip_address="1983.498.745" username="samuel">	
+			<player>	
+				<character>Gigolo</character>
+				<ip_address>1683.492.745</ip_address>
+				<username>ZzZ</username>
 				<ready>true</ready>
 				<score>0</score>
 				<comets>0</comets>
@@ -123,7 +117,10 @@
 			</player>
 		</game>
 <game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
-			<player character="OU" ip_address="1983.498.745" username="jane">
+			<player>
+				<character>Earth</character>
+				<ip_address>1983.492.746</ip_address>
+				<username>Katrina</username>
 				<ready>true</ready>
 				<score>0</score>
 				<comets>0</comets>
@@ -134,7 +131,40 @@
 				<notifications>
 				</notifications>
 			</player>
-			<player character="Gigolo" ip_address="1983.498.745" username="samuel">	
+			<player>	
+				<character>Neslaou</character>
+				<ip_address>1983.492.741</ip_address>
+				<username>YourMom</username>
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				</notifications>
+			</player>
+		</game>
+		<game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
+			<player>
+				<character>Ora Uhlsax</character>
+				<ip_address>1983.298.745</ip_address>
+				<username>Sarah</username>
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				</notifications>
+			</player>
+			<player>	
+				<character>Gigolo</character>
+				<ip_address>1983.458.745</ip_address>
+				<username>Jakelyn</username>
 				<ready>false</ready>
 				<score>0</score>
 				<comets>0</comets>
@@ -147,7 +177,10 @@
 			</player>
 		</game>
 		<game max_players="2" remaining_time="0:30" title="Planet of the Apes" total_time="0:30">
-			<player character="planet1" ip_address="1983.498.745" username="jane">
+			<player>
+				<character>Ora Uhlsax</character>
+				<ip_address>1983.492.745</ip_address>
+				<username>Jane</username>
 				<score>50000</score>
 				<comets>30</comets>
 				<deaths>4</deaths>
@@ -160,7 +193,10 @@
 					<notification>Good game!</notification>
 				</notifications>
 			</player>
-			<player character="planet3" ip_address="1983.498.745" username="samuel">
+			<player>
+				<character>Earth</character>
+				<ip_address>1983.493.745</ip_address>
+				<username>Samuel</username>
 				<score>50000</score>
 				<comets>30</comets>
 				<deaths>4</deaths>
