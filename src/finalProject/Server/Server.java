@@ -143,6 +143,7 @@ public class Server extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		new ActiveGameCountdown(doc);
+		new WaitPlayersReady(doc);
 	}
 
 	public synchronized String processMsg(String msgReceived, ClientHandler ch) {

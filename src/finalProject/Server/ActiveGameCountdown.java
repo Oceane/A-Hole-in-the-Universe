@@ -46,7 +46,6 @@ public class ActiveGameCountdown extends Thread{
 						else{
 							gamesHistoryNode.insertBefore(gameNode, gamesHistoryNode.getFirstChild());
 						}
-						//gameNode.getParentNode().removeChild(gameNode);
 					}	
 				}
 				
