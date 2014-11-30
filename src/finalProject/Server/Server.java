@@ -131,6 +131,8 @@ public class Server extends JFrame implements Runnable {
 			db = dbf.newDocumentBuilder();
 			doc = db.parse(new File(DB));
 			doc.getDocumentElement().normalize();
+			new ActiveGameCountdown(doc);
+			new WaitPlayersReady(doc);
 		} catch (ParserConfigurationException e1) {
 			e1.printStackTrace();
 		} catch (MalformedURLException e) {
@@ -142,8 +144,6 @@ public class Server extends JFrame implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		new ActiveGameCountdown(doc);
-		new WaitPlayersReady(doc);
 	}
 
 	public synchronized String processMsg(String msgReceived, ClientHandler ch) {
@@ -296,7 +296,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String getNotificationAtIndex(String ip, int index){
 		String msg = "NOTIFICATION_GET FAILURE";
 		
-		Document p = (Document) getPlayerNode(ip);
+		Element p = getPlayerElement(ip);
 		if(p!=null){
 			NodeList nList = p.getElementsByTagName("notification");
 			if(nList.getLength()>= index){
@@ -310,7 +310,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String getNumNotifications(String ip){
 		String msg = "NOTIFICATIONS_GET_NUM FAILURE";
 		
-		Document p = (Document) getPlayerNode(ip);
+		Element p = getPlayerElement(ip);
 		int numNotes = 0;
 		if(p != null){
 			numNotes = p.getElementsByTagName("notification").getLength();
@@ -320,8 +320,8 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 	
-	public synchronized static Node getPlayerNode(String ip){
-		Node n = null;
+	public synchronized static Element getPlayerElement(String ip){
+		Element n = null;
 		
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
@@ -335,15 +335,15 @@ public class Server extends JFrame implements Runnable {
 		return n;
 	}
 	
-	public synchronized static Node getGameNode(String ip){
-		Node n = null;
+	public synchronized static Element getGameElement(String ip){
+		Element n = null;
 		
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element)nList.item(i);
 			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
 			if (ip.equals(uIP)){
-				return myEl.getParentNode();
+				return (Element)myEl.getParentNode();
 			}
 		}
 		
@@ -390,8 +390,8 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 	
-	public synchronized static NodeList getPlayersFromGame(Node g){
-		return g.getChildNodes();
+	public synchronized static NodeList getPlayersFromGame(Element g){
+		return g.getElementsByTagName("player");
 	}
 	
 	public synchronized static String deleteGame(String ip){
@@ -399,7 +399,7 @@ public class Server extends JFrame implements Runnable {
 		
 		boolean flag = true;
 		//get node
-		Node g = getGameNode(ip);
+		Element g = getGameElement(ip);
 		if(g!=null){
 			//move players
 			NodeList players = getPlayersFromGame(g);
