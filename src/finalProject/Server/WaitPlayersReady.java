@@ -28,6 +28,9 @@ public class WaitPlayersReady extends Thread{
 			synchronized(this.doc){
 				//For each game under the games_available node, check to see if all the player ready states are true.
 				//If they are all true, move the game to the games_active node.
+				if(((Element)this.doc.getElementsByTagName("games_available").item(0)).getChildNodes() == null){
+					continue;
+				}
 				NodeList gamesAvailable = ((Element)this.doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game");
 				for(int i=0; i<gamesAvailable.getLength(); i++){
 					NodeList players = ((Element)(gamesAvailable.item(i))).getElementsByTagName("player");

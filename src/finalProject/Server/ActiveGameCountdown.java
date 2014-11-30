@@ -20,6 +20,9 @@ public class ActiveGameCountdown extends Thread{
 				synchronized(this.doc){
 					//Decrement all active game times by 1 second:
 					NodeList activeList = this.doc.getElementsByTagName("games_active");
+					if(((Element)activeList.item(0)).getChildNodes() == null){
+						continue;
+					}
 					NodeList gamesList = ((Element)activeList.item(0)).getElementsByTagName("game");
 					for(int i=0; i<gamesList.getLength(); i++){
 						Node gameNode = (Node)gamesList.item(i);
