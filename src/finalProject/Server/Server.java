@@ -211,6 +211,9 @@ public class Server extends JFrame implements Runnable {
 			case "GET_NUM_PLAYERS_AVAILABLE":
 				msgSend = getNumPlayersAvailable();
 				break;
+			case "GET_NUM_GAMES_AVAILABLE":
+				msgSend = getNumGamesAvailable();
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -297,11 +300,29 @@ public class Server extends JFrame implements Runnable {
 		return n;
 	}
 	
+	public synchronized static String getNumGamesAvailable(){
+		String msg = "GET_NUM_GAMES_AVAILABLE FAILURE";
+		
+		int numGames = 0;
+		boolean flag = true;
+		NodeList nList = doc.getElementsByTagName("game");
+		for (int i = 0; i < nList.getLength(); i++) {
+			flag = false;
+			if(nList.item(i).getParentNode().toString().equals("games_available"))
+				numGames++;
+			flag = true;
+		}
+		
+		if(flag) msg = "GET_NUM_GAMES_AVAILABLE "+ numGames;
+		
+		return msg;
+	}
+	
 	public synchronized static String getNumPlayersAvailable(){
 		String msg = "GET_NUM_PLAYERS_AVAILABLE FAILURE";
 		
 		int count = 0;
-		boolean flag = false;
+		boolean flag = true;
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			flag = false;
