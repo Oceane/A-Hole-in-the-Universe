@@ -217,6 +217,10 @@ public class Server extends JFrame implements Runnable {
 			case "GET_NUM_GAMES_ACTIVE":
 				msgSend = getNumGamesActive();
 				break;
+			//Chat
+			case "NOTIFICATIONS_GET_NUM":
+				msgSend = getNumNotifications(sIP);
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -286,6 +290,34 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public synchronized static String getNumNotifications(String ip){
+		String msg = "NOTIFICATIONS_GET_NUM FAILURE";
+		
+		Document p = (Document) getPlayerNode(ip);
+		int numNotes = 0;
+		if(p != null){
+			numNotes = p.getElementsByTagName("notification").getLength();
+			msg = "NOTIFICATIONS_GET_NUM " + numNotes;
+		}
+		
+		return msg;
+	}
+	
+	public synchronized static Node getPlayerNode(String ip){
+		Node n = null;
+		
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (ip.equals(uIP)){
+				return myEl;
+			}
+		}
+		
+		return n;
 	}
 	
 	public synchronized static Node getGameNode(String ip){
