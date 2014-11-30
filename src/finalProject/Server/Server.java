@@ -214,6 +214,9 @@ public class Server extends JFrame implements Runnable {
 			case "GET_NUM_GAMES_AVAILABLE":
 				msgSend = getNumGamesAvailable();
 				break;
+			case "GET_NUM_GAMES_ACTIVE":
+				msgSend = getNumGamesActive();
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -298,6 +301,22 @@ public class Server extends JFrame implements Runnable {
 		}
 		
 		return n;
+	}
+	
+	public synchronized static String getGameAvailable(String gameIndex){
+		return "";
+	}
+	
+	public synchronized static String getNumGamesActive(){
+		String msg = "GET_NUM_GAMES_ACTIVE FAILURE";
+		
+		int numGames = 0;
+		Element gamesActive = (Element)doc.getElementsByTagName("games_active").item(0);
+		if(gamesActive != null){
+			numGames = gamesActive.getElementsByTagName("game").getLength();
+			msg = "GET_NUM_GAMES_ACTIVE " + numGames;
+		}
+		return msg;
 	}
 	
 	public synchronized static String getNumGamesAvailable(){
