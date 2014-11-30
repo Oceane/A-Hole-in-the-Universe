@@ -199,6 +199,9 @@ public class Server extends JFrame implements Runnable {
 			case "CREATE_GAME":
 				msgSend = createGame(sIP,uScan.next(),uScan.next(),uScan.next());
 				break;
+			case "DELETE_GAME":
+				msgSend = deleteGame(uScan.next());
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -267,6 +270,48 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public synchronized static Node getGameNode(String ip){
+		Node n = null;
+		
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (ip.equals(uIP)){
+				return myEl.getParentNode();
+			}
+		}
+		
+		return n;
+	}
+	
+	public synchronized static NodeList getPlayersFromGame(Node g){
+		return g.getChildNodes();
+	}
+	
+	public synchronized static String deleteGame(String ip){
+		String msg = "DELETE_GAME FAILURE";
+		
+		boolean flag = false;
+		//get node
+		Node g = getGameNode(ip);
+		if(g!=null){
+			//move players
+			NodeList players = getPlayersFromGame(g);
+			for(int i = 0; i < players.getLength(); i++){
+				Element myEl = (Element)players.item(i);
+				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+				leaveGame(uIP);
+			}
+			
+			//remove game
+			g.getParentNode().removeChild(g);
+			flag = true;
+			if(flag && writeToXML()) msg = "DELETE_GAME SUCCESS";
+		}
+		return msg;
 	}
 	
 	public synchronized static String createGame(String uIP, String title, String numMin, String numPla){
