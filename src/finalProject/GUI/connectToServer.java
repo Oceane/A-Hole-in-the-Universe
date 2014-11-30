@@ -23,104 +23,102 @@ import javax.swing.JPanel;
 import finalProject.Client.Client;
 
 public class connectToServer extends JFrame {
-	
-	//Server's IP address stored as String value
+
+	// Server's IP address stored as String value
 	public static String serverIPAddress = null;
-	
-	//constructor for connectToServer GUI
-	public connectToServer(){
+
+	// constructor for connectToServer GUI
+	public connectToServer() {
 		super("Connect to Server");
 		setSize(950, 650);
 		setLocationRelativeTo(null);
 
-		//adds new instance of ImagePanel that will add all components to the frame
-		int rand = (int)(Math.random()*10)+1;
-<<<<<<< HEAD
-=======
+		// adds new instance of ImagePanel that will add all components to the
+		// frame
+		int rand = (int) (Math.random() * 10) + 1;
 		System.out.println(rand);
->>>>>>> origin/master
-		add(new ImagePanel("Backgrounds/universe"+rand+".jpg"));
-		
+		add(new ImagePanel("Backgrounds/universe" + rand + ".jpg"));
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		
+
 	}
 
-    public static String getServerIp(){
-    	return serverIPAddress;
-    }
-	
-	public static class ImagePanel extends JPanel {
+	public static String getServerIp() {
+		return serverIPAddress;
+	}
 
-        BufferedImage img;
-        BufferedImage planet;
- 
-        //constructor for ImagePanel- takes name of file and constructs a background image by adding it to a JLabel.
-        ImagePanel(String name) {
-            this.add(new JLabel(name));
-            try {
-                img = ImageIO.read(new File(name));
-                planet = ImageIO.read(new File(name));
-                this.setPreferredSize(new Dimension(
-                    img.getWidth(), img.getHeight()));
-                this.setPreferredSize(new Dimension(planet.getWidth(),planet.getHeight()));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            
-            
-    		JButton quitButton = new JButton("Quit");
-    		quitButton.setSize(160,50);
-    		quitButton.setLocation(550,500);
-    		quitButton.setFont(new Font("Avineer", Font.PLAIN, 15));
-    		
-    		JButton connectToServerButton = new JButton("Connect to Server");
-    		connectToServerButton.setSize(160,50);
-    		connectToServerButton.setLocation(300,500);
-    		connectToServerButton.setFont(new Font("Avineer", Font.PLAIN, 15));
-    		
-    		//quit button exits the application once clicked
-    		quitButton.addActionListener(new ActionListener(){
-    			public void actionPerformed(ActionEvent ae){
-    				System.exit(0);
-    			}
-    				
-    			});
-    		
-    		//connect to server button opens a JOptionPane when clicked to prompt the user for a Server IP address
-    		connectToServerButton.addActionListener(new ActionListener(){
-    			public void actionPerformed(ActionEvent ae){
-    				serverIPAddress = JOptionPane.showInputDialog(ImagePanel.this,"Please enter"
-    						+ " the Server IP address: ","Connect to Server",
-    				JOptionPane.QUESTION_MESSAGE);
-    				if(Client.connect(serverIPAddress)){
-    					//Open the start and dispose the current
-    					System.exit(0);
-    					new Start();
-    				} else {
-    					JOptionPane.showMessageDialog(null, "You have entered the wrong IP Address.", "Connection Unsuccessful", JOptionPane.WARNING_MESSAGE);
-    				}
-    				}
-    				
-    			});
-    		
-    		setLayout(null);
-    		this.add(quitButton);
-    		this.add(connectToServerButton);    
-        }
-        
-        protected void paintComponent(Graphics g) {
-        	//draws background image onto frame
-        	 g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
-        	 
-        	 g.setColor(Color.WHITE);
-             g.setFont(new Font("Avineer", Font.PLAIN, 40));
-             g.drawString("Connect to Server", 300,250);}
-        }
+	public class ImagePanel extends JPanel {
 
-public static void main (String [] args){
-	//creates new instance of connectToServer
-	connectToServer instance = new connectToServer();}
+		BufferedImage img;
+		BufferedImage planet;
+
+		// constructor for ImagePanel- takes name of file and constructs a
+		// background image by adding it to a JLabel.
+		ImagePanel(String name) {
+			this.add(new JLabel(name));
+			try {
+				img = ImageIO.read(new File(name));
+				planet = ImageIO.read(new File(name));
+				this.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
+				this.setPreferredSize(new Dimension(planet.getWidth(), planet.getHeight()));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			JButton quitButton = new JButton("Quit");
+			quitButton.setSize(160, 50);
+			quitButton.setLocation(550, 500);
+			quitButton.setFont(new Font("Avineer", Font.PLAIN, 15));
+
+			JButton connectToServerButton = new JButton("Connect to Server");
+			connectToServerButton.setSize(160, 50);
+			connectToServerButton.setLocation(300, 500);
+			connectToServerButton.setFont(new Font("Avineer", Font.PLAIN, 15));
+
+			// quit button exits the application once clicked
+			quitButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					System.exit(0);
+				}
+
+			});
+
+			// connect to server button opens a JOptionPane when clicked to
+			// prompt the user for a Server IP address
+			connectToServerButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					serverIPAddress = JOptionPane.showInputDialog(ImagePanel.this, "Please enter" + " the Server IP address: ", "Connect to Server", JOptionPane.QUESTION_MESSAGE);
+					if (Client.connect(serverIPAddress)) {
+						// Open the start and dispose the current
+						new Start();
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "You have entered the wrong IP Address.", "Connection Unsuccessful", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+
+			});
+
+			setLayout(null);
+			this.add(quitButton);
+			this.add(connectToServerButton);
+		}
+
+		protected void paintComponent(Graphics g) {
+			// draws background image onto frame
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Avineer", Font.PLAIN, 40));
+			g.drawString("Connect to Server", 300, 250);
+		}
+	}
+
+	public static void main(String[] args) {
+		// creates new instance of connectToServer
+		new connectToServer();
+	}
 }
