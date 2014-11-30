@@ -307,7 +307,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String joinGame(String ip, int index){
 		String msg = "JOIN_GAME FAILURE";
 		
-		Element p = getPlayerElement(ip);
+		Element p = getPlayerElement(ip, false);
 		Element r = (Element) p.getParentNode();
 		Element game = (Element) doc.getElementsByTagName("games_available").item(index);
 		
@@ -323,7 +323,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String getPlayerIndex(String ip){
 		String msg = "GET_PLAYER_INDEX FAILURE";
 		
-		Element p = getPlayerElement(ip);
+		Element p = getPlayerElement(ip, true);
 		Element r = (Element) p.getParentNode();
 		NodeList nList = r.getChildNodes();
 		for(int i = 0; i < nList.getLength(); i++){
@@ -355,7 +355,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String notifyPlayer(String ip, int playerIndex, String msgChat){
 		String msg = "NOTIFY_PLAYER FAILURE";
 		
-		Element sender = getPlayerElement(ip);
+		Element sender = getPlayerElement(ip, true);
 		if(sender != null){
 			Element parent = (Element) sender.getParentNode();
 			Element player = (Element) parent.getElementsByTagName("player").item(playerIndex);
@@ -376,7 +376,7 @@ public class Server extends JFrame implements Runnable {
 		boolean flag = true;
 		
 		//create Message
-		Element p = getPlayerElement(ip);
+		Element p = getPlayerElement(ip, true);
 		String Vorname = p.getElementsByTagName("username").item(0).toString();
 		msgChat = Vorname +": " + msgChat;
 		
@@ -411,7 +411,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String getNotificationAtIndex(String ip, int index){
 		String msg = "NOTIFICATION_GET FAILURE";
 		
-		Element p = getPlayerElement(ip);
+		Element p = getPlayerElement(ip, true);
 		if(p!=null){
 			NodeList nList = p.getElementsByTagName("notification");
 			if(nList.getLength()>= index){
@@ -425,7 +425,7 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String getNumNotifications(String ip){
 		String msg = "NOTIFICATIONS_GET_NUM FAILURE";
 		
-		Element p = getPlayerElement(ip);
+		Element p = getPlayerElement(ip, true);
 		int numNotes = 0;
 		if(p != null){
 			numNotes = p.getElementsByTagName("notification").getLength();
@@ -435,7 +435,7 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 	
-	public synchronized static Element getPlayerElement(String ip){
+	public synchronized static Element getPlayerElement(String ip, boolean history){
 		Element n = null;
 		
 		NodeList nList = doc.getElementsByTagName("player");
@@ -443,7 +443,11 @@ public class Server extends JFrame implements Runnable {
 			Element myEl = (Element)nList.item(i);
 			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
 			if (ip.equals(uIP)){
-				return myEl;
+				if(history)
+					return myEl;
+				else if(!myEl.getParentNode().toString().equals("games_history")){
+					return myEl; //if player is not in games_history
+				}
 			}
 		}
 		
