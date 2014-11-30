@@ -188,7 +188,7 @@ public class Server extends JFrame implements Runnable {
 				msgSend = readyGame(sIP);
 				break;
 			case "LEAVE_SCOREBOARD":
-				
+				msgSend = leaveScoreboard(sIP);
 				break;
 		}
 		
@@ -258,7 +258,42 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		isUsernameNotTaken("Bobby");
+	}
+	
+	public synchronized static String leaveScoreboard(String ip){
+		String msg = "LEAVE_SCOREBOARD FAILURE";
+		
+		boolean flag = false;
+		NodeList nList = doc.getElementsByTagName("player");
+		for (int i = 0; i < nList.getLength(); i++) {
+			Element myEl = (Element)nList.item(i);
+			if(nList.item(i).getParentNode().getParentNode().toString().contains("games_history")){
+				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+				if (ip.equals(uIP)){
+					//reset info
+					myEl.getElementsByTagName("score").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("comets").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("deaths").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("powerups").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0+"");
+					myEl.getElementsByTagName("ready").item(0).setTextContent("false");
+					
+					//Move player
+					NodeList mList = doc.getElementsByTagName("players_available");
+					mList.item(0).appendChild(myEl);
+					nList.item(i).getParentNode().removeChild(nList.item(i));
+					
+					flag = true;
+
+					break;
+				}
+			}
+		}
+		
+		if(flag && writeToXML()) msg = "LEAVE_SCOREBOARD SUCCESS";
+		
+		return msg;
 	}
 	
 	public synchronized static String readyGame(String ip){
