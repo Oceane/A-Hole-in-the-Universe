@@ -51,10 +51,9 @@ public class ActiveGameCountdown extends Thread{
 								gamesHistoryNode.insertBefore(gameNode, gamesHistoryNode.getFirstChild());
 							}
 						}	
+						//Write all the changes to the XML file and update the display:
+						Server.writeToXML();
 					}
-					
-					//Write all the changes to the XML file and update the display:
-					Server.writeToXML();
 				}
 			}
 		} catch (InterruptedException e) {
