@@ -191,7 +191,7 @@ public class Server extends JFrame implements Runnable {
 				msgSend = setPlayerInfo(sIP, uScan);
 				break;
 			case "JOIN_GAME":
-				//msgSend = joinGame(sIP,uScan.next());
+				msgSend = joinGame(sIP,uScan.nextInt());
 				break;
 			case "READY_GAME":
 				msgSend = readyGame(sIP);
@@ -302,6 +302,22 @@ public class Server extends JFrame implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public synchronized static String joinGame(String ip, int index){
+		String msg = "JOIN_GAME FAILURE";
+		
+		Element p = getPlayerElement(ip);
+		Element r = (Element) p.getParentNode();
+		Element game = (Element) doc.getElementsByTagName("games_available").item(index);
+		
+		//add p to game
+		game.appendChild(p);
+		
+		//remove p from r
+		r.removeChild(p);
+		
+		return msg;
 	}
 	
 	public synchronized static String getPlayerIndex(String ip){
