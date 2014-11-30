@@ -227,6 +227,9 @@ public class Server extends JFrame implements Runnable {
 			case "NOTIFY_ALL":
 				msgSend = notifyAll(sIP, uScan.nextLine());
 				break;
+			case "NOTIFY_PLAYER":
+				msgSend = notifyPlayer(sIP, uScan.nextInt(), uScan.nextLine());
+				break;
 		}
 		
 		// Print msg transaction to the screen:
@@ -297,6 +300,25 @@ public class Server extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		System.out.println(getNotificationAtIndex("1983.498.746", 4));
+	}
+	
+	public synchronized static String notifyPlayer(String ip, int playerIndex, String msgChat){
+		String msg = "NOTIFY_PLAYER FAILURE";
+		
+		Element sender = getPlayerElement(ip);
+		if(sender != null){
+			Element parent = (Element) sender.getParentNode();
+			Element player = (Element) parent.getElementsByTagName("player").item(playerIndex);
+			if(player != null){
+				msgChat = sender.getElementsByTagName("username").item(0).toString() + ": "+msgChat;
+				if(sendChatMessage(msgChat, sender) && sendChatMessage(msgChat, player)){
+					if(writeToXML())
+						msg = "NOTIFY_PLAYER SUCCESS";
+				}
+			}
+		}
+		
+		return msg;
 	}
 	
 	public synchronized static String notifyAll(String ip, String msgChat){
