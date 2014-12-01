@@ -15,24 +15,12 @@
 			<notifications>
 			</notifications>
 		</player>
-		<player>
-			<character>Earth</character>
-			<ip_address>1983.498.745</ip_address>
-			<username>Sandy</username>
-			<ready>false</ready>
-			<score>0</score>
-			<comets>0</comets>
-			<deaths>0</deaths>
-			<powerups>0</powerups>
-			<max_spin>0</max_spin>
-			<max_vel>0</max_vel>
-			<notifications>
-			</notifications>
-		</player>
-	<player>
-<username>Bobby</username>
+
+
+<player>
+<username>Hey</username>
 <character>Neslaou</character>
-<ip_address>100</ip_address>
+<ip_address>/127.0.0.1:56000</ip_address>
 <ready>false</ready>
 <score>0</score>
 <comets>0</comets>
@@ -42,18 +30,49 @@
 <max_vel>0</max_vel>
 <notifications/>
 </player>
-
-
-
-
-
-
-
-
 <player>
-<username>Geoff</username>
+<username>Horse</username>
 <character>Neslaou</character>
-<ip_address>/127.0.0.1:55350</ip_address>
+<ip_address>/127.0.0.1:56003</ip_address>
+<ready>false</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+<player>
+<username>Tea</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56011</ip_address>
+<ready>false</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+<player>
+<username>Yep</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56017</ip_address>
+<ready>false</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+<player>
+<username>Howdy</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56039</ip_address>
 <ready>false</ready>
 <score>0</score>
 <comets>0</comets>
@@ -66,77 +85,122 @@
 </players_available>
 
 	<games_available>
-		<game max_players="2" remaining_time="0:30" title="PlanetoftheApes" total_time="0:30">
-			<player>
-				<character>Neslaou</character>
-				<ip_address>2982.492.666</ip_address>
-				<username>SantasLittleHelper</username>
-				<ready>false</ready>
-				<score>0</score>
-				<comets>0</comets>
-				<deaths>0</deaths>
-				<powerups>0</powerups>
-				<max_spin>0</max_spin>
-				<max_vel>0</max_vel>
-				<notifications>
-				</notifications>
-			</player>
-			<player>	
-				<character>NativeAmerican</character>
-				<ip_address>1983.792.325</ip_address>
-				<username>TheUltimateBro</username>
-				<ready>false</ready>
-				<score>0</score>
-				<comets>0</comets>
-				<deaths>0</deaths>
-				<powerups>0</powerups>
-				<max_spin>0</max_spin>
-				<max_vel>0</max_vel>
-				<notifications>
-				</notifications>
-			</player>
-		</game>
-		<game max_players="2" remaining_time="0:30" title="WhenWillGameEnd" total_time="0:30">
-			<player>
-				<character>Neslaou</character>
-				<ip_address>2982.492.666</ip_address>
-				<username>AnotherPlayer1</username>
-				<ready>false</ready>
-				<score>0</score>
-				<comets>0</comets>
-				<deaths>0</deaths>
-				<powerups>0</powerups>
-				<max_spin>0</max_spin>
-				<max_vel>0</max_vel>
-				<notifications>
-				</notifications>
-			</player>
-			<player>	
-				<character>NativeAmerican</character>
-				<ip_address>1983.792.325</ip_address>
-				<username>AnotherPlayer2</username>
-				<ready>false</ready>
-				<score>0</score>
-				<comets>0</comets>
-				<deaths>0</deaths>
-				<powerups>0</powerups>
-				<max_spin>0</max_spin>
-				<max_vel>0</max_vel>
-				<notifications>
-				</notifications>
-			</player>
-		</game>
-<game max_players="2" remaining_time="1:00" title="Hello" total_time="1:00"/>
-<game max_players="2" remaining_time="1:00" title="NewGame" total_time="1:00"/>
-<game max_players="3" remaining_time="1:00" title="NewGame" total_time="1:00"/>
-<game max_players="3" remaining_time="1:00" title="NewGame" total_time="1:00"/>
-<game max_players="2" remaining_time="1:00" title="What'sUp" total_time="1:00"/>
+		
+<game max_players="2" remaining_time="1:00" title="Hard" total_time="1:00">
+<player>
+<username>Yams</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56056</ip_address>
+<ready>false</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
 </games_available>
 
-	<games_active>	
+	<games_active>
+
+
+	
 	</games_active>
 
 	<games_history>
+<game max_players="2" remaining_time="0:0" title="Easy" total_time="1:00">
+<player>
+<username>Penguine</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56074</ip_address>
+<ready>true</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
+<game max_players="2" remaining_time="0:0" title="Yes" total_time="1:00">
+<player>
+<username>George</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56053</ip_address>
+<ready>true</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
+<game max_players="2" remaining_time="0:0" title="Hello" total_time="1:00">
+<player>
+<username>Happy</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56048</ip_address>
+<ready>true</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
+<game max_players="2" remaining_time="0:0" title="NewGame" total_time="1:00">
+<player>
+<username>Jerrry</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56045</ip_address>
+<ready>true</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
+<game max_players="2" remaining_time="0:0" title="PlanetoftheApes" total_time="1:00">
+			
+			
+		
+<player>
+<username>Fun</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56013</ip_address>
+<ready>true</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+<player>
+<username>Geoff</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:56034</ip_address>
+<ready>true</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
 
 	</games_history>
 </document>

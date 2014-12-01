@@ -55,6 +55,7 @@ public class WaitGameCreatorGUI extends JFrame {
 			initializeComponents();
 			positionComponents();
 			addActionListeners();
+			new Thread(this).start();
 		}
 
 		private void initializeComponents() {
@@ -111,15 +112,6 @@ public class WaitGameCreatorGUI extends JFrame {
 					String sMaxVel = uScan.next();
 					Client.sendMsg("SET_PLAYER_INFO " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel);
 					uScan.close();
-					
-					//Check to see if the player is in an active game:
-					uScan = new Scanner(Client.sendMsg("GET_PLAYER_STATUS"));
-					uScan.next();
-					String status = uScan.next();
-					if(status == "ACTIVE"){
-						new GameUI();
-						dispose();
-					}
 				}
 			});
 		}
@@ -146,11 +138,9 @@ public class WaitGameCreatorGUI extends JFrame {
 			String sMsg;
 			
 			while(true){
-			//Update the list boxes every second:
+			//Update the list box every second:
 				//Thread.sleep(1000);
 				//Update the players in game:
-					vPlayersInGameUsernames.clear();
-					vPlayersInGameCharacters.clear();
 					//Get the game index:
 					uScan = new Scanner(Client.sendMsg("GET_PLAYER_GAME_INDEX"));
 					uScan.next();
@@ -158,17 +148,39 @@ public class WaitGameCreatorGUI extends JFrame {
 					if(nGameIndex < 0){
 						continue;
 					}
-					uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_NUM_PLAYERS " + nGameIndex));
+					sMsg = Client.sendMsg("GET_GAME_AVAILABLE_NUM_PLAYERS " + nGameIndex);
+					if(sMsg.equals("GET_GAME_AVAILABLE_NUM_PLAYERS FAILURE")){
+						continue;
+					}
+					vPlayersInGameUsernames.clear();
+					vPlayersInGameCharacters.clear();
+					uScan.close();
+					uScan = new Scanner(sMsg);
 					uScan.next();
 					int nNumPlayersInGame = Integer.parseInt(uScan.next());
+					uScan.close();
 					for(int i=0; i<nNumPlayersInGame; i++){
-						uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_PLAYER " + nGameIndex + " " + i));
+						sMsg = Client.sendMsg("GET_GAME_AVAILABLE_PLAYER " + nGameIndex + " " + i);
+						if(sMsg.equals("GET_GAME_AVAILABLE_PLAYER FAILURE")){
+							continue;
+						}
+						uScan = new Scanner(sMsg);
 						uScan.next();
 						vPlayersInGameUsernames.add(uScan.next());
 						vPlayersInGameCharacters.add(uScan.next());
+						uScan.close();
 					}
 					populateListStrings(uModelPlayersInGame, vPlayersInGameUsernames, vPlayersInGameCharacters);
-					uScan.close();
+					
+					//Check to see if the player is in an active game:
+					uScan = new Scanner(Client.sendMsg("GET_PLAYER_STATUS"));
+					uScan.next();
+					String status = uScan.next();
+					System.out.println(status);
+					if(status == "ACTIVE"){
+						new GameUI();
+						dispose();
+					}
 			}
 		}
 	}

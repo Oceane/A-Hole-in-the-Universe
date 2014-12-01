@@ -25,6 +25,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -257,6 +258,7 @@ public class Server extends JFrame implements Runnable {
 		// Print msg transaction to the screen:
 		uTextAreaMsg.append((nNumLine++) + ". CMD: " + msgReceived + "\n");
 		uTextAreaMsg.append((nNumLine++) + ". ECHO: " + msgSend + "\n");
+		uScrollPaneMsg.scrollRectToVisible(new Rectangle(0, uTextAreaMsg.getHeight()-2,1,1));
 
 		// Update the display of the database after modifications have been made:
 		updateDBDisplay();
@@ -325,13 +327,13 @@ public class Server extends JFrame implements Runnable {
 
 		Element p = getPlayerElement(ip, false);
 		Element r = (Element) p.getParentNode();
-		Element game = (Element) doc.getElementsByTagName("games_available").item(index);
+		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(index);
 
+		if(game != null){
 		// add p to game
 		game.appendChild(p);
-
-		// remove p from r
-		r.removeChild(p);
+		msg = "JOIN_GAME SUCCESS";
+		}
 
 		return msg;
 	}
@@ -357,7 +359,7 @@ public class Server extends JFrame implements Runnable {
 
 		Element g = getGameElement(ip);
 		Element r = (Element) g.getParentNode();
-		NodeList nList = r.getChildNodes();
+		NodeList nList = r.getElementsByTagName("game"); //left off here
 		for (int i = 0; i < nList.getLength(); i++) {
 			if (nList.item(i).equals(g)) {
 				msg = "GET_PLAYER_GAME_INDEX " + i;
@@ -475,15 +477,12 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static Element getGameElement(String ip) {
 		Element n = null;
 
-		NodeList nList = doc.getElementsByTagName("player");
-		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element) nList.item(i);
-			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)) {
-				return (Element) myEl.getParentNode();
-			}
+		Element player = getPlayerElement(ip, false);
+		if(player != null){
+			Element game = (Element)player.getParentNode();
+			return game;
 		}
-
+			
 		return n;
 	}
 	
@@ -570,11 +569,13 @@ public class Server extends JFrame implements Runnable {
 		Element gamesAvailable = (Element) doc.getElementsByTagName("games_available").item(0);
 		if(gamesAvailable != null){
 			Element game = (Element)gamesAvailable.getElementsByTagName("game").item(nIndex);
-			String sTitle = game.getAttribute("title");
-			String sRemainingTime = game.getAttribute("remaining_time");
-			String sTotalTime = game.getAttribute("total_time");
-			String sMaxPlayers = game.getAttribute("max_players");
-			msg = "GET_GAME_AVAILABLE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
+			if(game != null){
+				String sTitle = game.getAttribute("title");
+				String sRemainingTime = game.getAttribute("remaining_time");
+				String sTotalTime = game.getAttribute("total_time");
+				String sMaxPlayers = game.getAttribute("max_players");
+				msg = "GET_GAME_AVAILABLE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
+			}
 		}
 		return msg;
 	}
@@ -597,9 +598,11 @@ public class Server extends JFrame implements Runnable {
 		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(nGameIndex);
 		if (game != null) {
 			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
-			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
-			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
-			msg = "GET_GAME_AVAILABLE_PLAYER " + sUsername + " " + sCharacter;
+			if(player != null){
+				String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
+				String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
+				msg = "GET_GAME_AVAILABLE_PLAYER " + sUsername + " " + sCharacter;
+			}
 		}
 		return msg;
 	}
@@ -633,9 +636,11 @@ public class Server extends JFrame implements Runnable {
 		Element playersAvailable = (Element) doc.getElementsByTagName("players_available").item(0);
 		if(playersAvailable != null){
 			Element player = (Element)playersAvailable.getElementsByTagName("player").item(nIndex);
-			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
-			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
-			msg = "GET_PLAYER_AVAILABLE " + sUsername + " " + sCharacter;
+			if(player != null){
+				String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
+				String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
+				msg = "GET_PLAYER_AVAILABLE " + sUsername + " " + sCharacter;
+			}
 		}
 		return msg;
 	}
@@ -745,18 +750,17 @@ public class Server extends JFrame implements Runnable {
 					// Move player
 					NodeList mList = doc.getElementsByTagName("players_available");
 					mList.item(0).appendChild(myEl);
-					nList.item(i).getParentNode().removeChild(nList.item(i));
-
+					//nList.item(i).getParentNode().removeChild(nList.item(i));
 					flag = true;
-
 					break;
 				}
 			}
 		}
 
-		if (flag && writeToXML())
+		if (flag && writeToXML()){
 			msg = "LEAVE_GAME SUCCESS";
-
+		}
+			
 		return msg;
 	}
 
@@ -883,6 +887,20 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_PLAYER_STATUS PLAYER_NOT_FOUND";
 
 		NodeList nList = doc.getElementsByTagName("player");
+		Element player = getPlayerElement(uIP, false);
+		if(nList != null && player != null){
+			if (player.getParentNode().toString().contains("players_available")) {
+				msg = "GET_PLAYER_STATUS AVAILABLE";
+			} else if (player.getParentNode().getParentNode().toString().contains("games_available")) {
+				msg = "GET_PLAYER_STATUS WAITING";
+			} else if (player.getParentNode().getParentNode().toString().contains("games_active")) {
+				msg = "GET_PLAYER_STATUS ACTIVE";
+			} else if (player.getParentNode().getParentNode().toString().contains("games_history")) {
+				msg = "GET_PLAYER_STATUS SCOREBOARD";
+			}
+		}
+		
+		/*
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
 			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
@@ -899,6 +917,7 @@ public class Server extends JFrame implements Runnable {
 				break;
 			}
 		}
+		*/
 
 		return msg;
 	}

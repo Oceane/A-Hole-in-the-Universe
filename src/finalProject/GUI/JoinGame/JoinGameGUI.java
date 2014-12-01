@@ -236,6 +236,11 @@ public class JoinGameGUI extends JFrame{
 			});
 			uButtonJoinGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
+					int nSelectedIndex = uListAvailableGames.getSelectedIndex();
+					if(nSelectedIndex < 0){
+						return;
+					}
+					joinGame(nSelectedIndex);
 					new WaitGameJoineeGUI();
 					dispose();
 				}
@@ -258,6 +263,11 @@ public class JoinGameGUI extends JFrame{
 						showGameCreateError();
 					}
 					else{
+						Scanner uScan = new Scanner(Client.sendMsg("GET_NUM_GAMES_AVAILABLE"));
+						uScan.next();
+						int nNumAvailableGames = Integer.parseInt(uScan.next());
+						joinGame(nNumAvailableGames - 1);
+						uScan.close();
 						new WaitGameCreatorGUI();
 						dispose();
 					}
@@ -315,7 +325,7 @@ public class JoinGameGUI extends JFrame{
 		
 		private boolean joinGame(int nGameIndex){
 			String msg = Client.sendMsg("JOIN_GAME " + nGameIndex);
-			if(msg == "JOIN_GAME SUCCESS"){
+			if(msg.equals("JOIN_GAME SUCCESS")){
 				return true;
 			}
 			else{
@@ -336,11 +346,17 @@ public class JoinGameGUI extends JFrame{
 					uScan = new Scanner(Client.sendMsg("GET_NUM_PLAYERS_AVAILABLE"));
 					uScan.next();
 					int nNumAvailablePlayers = Integer.parseInt(uScan.next());
+					uScan.close();
 					for(int i=0; i<nNumAvailablePlayers; i++){
-						uScan = new Scanner(Client.sendMsg("GET_PLAYER_AVAILABLE " + i));
+						sMsg = Client.sendMsg("GET_PLAYER_AVAILABLE " + i);
+						if(sMsg.equals("GET_PLAYER_AVAILABLE FAILURE")){
+							continue;
+						}
+						uScan = new Scanner(sMsg);
 						uScan.next();
 						vAvailablePlayersUsernames.add(uScan.next());
 						vAvailablePlayersCharacters.add(uScan.next());
+						uScan.close();
 					}
 					populateListStrings(uModelAvailablePlayers, vAvailablePlayersUsernames, vAvailablePlayersCharacters);
 				//Update the available games:
@@ -349,13 +365,19 @@ public class JoinGameGUI extends JFrame{
 					uScan = new Scanner(Client.sendMsg("GET_NUM_GAMES_AVAILABLE"));
 					uScan.next();
 					int nNumAvailableGames = Integer.parseInt(uScan.next());
+					uScan.close();
 					for(int i=0; i<nNumAvailableGames; i++){
-						uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE " + i));
+						sMsg = Client.sendMsg("GET_GAME_AVAILABLE " + i);
+						if(sMsg.equals("GET_GAME_AVAILABLE FAILURE")){
+							continue;
+						}
+						uScan = new Scanner(sMsg);
 						uScan.next();
 						vAvailableGamesTitles.add(uScan.next());
 						uScan.next();
 						String sTime = uScan.next();
 						vAvailableGamesTimes.add("" + sTime.substring(0, sTime.indexOf(":")));
+						uScan.close();
 					}
 					populateListGames(uModelAvailableGames, vAvailableGamesTitles, vAvailableGamesTimes);
 				//Update the players in game:
@@ -365,14 +387,24 @@ public class JoinGameGUI extends JFrame{
 					if(nGameIndex < 0){
 						continue;
 					}
-					uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_NUM_PLAYERS " + nGameIndex));
+					sMsg = Client.sendMsg("GET_GAME_AVAILABLE_NUM_PLAYERS " + nGameIndex);
+					if(sMsg.equals("GET_GAME_AVAILABLE_NUM_PLAYERS FAILURE")){
+						continue;
+					}
+					uScan = new Scanner(sMsg);
 					uScan.next();
 					int nNumPlayersInGame = Integer.parseInt(uScan.next());
+					uScan.close();
 					for(int i=0; i<nNumPlayersInGame; i++){
-						uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_PLAYER " + nGameIndex + " " + i));
+						sMsg = Client.sendMsg("GET_GAME_AVAILABLE_PLAYER " + nGameIndex + " " + i);
+						if(sMsg.equals("GET_GAME_AVAILABLE_PLAYER FAILURE")){
+							continue;
+						}
+						uScan = new Scanner(sMsg);
 						uScan.next();
 						vPlayersInGameUsernames.add(uScan.next());
 						vPlayersInGameCharacters.add(uScan.next());
+						uScan.close();
 					}
 					populateListStrings(uModelPlayersInGame, vPlayersInGameUsernames, vPlayersInGameCharacters);
 			}
