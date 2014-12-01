@@ -1,5 +1,6 @@
 package finalProject.GUI;
 import finalProject.Client.Client;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,12 +30,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import java.io.File;
 
 
-public class scoreBoardGUI extends JFrame {
+public class scoreboard extends JFrame {
 
-	
 	public static String serverIPAddress;
 	static String msg="GET_PLAYER_INFO";
 	
@@ -59,7 +63,7 @@ public class scoreBoardGUI extends JFrame {
 	public static String max_velP2;
 
 
-	public scoreBoardGUI() throws IOException{
+	public scoreboard() throws IOException{
 		setTitle("A Hole in the Universe");
 		setSize(950,650);
 		setLocationRelativeTo(null);
@@ -265,7 +269,7 @@ public class scoreBoardGUI extends JFrame {
 //main method creates instance of scoreBoardGUI()
 public static void main (String [] args) throws IOException, ParserConfigurationException, SAXException{
 	
-	scoreBoardGUI instance = new scoreBoardGUI();}
+	scoreboard instance = new scoreboard();}
 	
 }
 
