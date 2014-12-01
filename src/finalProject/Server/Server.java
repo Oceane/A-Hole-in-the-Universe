@@ -84,14 +84,12 @@ public class Server extends JFrame implements Runnable {
 	private static org.w3c.dom.Document doc = null;
 
 	public Server() throws HeadlessException, UnknownHostException {
-		super("A Hole In The Universe Server "
-				+ InetAddress.getLocalHost().getHostAddress());
+		super("A Hole In The Universe Server " + InetAddress.getLocalHost().getHostAddress());
 		setSize(1300, 700);
 		setLocationRelativeTo(null);
 		setLayout(new GridLayout(1, 2));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // The program will
-														// close when the window
-														// is closed
+		// The program will close when the window is closed
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		uClearButton = new JButton("Clear");
 		uScrollPaneMsg = new JScrollPane(uTextAreaMsg);
@@ -161,103 +159,101 @@ public class Server extends JFrame implements Runnable {
 		}
 		msgType = uScan.next();
 		switch (msgType) {
-			case "CREATE_PLAYER":
-				String sUsername = uScan.next();
-				String sCharacter = uScan.next();
-				if(isUsernameNotTaken(sUsername)){
-					//XML add player node goes here...
-					if(addUsernameToXML(sUsername,sCharacter,sIP))
-						msgSend = "CREATE_PLAYER SUCCESS";
-					else
-						msgSend = "CREATE_PLAYER FAILURE XML_ERROR";
-				}
-				else{
-					msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
-				}
-				break;
-			case "GET_PLAYER_STATUS":
-				msgSend = getPlayerStatus(sIP);
-				break;
-			case "GET_PLAYER_GAME_INDEX":
-				msgSend = getPlayerGameIndex(sIP);
-				break;
-			case "GET_PLAYER_INDEX":
-				msgSend = getPlayerIndex(sIP);
-				break;
-			case "GET_PLAYER_INFO":
-				msgSend = getPlayerInfo(sIP);
-				break;
-			case "SET_PLAYER_INFO":
-				msgSend = setPlayerInfo(sIP, uScan);
-				break;
-			case "JOIN_GAME":
-				msgSend = joinGame(sIP,uScan.nextInt());
-				break;
-			case "READY_GAME":
-				msgSend = readyGame(sIP);
-				break;
-			case "LEAVE_SCOREBOARD":
-				msgSend = leaveScoreboard(sIP);
-				break;
-			case "LEAVE_GAME":
-				msgSend = leaveGame(sIP);
-				break;
-			case "DISCONNECT":
-				msgSend = disconnect(sIP);
-				break;
-			case "CREATE_GAME":
-				msgSend = createGame(sIP,uScan.next(),uScan.next(),uScan.next());
-				break;
-			case "DELETE_GAME":
-				msgSend = deleteGame(uScan.next());
-				break;
-			case "GET_NUM_PLAYERS_AVAILABLE":
-				msgSend = getNumPlayersAvailable();
-				break;
-			case "GET_NUM_GAMES_AVAILABLE":
-				msgSend = getNumGamesAvailable();
-				break;
-			case "GET_NUM_GAMES_ACTIVE":
-				msgSend = getNumGamesActive();
-				break;
-			//Chat
-			case "NOTIFICATIONS_GET_NUM":
-				msgSend = getNumNotifications(sIP);
-				break;
-			case "NOTIFICATION_GET":
-				msgSend = getNotificationAtIndex(sIP, uScan.nextInt());
-				break;
-			case "NOTIFY_ALL":
-				msgSend = notifyAll(sIP, uScan.nextLine());
-				break;
-			case "NOTIFY_PLAYER":
-				msgSend = notifyPlayer(sIP, uScan.nextInt(), uScan.nextLine());
-				break;
+		case "CREATE_PLAYER":
+			String sUsername = uScan.next();
+			String sCharacter = uScan.next();
+			if (isUsernameNotTaken(sUsername)) {
+				// XML add player node goes here...
+				if (addUsernameToXML(sUsername, sCharacter, sIP))
+					msgSend = "CREATE_PLAYER SUCCESS";
+				else
+					msgSend = "CREATE_PLAYER FAILURE XML_ERROR";
+			} else {
+				msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
+			}
+			break;
+		case "GET_PLAYER_STATUS":
+			msgSend = getPlayerStatus(sIP);
+			break;
+		case "GET_PLAYER_GAME_INDEX":
+			msgSend = getPlayerGameIndex(sIP);
+			break;
+		case "GET_PLAYER_INDEX":
+			msgSend = getPlayerIndex(sIP);
+			break;
+		case "GET_PLAYER_INFO":
+			msgSend = getPlayerInfo(sIP);
+			break;
+		case "SET_PLAYER_INFO":
+			msgSend = setPlayerInfo(sIP, uScan);
+			break;
+		case "JOIN_GAME":
+			msgSend = joinGame(sIP, uScan.nextInt());
+			break;
+		case "READY_GAME":
+			msgSend = readyGame(sIP);
+			break;
+		case "LEAVE_SCOREBOARD":
+			msgSend = leaveScoreboard(sIP);
+			break;
+		case "LEAVE_GAME":
+			msgSend = leaveGame(sIP);
+			break;
+		case "DISCONNECT":
+			msgSend = disconnect(sIP);
+			break;
+		case "CREATE_GAME":
+			msgSend = createGame(sIP, uScan.next(), uScan.next(), uScan.next());
+			break;
+		case "DELETE_GAME":
+			msgSend = deleteGame(uScan.next());
+			break;
+		case "GET_NUM_PLAYERS_AVAILABLE":
+			msgSend = getNumPlayersAvailable();
+			break;
+		case "GET_NUM_GAMES_AVAILABLE":
+			msgSend = getNumGamesAvailable();
+			break;
+		case "GET_NUM_GAMES_ACTIVE":
+			msgSend = getNumGamesActive();
+			break;
+		// Chat
+		case "NOTIFICATIONS_GET_NUM":
+			msgSend = getNumNotifications(sIP);
+			break;
+		case "NOTIFICATION_GET":
+			msgSend = getNotificationAtIndex(sIP, uScan.nextInt());
+			break;
+		case "NOTIFY_ALL":
+			msgSend = notifyAll(sIP, uScan.nextLine());
+			break;
+		case "NOTIFY_PLAYER":
+			msgSend = notifyPlayer(sIP, uScan.nextInt(), uScan.nextLine());
+			break;
 		}
-		
+
 		// Print msg transaction to the screen:
 		uTextAreaMsg.append((nNumLine++) + ". CMD: " + msgReceived + "\n");
 		uTextAreaMsg.append((nNumLine++) + ". ECHO: " + msgSend + "\n");
 
-		// Update the display of the database after modifications have been
-		// made:
+		// Update the display of the database after modifications have been made:
 		updateDBDisplay();
 
 		return msgSend;
 	}
 
-	public static void updateDBDisplay(){
-    	try {
+	public static void updateDBDisplay() {
+		try {
 			// Open the XML DB reader:
 			BufferedReader br;
 			br = new BufferedReader(new FileReader(DB));
-			
+
 			// Write the contents of the XML DB to the DB textarea:
 			String line;
 			String content = "";
 			line = br.readLine();
 			while (line != null) {
-				content += line+"\n";
+				content += line + "\n";
 				line = br.readLine();
 			}
 			uTextAreaDB.setText(content + "\n");
@@ -296,409 +292,415 @@ public class Server extends JFrame implements Runnable {
 		try {
 			Server uServer = new Server();
 		} catch (HeadlessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public synchronized static String joinGame(String ip, int index){
+
+	public synchronized static String joinGame(String ip, int index) {
 		String msg = "JOIN_GAME FAILURE";
-		
+
 		Element p = getPlayerElement(ip, false);
 		Element r = (Element) p.getParentNode();
 		Element game = (Element) doc.getElementsByTagName("games_available").item(index);
-		
-		//add p to game
+
+		// add p to game
 		game.appendChild(p);
-		
-		//remove p from r
+
+		// remove p from r
 		r.removeChild(p);
-		
+
 		return msg;
 	}
-	
-	public synchronized static String getPlayerIndex(String ip){
+
+	public synchronized static String getPlayerIndex(String ip) {
 		String msg = "GET_PLAYER_INDEX FAILURE";
-		
+
 		Element p = getPlayerElement(ip, true);
 		Element r = (Element) p.getParentNode();
 		NodeList nList = r.getChildNodes();
-		for(int i = 0; i < nList.getLength(); i++){
-			if(nList.item(i).equals(p)){
-				msg = "GET_PLAYER_INDEX "+i;
+		for (int i = 0; i < nList.getLength(); i++) {
+			if (nList.item(i).equals(p)) {
+				msg = "GET_PLAYER_INDEX " + i;
 				break;
 			}
 		}
-		
+
 		return msg;
 	}
-	
-	public synchronized static String getPlayerGameIndex(String ip){
+
+	public synchronized static String getPlayerGameIndex(String ip) {
 		String msg = "GET_PLAYER_GAME_INDEX FAILURE";
-		
+
 		Element g = getGameElement(ip);
 		Element r = (Element) g.getParentNode();
 		NodeList nList = r.getChildNodes();
-		for(int i = 0; i < nList.getLength(); i++){
-			if(nList.item(i).equals(g)){
-				msg = "GET_PLAYER_GAME_INDEX "+i;
+		for (int i = 0; i < nList.getLength(); i++) {
+			if (nList.item(i).equals(g)) {
+				msg = "GET_PLAYER_GAME_INDEX " + i;
 				break;
 			}
 		}
-		
+
 		return msg;
 	}
-	
-	public synchronized static String notifyPlayer(String ip, int playerIndex, String msgChat){
+
+	public synchronized static String notifyPlayer(String ip, int playerIndex, String msgChat) {
 		String msg = "NOTIFY_PLAYER FAILURE";
-		
+
 		Element sender = getPlayerElement(ip, true);
-		if(sender != null){
+		if (sender != null) {
 			Element parent = (Element) sender.getParentNode();
 			Element player = (Element) parent.getElementsByTagName("player").item(playerIndex);
-			if(player != null){
-				msgChat = sender.getElementsByTagName("username").item(0).toString() + ": "+msgChat;
-				if(sendChatMessage(msgChat, sender) && sendChatMessage(msgChat, player)){
-					if(writeToXML())
+			if (player != null) {
+				msgChat = sender.getElementsByTagName("username").item(0).toString() + ": " + msgChat;
+				if (sendChatMessage(msgChat, sender) && sendChatMessage(msgChat, player)) {
+					if (writeToXML())
 						msg = "NOTIFY_PLAYER SUCCESS";
 				}
 			}
 		}
-		
+
 		return msg;
 	}
-	
-	public synchronized static String notifyAll(String ip, String msgChat){
+
+	public synchronized static String notifyAll(String ip, String msgChat) {
 		String msg = "NOTIFY_ALL FAILURE";
 		boolean flag = true;
-		
-		//create Message
+
+		// create Message
 		Element p = getPlayerElement(ip, true);
 		String Vorname = p.getElementsByTagName("username").item(0).toString();
-		msgChat = Vorname +": " + msgChat;
-		
-		//Get Nodelist of all players' notifications
+		msgChat = Vorname + ": " + msgChat;
+
+		// Get Nodelist of all players' notifications
 		NodeList nList = doc.getElementsByTagName("notifications");
-		for(int i = 0; i < nList.getLength(); i++){ //update inboxes
-			if(!sendChatMessage(msgChat,(Element) nList.item(i)))
+		for (int i = 0; i < nList.getLength(); i++) { // update inboxes
+			if (!sendChatMessage(msgChat, (Element) nList.item(i)))
 				flag = false;
 		}
-		
-		if(flag && writeToXML()) msg = "NOTIFY_ALL SUCCESS";
-		
+
+		if (flag && writeToXML())
+			msg = "NOTIFY_ALL SUCCESS";
+
 		return msg;
 	}
-	
-	public synchronized static boolean sendChatMessage(String message, Element inbox){ //takes in the message and the node of the recipient's inbox
-		try{
-			//loop through inbox, move every item up one
+
+	public synchronized static boolean sendChatMessage(String message, Element inbox) { 
+		// takes in the message and the node of the recipient's inbox
+		try {
+			// loop through inbox, move every item up one
 			NodeList nList = inbox.getElementsByTagName("notification");
-			for(int i = 1; i < nList.getLength(); i++){
-				nList.item(i-1).setTextContent(nList.item(i).getTextContent());
+			for (int i = 1; i < nList.getLength(); i++) {
+				nList.item(i - 1).setTextContent(nList.item(i).getTextContent());
 			}
-			
-			//add new message
+
+			// add new message
 			nList.item(4).setTextContent(message);
 			return true;
-		} catch(NullPointerException e){
+		} catch (NullPointerException e) {
 			return false;
 		}
 	}
-	
-	public synchronized static String getNotificationAtIndex(String ip, int index){
+
+	public synchronized static String getNotificationAtIndex(String ip, int index) {
 		String msg = "NOTIFICATION_GET FAILURE";
-		
+
 		Element p = getPlayerElement(ip, true);
-		if(p!=null){
+		if (p != null) {
 			NodeList nList = p.getElementsByTagName("notification");
-			if(nList.getLength()>= index){
+			if (nList.getLength() >= index) {
 				msg = "NOTIFICATION_GET " + nList.item(index).getTextContent();
 			}
 		}
-		
+
 		return msg;
 	}
-	
-	public synchronized static String getNumNotifications(String ip){
+
+	public synchronized static String getNumNotifications(String ip) {
 		String msg = "NOTIFICATIONS_GET_NUM FAILURE";
-		
+
 		Element p = getPlayerElement(ip, true);
 		int numNotes = 0;
-		if(p != null){
+		if (p != null) {
 			numNotes = p.getElementsByTagName("notification").getLength();
 			msg = "NOTIFICATIONS_GET_NUM " + numNotes;
 		}
-		
+
 		return msg;
 	}
-	
-	public synchronized static Element getPlayerElement(String ip, boolean history){
+
+	public synchronized static Element getPlayerElement(String ip, boolean history) {
 		Element n = null;
-		
+
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)){
-				if(history)
+			if (ip.equals(uIP)) {
+				if (history)
 					return myEl;
-				else if(!myEl.getParentNode().toString().equals("games_history")){
-					return myEl; //if player is not in games_history
+				else if (!myEl.getParentNode().toString().equals("games_history")) {
+					return myEl; // if player is not in games_history
 				}
 			}
 		}
-		
+
 		return n;
 	}
-	
-	public synchronized static Element getGameElement(String ip){
+
+	public synchronized static Element getGameElement(String ip) {
 		Element n = null;
-		
+
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)){
-				return (Element)myEl.getParentNode();
+			if (ip.equals(uIP)) {
+				return (Element) myEl.getParentNode();
 			}
 		}
-		
+
 		return n;
 	}
-	
-	public synchronized static String getGameAvailable(String gameIndex){
+
+	public synchronized static String getGameAvailable(String gameIndex) {
 		return "";
 	}
-	
-	public synchronized static String getNumGamesActive(){
+
+	public synchronized static String getNumGamesActive() {
 		String msg = "GET_NUM_GAMES_ACTIVE FAILURE";
-		
+
 		int numGames = 0;
-		Element gamesActive = (Element)doc.getElementsByTagName("games_active").item(0);
-		if(gamesActive != null){
+		Element gamesActive = (Element) doc.getElementsByTagName("games_active").item(0);
+		if (gamesActive != null) {
 			numGames = gamesActive.getElementsByTagName("game").getLength();
 			msg = "GET_NUM_GAMES_ACTIVE " + numGames;
 		}
 		return msg;
 	}
-	
-	public synchronized static String getNumGamesAvailable(){
+
+	public synchronized static String getNumGamesAvailable() {
 		String msg = "GET_NUM_GAMES_AVAILABLE FAILURE";
-		
+
 		int numGames = 0;
-		Element gamesAvailable = (Element)doc.getElementsByTagName("games_available").item(0);
-		if(gamesAvailable != null){
+		Element gamesAvailable = (Element) doc.getElementsByTagName("games_available").item(0);
+		if (gamesAvailable != null) {
 			numGames = gamesAvailable.getElementsByTagName("game").getLength();
 			msg = "GET_NUM_GAMES_AVAILABLE " + numGames;
 		}
 		return msg;
 	}
-	
-	public synchronized static String getNumPlayersAvailable(){
+
+	public synchronized static String getNumPlayersAvailable() {
 		String msg = "GET_NUM_PLAYERS_AVAILABLE FAILURE";
-		
+
 		int numPlayers = 0;
-		Element playersAvailable = (Element)doc.getElementsByTagName("players_available").item(0);
-		if(playersAvailable != null){
+		Element playersAvailable = (Element) doc.getElementsByTagName("players_available").item(0);
+		if (playersAvailable != null) {
 			numPlayers = playersAvailable.getElementsByTagName("player").getLength();
 			msg = "GET_NUM_PLAYERS_AVAILABLE " + numPlayers;
 		}
 		return msg;
 	}
-	
-	public synchronized static NodeList getPlayersFromGame(Element g){
+
+	public synchronized static NodeList getPlayersFromGame(Element g) {
 		return g.getElementsByTagName("player");
 	}
-	
-	public synchronized static String deleteGame(String ip){
+
+	public synchronized static String deleteGame(String ip) {
 		String msg = "DELETE_GAME FAILURE";
-		
+
 		boolean flag = true;
-		//get node
+		// get node
 		Element g = getGameElement(ip);
-		if(g!=null){
-			//move players
+		if (g != null) {
+			// move players
 			NodeList players = getPlayersFromGame(g);
-			for(int i = 0; i < players.getLength(); i++){
-				Element myEl = (Element)players.item(i);
+			for (int i = 0; i < players.getLength(); i++) {
+				Element myEl = (Element) players.item(i);
 				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-				if(leaveGame(uIP).contains("FAIL")){
+				if (leaveGame(uIP).contains("FAIL")) {
 					flag = false;
 				}
 			}
-			
-			//remove game
+
+			// remove game
 			g.getParentNode().removeChild(g);
-			if(flag && writeToXML()) msg = "DELETE_GAME SUCCESS";
+			if (flag && writeToXML())
+				msg = "DELETE_GAME SUCCESS";
 		}
 		return msg;
 	}
-	
-	public synchronized static String createGame(String uIP, String title, String numMin, String numPla){
+
+	public synchronized static String createGame(String uIP, String title, String numMin, String numPla) {
 		String msg = "CREATE_GAME FAILURE";
-		
+
 		// get parent
 		NodeList parentList = doc.getElementsByTagName("games_available");
 		Node parent = parentList.item(0);
 		Element game = doc.createElement("game");
 		parent.appendChild(game);
-		
+
 		Element titlE = doc.createElement("title");
 		titlE.setTextContent(title);
 		game.appendChild(titlE);
-		
+
 		Element totalTime = doc.createElement("total_time");
 		totalTime.setTextContent(numMin);
 		game.appendChild(totalTime);
-		
+
 		Element remTime = doc.createElement("remaining_time");
 		remTime.setTextContent(numMin);
 		game.appendChild(remTime);
-		
+
 		Element maxPlay = doc.createElement("max_players");
 		maxPlay.setTextContent(numPla);
 		game.appendChild(maxPlay);
-		
+
 		Element hostIP = doc.createElement("host_ip");
 		hostIP.setTextContent(uIP);
 		game.appendChild(hostIP);
-		
-		if(writeToXML()) msg = "CREATE_GAME SUCCESS";
-		
+
+		if (writeToXML())
+			msg = "CREATE_GAME SUCCESS";
+
 		return msg;
 	}
-	
-	public synchronized static String disconnect(String ip){
+
+	public synchronized static String disconnect(String ip) {
 		String msg = "DISCONNECT FAILURE";
-		
+
 		boolean flag = false;
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)){
-				//remove player
+			if (ip.equals(uIP)) {
+				// remove player
 				nList.item(i).getParentNode().removeChild(nList.item(i));
-				
+
 				flag = true;
 
 				break;
 			}
 		}
-		
-		if(flag && writeToXML()) msg = "DISCONNECT SUCCESS";
-		
+
+		if (flag && writeToXML())
+			msg = "DISCONNECT SUCCESS";
+
 		return msg;
 	}
-	
-	public synchronized static String leaveGame(String ip){
+
+	public synchronized static String leaveGame(String ip) {
 		String msg = "LEAVE_GAME FAILURE";
-		
+
 		boolean flag = false;
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
-			if(nList.item(i).getParentNode().getParentNode().toString().contains("games_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_active")){
+			Element myEl = (Element) nList.item(i);
+			if (nList.item(i).getParentNode().getParentNode().toString().contains("games_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_active")) {
 				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-				if (ip.equals(uIP)){
-					//reset info
-					myEl.getElementsByTagName("score").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("comets").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("deaths").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("powerups").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0+"");
+				if (ip.equals(uIP)) {
+					// reset info
+					myEl.getElementsByTagName("score").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("comets").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("deaths").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("powerups").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0 + "");
 					myEl.getElementsByTagName("ready").item(0).setTextContent("false");
-					
-					//Move player
+
+					// Move player
 					NodeList mList = doc.getElementsByTagName("players_available");
 					mList.item(0).appendChild(myEl);
 					nList.item(i).getParentNode().removeChild(nList.item(i));
-					
+
 					flag = true;
 
 					break;
 				}
 			}
 		}
-		
-		if(flag && writeToXML()) msg = "LEAVE_GAME SUCCESS";
-		
+
+		if (flag && writeToXML())
+			msg = "LEAVE_GAME SUCCESS";
+
 		return msg;
 	}
-	
-	public synchronized static String leaveScoreboard(String ip){
+
+	public synchronized static String leaveScoreboard(String ip) {
 		String msg = "LEAVE_SCOREBOARD FAILURE";
-		
+
 		boolean flag = false;
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
-			if(nList.item(i).getParentNode().getParentNode().toString().contains("games_history")){
+			Element myEl = (Element) nList.item(i);
+			if (nList.item(i).getParentNode().getParentNode().toString().contains("games_history")) {
 				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-				if (ip.equals(uIP)){
-					//reset info
-					myEl.getElementsByTagName("score").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("comets").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("deaths").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("powerups").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0+"");
-					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0+"");
+				if (ip.equals(uIP)) {
+					// reset info
+					myEl.getElementsByTagName("score").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("comets").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("deaths").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("powerups").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0 + "");
+					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0 + "");
 					myEl.getElementsByTagName("ready").item(0).setTextContent("false");
-					
-					//Move player
+
+					// Move player
 					NodeList mList = doc.getElementsByTagName("players_available");
 					mList.item(0).appendChild(myEl);
 					nList.item(i).getParentNode().removeChild(nList.item(i));
-					
+
 					flag = true;
 
 					break;
 				}
 			}
 		}
-		
-		if(flag && writeToXML()) msg = "LEAVE_SCOREBOARD SUCCESS";
-		
+
+		if (flag && writeToXML())
+			msg = "LEAVE_SCOREBOARD SUCCESS";
+
 		return msg;
 	}
-	
-	public synchronized static String readyGame(String ip){
+
+	public synchronized static String readyGame(String ip) {
 		String msg = "READY_GAME FAILURE";
-		
+
 		boolean flag = false;
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)){
+			if (ip.equals(uIP)) {
 				myEl.getElementsByTagName("ready").item(0).setTextContent("true");
-				
+
 				flag = true;
-				
+
 				break;
 			}
 		}
-		
-		if(flag && writeToXML()) msg = "READY_GAME SUCCESS";
-		
+
+		if (flag && writeToXML())
+			msg = "READY_GAME SUCCESS";
+
 		return msg;
 	}
-	
-	public synchronized static String setPlayerInfo(String uIP, Scanner uMsg){
+
+	public synchronized static String setPlayerInfo(String uIP, Scanner uMsg) {
 		String msg = "SET_PLAYER_INFO FAILURE";
-		
+
 		boolean flag = false;
-		
+
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)){
-				//Set info
+			if (ip.equals(uIP)) {
+				// Set info
 				myEl.getElementsByTagName("username").item(0).setTextContent(uMsg.next());
 				myEl.getElementsByTagName("character").item(0).setTextContent(uMsg.next());
 				myEl.getElementsByTagName("ready").item(0).setTextContent(uMsg.next());
@@ -708,26 +710,27 @@ public class Server extends JFrame implements Runnable {
 				myEl.getElementsByTagName("powerups").item(0).setTextContent(uMsg.next());
 				myEl.getElementsByTagName("max_spin").item(0).setTextContent(uMsg.next());
 				myEl.getElementsByTagName("max_vel").item(0).setTextContent(uMsg.next());
-				
+
 				flag = true;
-				
+
 				break;
 			}
 		}
-		
-		if(flag && writeToXML()) msg = "SET_PLAYER_INFO SUCCESS";
-		
+
+		if (flag && writeToXML())
+			msg = "SET_PLAYER_INFO SUCCESS";
+
 		return msg;
 	}
-	
-	public synchronized static String getPlayerInfo(String uIP){
+
+	public synchronized static String getPlayerInfo(String uIP) {
 		String msg = "GET_PLAYER_INFO FAILURE";
-		
+
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)){
+			if (ip.equals(uIP)) {
 				msg = "GET_PLAYER_INFO";
 				msg += " " + myEl.getElementsByTagName("username").item(0).getTextContent();
 				msg += " " + myEl.getElementsByTagName("character").item(0).getTextContent();
@@ -738,48 +741,48 @@ public class Server extends JFrame implements Runnable {
 				msg += " " + myEl.getElementsByTagName("powerups").item(0).getTextContent();
 				msg += " " + myEl.getElementsByTagName("max_spin").item(0).getTextContent();
 				msg += " " + myEl.getElementsByTagName("max_vel").item(0).getTextContent();
-				
+
 				break;
 			}
 		}
-		
+
 		return msg;
 	}
-	
-	public synchronized static String getPlayerStatus(String uIP){
+
+	public synchronized static String getPlayerStatus(String uIP) {
 		String msg = "GET_PLAYER_STATUS PLAYER_NOT_FOUND";
-		
+
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)){
-				if(nList.item(i).getParentNode().toString().contains("players_available")){
+			if (ip.equals(uIP)) {
+				if (nList.item(i).getParentNode().toString().contains("players_available")) {
 					msg = "GET_PLAYER_STATUS AVAILABLE";
-				} else  if(nList.item(i).getParentNode().toString().contains("games_available")){
+				} else if (nList.item(i).getParentNode().toString().contains("games_available")) {
 					msg = "GET_PLAYER_STATUS WAITING";
-				} else  if(nList.item(i).getParentNode().toString().contains("games_active")){
+				} else if (nList.item(i).getParentNode().toString().contains("games_active")) {
 					msg = "GET_PLAYER_STATUS ACTIVE";
-				} else  if(nList.item(i).getParentNode().toString().contains("games_history")){
+				} else if (nList.item(i).getParentNode().toString().contains("games_history")) {
 					msg = "GET_PLAYER_STATUS SCOREBOARD";
 				}
 				break;
 			}
 		}
-		
+
 		return msg;
 	}
 
 	public synchronized static boolean isUsernameNotTaken(String uName) {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element)nList.item(i);
+			Element myEl = (Element) nList.item(i);
 			String name = myEl.getElementsByTagName("username").item(0).getTextContent();
-			if (uName.equals(name)){
-				if(nList.item(i).getParentNode().toString().contains("players_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_available")){
-					//erase this player
+			if (uName.equals(name)) {
+				if (nList.item(i).getParentNode().toString().contains("players_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_available")) {
+					// erase this player
 					nList.item(i).getParentNode().removeChild(nList.item(i));
-				} else 
+				} else
 					return false;
 			}
 		}
@@ -787,8 +790,7 @@ public class Server extends JFrame implements Runnable {
 		return true;
 	}
 
-	public synchronized static boolean addUsernameToXML(String uName,
-			String Character, String ipAddress) {
+	public synchronized static boolean addUsernameToXML(String uName, String Character, String ipAddress) {
 		// get parent
 		NodeList parentList = doc.getElementsByTagName("players_available");
 		Node parent = parentList.item(0);
@@ -840,17 +842,16 @@ public class Server extends JFrame implements Runnable {
 
 		return writeToXML();
 	}
-	
-	public synchronized static void getPlayerNode(){
-		
+
+	public synchronized static void getPlayerNode() {
+
 	}
 
 	public synchronized static boolean writeToXML() {
 		try {
 			// write the updated document to file or console
 			doc.getDocumentElement().normalize();
-			TransformerFactory transformerFactory = TransformerFactory
-					.newInstance();
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(DB));
