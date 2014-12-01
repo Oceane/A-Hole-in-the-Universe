@@ -211,6 +211,9 @@ public class Server extends JFrame implements Runnable {
 		case "GET_NUM_PLAYERS_AVAILABLE":
 			msgSend = getNumPlayersAvailable();
 			break;
+		case "GET_PLAYER_AVAILABLE":
+			msgSend = getPlayerAvailable(uScan.nextInt());
+			break;
 		case "GET_NUM_GAMES_AVAILABLE":
 			msgSend = getNumGamesAvailable();
 			break;
@@ -505,6 +508,18 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 
+	public synchronized static String getPlayerAvailable(int nIndex){
+		String msg = "GET_PLAYER_AVAILABLE FAILURE";
+		Element playersAvailable = (Element) doc.getElementsByTagName("players_available").item(0);
+		if(playersAvailable != null){
+			Element player = (Element)playersAvailable.getElementsByTagName("player").item(nIndex);
+			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
+			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
+			msg = "GET_PLAYER_AVAILABLE " + sUsername + " " + sCharacter;
+		}
+		return msg;
+	}
+	
 	public synchronized static NodeList getPlayersFromGame(Element g) {
 		return g.getElementsByTagName("player");
 	}

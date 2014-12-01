@@ -266,7 +266,6 @@ public class createProfile extends JFrame implements MouseListener {
 			} 
 			String rec = Client.sendMsg("CREATE_PLAYER "+Benutzername+" "+character);
 			if(rec.contains("SUCCESS")){
-				JOptionPane.showMessageDialog(this, Benutzername + ", your character has been saved!");
 				new JoinGameGUI();
 				this.dispose();
 			} else if(rec.contains("XML")){

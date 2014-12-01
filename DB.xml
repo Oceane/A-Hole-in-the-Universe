@@ -42,6 +42,22 @@
 <max_vel>0</max_vel>
 <notifications/>
 </player>
+
+
+
+<player>
+<username>Geoff</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:54472</ip_address>
+<ready>false</ready>
+<score>0</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
 </players_available>
 
 	<games_available>

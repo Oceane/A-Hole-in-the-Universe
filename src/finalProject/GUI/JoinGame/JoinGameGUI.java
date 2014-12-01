@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,56 +25,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 
 
+
+
+
+import finalProject.Client.Client;
 import finalProject.GUI.createProfile;
 import finalProject.GUI.WaitGameCreator.WaitGameCreatorGUI;
 import finalProject.GUI.WaitGameJoinee.WaitGameJoineeGUI;
 
-
-public class JoinGameGUI extends JFrame {
+public class JoinGameGUI extends JFrame{
 	public static final int WINDOW_X = 950;
 	public static final int WINDOW_Y = 650;
-	final Color uColorTrans = new Color(0, 0, 0, 0);
-	private JPanel uPanelAvailablePlayers = new JPanel();
-	private JPanel uPanelAvailableGames = new JPanel();
-	private JPanel uPanelAvailableGamesLabelCont = new JPanel();
-	private JPanel uPanelAvailableGamesButtons = new JPanel();
-	private JPanel uPanelCard = new JPanel();
-	private JPanel[] aPanelAvailableGames;
-	private JPanel uPanelPlayersInGame = new JPanel();
-	private JPanel uPanelCreateGame = new JPanel();
-	private JPanel uPanelCreateGameFormCont = new JPanel();
-	private JPanel uPanelCreateGameForm = new JPanel();
-	private JPanel uPanelCreateGameButtons = new JPanel();
-	private JLabel uLabelAvailablePlayers = new JLabel("Available Players:");
-	private JLabel uLabelAvailableGames = new JLabel("Games:");
-	private JLabel uLabelPlayersInGame = new JLabel("Who's Playing:");
-	private JLabel uLabelCreateGame = new JLabel("Create Game:");
-	private JPanel uPanelTitle = new JPanel();
-	private JPanel uPanelTime = new JPanel();
-	private JLabel uLabelTitle = new JLabel("Title: ");
-	private JLabel uLabelTime = new JLabel("Time: ");
-	private JTextField uFieldTitle = new JTextField();
-	private JComboBox uComboTime;
-	private String[] aAvailablePlayers = { "Yuxin", "Jonathan", "Natalie", "David", "Geoffrey" };
-	private String[] aAvailableGames = { "Star Wars", "Kittens", "Bombs Away", "Hello World" };
-	private String[] aAvailableTimes = { "1 minute", "2 minutes", "3 minutes", "4 minutes" };
-	private String[] aPlayersInGame = { "Yuxin", "Jonathan" };
-	private String[] aGameTimes = { "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "6 minutes", "7 minutes", "8 minutes", "9 minutes", "10 minutes" };
-	private DefaultListModel uModelAvailablePlayers = new DefaultListModel();
-	private DefaultListModel uModelAvailableGames = new DefaultListModel();
-	private DefaultListModel uModelPlayersInGame = new DefaultListModel();
-	private JScrollPane uScrollAvailablePlayers;
-	private JScrollPane uScrollAvailableGames;
-	private JScrollPane uScrollPlayersInGame;
-	private JList uListAvailablePlayers;
-	private JList uListAvailableGames;
-	private JList uListPlayersInGame;
-	private JButton uButtonBackToCreateProfile = new JButton("Back To Profile");
-	private JButton uButtonCreateGame = new JButton("Create");
-	private JButton uButtonJoinGame = new JButton("Join");
-	private JButton uButtonCancelCreateGame = new JButton("Cancel");
-	private JButton uButtonDoneCreateGame = new JButton("Done");
-
+	
 	public JoinGameGUI() {
 		setLayout(new FlowLayout());
 		setSize(JoinGameGUI.WINDOW_X, JoinGameGUI.WINDOW_Y);
@@ -84,12 +48,55 @@ public class JoinGameGUI extends JFrame {
 		setVisible(true);
 	}
 
-	public class JoinGamePanel extends JPanel {
-
+	public class JoinGamePanel extends JPanel implements Runnable{
+		final Color uColorTrans = new Color(0, 0, 0, 0);
+		private JPanel uPanelAvailablePlayers = new JPanel();
+		private JPanel uPanelAvailableGames = new JPanel();
+		private JPanel uPanelAvailableGamesLabelCont = new JPanel();
+		private JPanel uPanelAvailableGamesButtons = new JPanel();
+		private JPanel uPanelCard = new JPanel();
+		private JPanel [] aPanelAvailableGames;
+		private JPanel uPanelPlayersInGame = new JPanel();
+		private JPanel uPanelCreateGame = new JPanel();
+		private JPanel uPanelCreateGameFormCont = new JPanel();
+		private JPanel uPanelCreateGameForm = new JPanel();
+		private JPanel uPanelCreateGameButtons = new JPanel();
+		private JLabel uLabelAvailablePlayers = new JLabel("Available Players:");
+		private JLabel uLabelAvailableGames = new JLabel("Games:");
+		private JLabel uLabelPlayersInGame = new JLabel("Who's Playing:");
+		private JLabel uLabelCreateGame = new JLabel("Create Game:");
+		private JPanel uPanelTitle = new JPanel();
+		private JPanel uPanelTime = new JPanel();
+		private JLabel uLabelTitle = new JLabel("Title: ");
+		private JLabel uLabelTime = new JLabel("Time: ");
+		private JTextField uFieldTitle = new JTextField();
+		private JComboBox uComboTime;
+		private Vector<String> vAvailablePlayersUsernames = new Vector<String>();
+		private Vector<String> vAvailablePlayersCharacters = new Vector<String>();
+		private Vector<String> vAvailableGamesTitles = new Vector<String>();
+		private Vector<String> vAvailableGamesTimes = new Vector<String>();
+		private Vector<String> vPlayersInGameUsernames = new Vector<String>();
+		private Vector<String> vPlayersInGameCharacters = new Vector<String>();
+		private String [] aGameTimes = { "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "6 minutes", "7 minutes", "8 minutes", "9 minutes", "10 minutes" };
+		private DefaultListModel uModelAvailablePlayers = new DefaultListModel();
+		private DefaultListModel uModelAvailableGames = new DefaultListModel();
+		private DefaultListModel uModelPlayersInGame = new DefaultListModel();
+		private JScrollPane uScrollAvailablePlayers;
+		private JScrollPane uScrollAvailableGames;
+		private JScrollPane uScrollPlayersInGame;
+		private JList uListAvailablePlayers;
+		private JList uListAvailableGames;
+		private JList uListPlayersInGame;
+		private JButton uButtonBackToCreateProfile = new JButton("Back To Profile");
+		private JButton uButtonCreateGame = new JButton("Create");
+		private JButton uButtonJoinGame = new JButton("Join");
+		private JButton uButtonCancelCreateGame = new JButton("Cancel");
+		private JButton uButtonDoneCreateGame = new JButton("Done");
 		public JoinGamePanel() {
 			initializeComponents();
 			positionComponents();
 			addActionListeners();
+			new Thread(this).start();
 		}
 
 		private void initializeComponents() {
@@ -105,15 +112,15 @@ public class JoinGameGUI extends JFrame {
 			uPanelAvailableGames.setLayout(new BoxLayout(uPanelAvailableGames, BoxLayout.Y_AXIS));
 			uPanelAvailableGamesButtons.setLayout(new BoxLayout(uPanelAvailableGamesButtons, BoxLayout.X_AXIS));
 			uPanelPlayersInGame.setLayout(new BoxLayout(uPanelPlayersInGame, BoxLayout.Y_AXIS));
-			populateListStrings(uModelAvailablePlayers, aAvailablePlayers);
+			populateListStrings(uModelAvailablePlayers, vAvailablePlayersUsernames, vAvailablePlayersCharacters);
 			uListAvailablePlayers = new JList(uModelAvailablePlayers);
 			uListAvailablePlayers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			// AvailableGames:
-			populateListGames(uModelAvailableGames, aAvailableGames, aAvailableTimes);
+			populateListGames(uModelAvailableGames, vAvailableGamesTitles, vAvailableGamesTimes);
 			uListAvailableGames = new JList(uModelAvailableGames);
 			uListAvailableGames.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			// Players In Game:
-			populateListStrings(uModelPlayersInGame, aPlayersInGame);
+			populateListStrings(uModelPlayersInGame, vPlayersInGameUsernames, vPlayersInGameCharacters);
 			uListPlayersInGame = new JList(uModelPlayersInGame);
 			uListPlayersInGame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			// Scroll bars:
@@ -238,15 +245,66 @@ public class JoinGameGUI extends JFrame {
 			});
 		}
 
-		private void populateListGames(DefaultListModel uModel, String[] aTitleStrings, String[] aTimeStrings) {
-			for (int i = 0; i < aTitleStrings.length; i++) {
-				uModel.addElement(aTitleStrings[i] + " [" + aTimeStrings[i] + "]");
+		private void populateListGames(DefaultListModel uModel, Vector<String> vTitleStrings, Vector<String> vTimeStrings) {			
+			//Set/add strings:
+			for (int i=0; i<vTitleStrings.size(); i++) {
+				String sContent = vTitleStrings.get(i) + " [" + vTimeStrings.get(i) + "]";
+				if(i < uModel.getSize()){
+					uModel.set(i, sContent);
+				}
+				else{
+					uModel.addElement(sContent);
+				}
+			}
+			//Remove extra strings:
+			for(int i=vTitleStrings.size(); i<uModel.size(); i++){
+				uModel.remove(i);
 			}
 		}
 
-		private void populateListStrings(DefaultListModel uModel, String[] aTitleStrings) {
-			for (int i = 0; i < aTitleStrings.length; i++) {
-				uModel.addElement(aTitleStrings[i]);
+		private void populateListStrings(DefaultListModel uModel, Vector<String> vUsernameStrings, Vector<String> vCharacterStrings) {
+			//Set/add strings:
+			for (int i=0; i<vUsernameStrings.size(); i++) {
+				String sContent = vUsernameStrings.get(i) + " (" + vCharacterStrings.get(i) + ")";
+				if(i < uModel.getSize()){
+					uModel.set(i, sContent);
+				}
+				else{
+					uModel.addElement(sContent);
+				}
+			}
+			//Remove extra strings:
+			for(int i=vUsernameStrings.size(); i<uModel.size(); i++){
+				uModel.remove(i);
+			}
+		}
+		
+		public void run(){
+			Scanner uScan;
+			String sMsg;
+			
+			while(true){
+			//Update the list boxes every second:
+				//Update the available players:
+					vAvailablePlayersUsernames.clear();
+					vAvailablePlayersCharacters.clear();
+					uScan = new Scanner(Client.sendMsg("GET_NUM_PLAYERS_AVAILABLE"));
+					uScan.next();
+					int nNumAvailablePlayers = Integer.parseInt(uScan.next());
+					for(int i=0; i<nNumAvailablePlayers; i++){
+						uScan = new Scanner(Client.sendMsg("GET_PLAYER_AVAILABLE " + i));
+						uScan.next();
+						vAvailablePlayersUsernames.add(uScan.next());
+						vAvailablePlayersCharacters.add(uScan.next());
+					}
+					populateListStrings(uModelAvailablePlayers, vAvailablePlayersUsernames, vAvailablePlayersCharacters);
+					//uListAvailablePlayers = new JList(uModelAvailablePlayers);
+				//Update the available games:
+				//aAvailableGames;
+				//aAvailableTimes;
+				//Update the players in game:
+				//aPlayersInGameUsernames = ;
+				//aPlayersInGameCharacters = ;
 			}
 		}
 	}

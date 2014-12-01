@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client{
-	public static final int PORT_NUM = 653;
+	public static final int PORT_NUM = 1025;
 	private static Socket s;
 	private static BufferedReader br;
 	private static PrintWriter pw;
