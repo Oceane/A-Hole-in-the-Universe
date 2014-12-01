@@ -225,14 +225,19 @@ public class Server extends JFrame implements Runnable {
 			msgSend = getNumGamesActive();
 			break;
 		case "GET_GAME_ACTIVE":
+			msgSend = getGameActive(uScan.nextInt());
 			break;
 		case "GET_GAME_ACTIVE_NUM_PLAYERS":
+			msgSend = getGameActiveNumPlayers(uScan.nextInt());
 			break;
 		case "GET_GAME_ACTIVE_PLAYER":
+			msgSend = getGameActivePlayer(uScan.nextInt(), uScan.nextInt());
 			break;
 		case "GET_GAME_HISTORY_NUM_PLAYERS":
+			msgSend = getGameHistoryNumPlayers(uScan.nextInt());
 			break;
 		case "GET_GAME_HISTORY_PLAYER":
+			msgSend = getGameHistoryPlayer(uScan.nextInt(), uScan.nextInt());
 			break;
 		// Chat
 		case "NOTIFICATIONS_GET_NUM":
@@ -481,6 +486,60 @@ public class Server extends JFrame implements Runnable {
 
 		return n;
 	}
+	
+	public synchronized static String getGameActive(int nIndex) {
+		String msg = "GET_GAMES_ACTIVE FAILURE"; 
+		Element gamesActive = (Element) doc.getElementsByTagName("games_active").item(0);
+		if(gamesActive != null){
+			Element game = (Element)gamesActive.getElementsByTagName("game").item(nIndex);
+			String sTitle = game.getAttribute("title");
+			String sRemainingTime = game.getAttribute("remaining_time");
+			String sTotalTime = game.getAttribute("total_time");
+			String sMaxPlayers = game.getAttribute("max_players");
+			msg = "GET_GAME_ACTIVE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
+		}
+		return msg;
+	}
+	
+		
+	public synchronized static String getGameActiveNumPlayers(int nGameIndex){
+		String msg = "GET_GAME_ACTIVE_NUM_PLAYERS FAILURE";
+
+		int numPlayers = 0;
+		Element game = (Element)((Element)doc.getElementsByTagName("games_active").item(0)).getElementsByTagName("game").item(nGameIndex);
+		if (game != null) {
+			numPlayers = game.getElementsByTagName("player").getLength();
+			msg = "GET_GAME_ACTIVE_NUM_PLAYERS " + numPlayers;
+		}
+		return msg;
+	}
+	
+		
+	public synchronized static String getGameActivePlayer(int nGameIndex, int nPlayerIndex){
+		String msg = "GET_GAME_ACTIVE_PLAYER FAILURE";
+
+		Element game = (Element)((Element)doc.getElementsByTagName("games_active").item(0)).getElementsByTagName("game").item(nGameIndex);
+		if (game != null) {
+			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
+			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
+			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
+			msg = "GET_GAME_ACTIVE_PLAYER " + sUsername + " " + sCharacter;
+		}
+		return msg;
+	}
+			
+	public synchronized static String getGameHistoryPlayer(int nGameIndex, int nPlayerIndex){
+		String msg = "GET_GAME_HISTORY_PLAYER FAILURE";
+
+		Element game = (Element)((Element)doc.getElementsByTagName("games_history").item(0)).getElementsByTagName("game").item(nGameIndex);
+		if (game != null) {
+			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
+			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
+			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
+			msg = "GET_GAME_HISTORY_PLAYER " + sUsername + " " + sCharacter;
+		}
+		return msg;
+	}
 
 	public synchronized static String getNumGamesActive() {
 		String msg = "GET_NUM_GAMES_ACTIVE FAILURE";
@@ -535,7 +594,6 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String getGameAvailablePlayer(int nGameIndex, int nPlayerIndex){
 		String msg = "GET_GAME_AVAILABLE_PLAYER FAILURE";
 
-		int numPlayers = 0;
 		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(nGameIndex);
 		if (game != null) {
 			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
@@ -554,6 +612,18 @@ public class Server extends JFrame implements Runnable {
 		if (playersAvailable != null) {
 			numPlayers = playersAvailable.getElementsByTagName("player").getLength();
 			msg = "GET_NUM_PLAYERS_AVAILABLE " + numPlayers;
+		}
+		return msg;
+	}
+	
+	public synchronized static String getGameHistoryNumPlayers(int nGameIndex){
+		String msg = "GET_GAME_HISTORY_NUM_PLAYERS FAILURE";
+
+		int numPlayers = 0;
+		Element game = (Element)((Element)doc.getElementsByTagName("games_history").item(0)).getElementsByTagName("game").item(nGameIndex);
+		if (game != null) {
+			numPlayers = game.getElementsByTagName("player").getLength();
+			msg = "GET_GAME_HISTORY_NUM_PLAYERS " + numPlayers;
 		}
 		return msg;
 	}

@@ -1,31 +1,38 @@
 package finalProject.GUI.game;
 
 import java.awt.Color;
-import finalProject.Client.Client;
+import java.util.Scanner;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+
+import finalProject.Client.Client;
 
 public class ScorePanel extends JPanel implements Runnable{
 	public static final Color uSemiTrans = new Color(0, 0, 0, 150);
 	private int nScore;
 	private int nEnemyScore;
+	private int nRemainingTime;
 	private JLabel uScoreLabel;
 	private JLabel uEnemyScoreLabel;
+	private JLabel uRemainingTimeLabel;
 	private final int REFRESH_RATE = 1;
 	
 	public ScorePanel(JPanel uPanel){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBounds(0, 0, 100, 20);
+		this.setBounds(0, 0, 150, 50);
 		this.setBackground(uSemiTrans);
 		this.uScoreLabel = new JLabel("Damage: 0");
 		this.uScoreLabel.setForeground(Color.white);
-		this.uEnemyScoreLabel = new JLabel("Damage: 0");
+		this.uEnemyScoreLabel = new JLabel("Enemy Damage: 0");
 		this.uEnemyScoreLabel.setForeground(Color.white);
-		this.add(uScoreLabel);
-		this.add(uEnemyScoreLabel);
+		this.uRemainingTimeLabel = new JLabel("Remaining Time: 123");
+		this.add(this.uScoreLabel);
+		this.add(this.uEnemyScoreLabel);
+		this.add(this.uEnemyScoreLabel);
 		uPanel.add(this);
+		new Thread(this).start();
 	}
 	
 	public void reset(){
@@ -64,25 +71,41 @@ public class ScorePanel extends JPanel implements Runnable{
 		}
 		
 		while(true) {
+
 			//Get the index of the active game that the current player is in:
 			String msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
 			int nGameIndex = Integer.parseInt(msg);
+				
+			// update enemy score
+			{
+				msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
+				int nPlayerIndex = Integer.parseInt(msg);
 
-			msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
-			int nPlayerIndex = Integer.parseInt(msg);
+				//Get the number of players
+				msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
+				int numPlayers = Integer.parseInt(msg);
 
-			//Get the number of players
-			msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
-			int numPlayers = Integer.parseInt(msg);
-
-			for(int i=0; i<numPlayers; i++){
-				if(i != nPlayerIndex){
-					msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER" + nGameIndex + "," + i);
-					//Parse the message returned to get the score from the player info:
-					int nScore = Integer.parseInt(msg);
-					this.nEnemyScore=nScore;
-					this.uEnemyScoreLabel.setText("Damage: " + this.nEnemyScore);
+				for(int i=0; i<numPlayers; i++){
+					if(i != nPlayerIndex){
+						msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + "," + i);
+						//Parse the message returned to get the score from the player info:
+						int nScore = Integer.parseInt(msg);
+						this.nEnemyScore=nScore;
+						this.uEnemyScoreLabel.setText("Damage: " + this.nEnemyScore);
+					}
 				}
+			}
+			
+			// update remaining time
+			{
+				msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
+				Scanner scan = new Scanner(msg);
+				int remainingTime = 0;
+				for (int i=0;i<4;i++) {
+					remainingTime = Integer.parseInt(scan.next());	// 
+				}
+				this.uRemainingTimeLabel.setText("Remaining time: " + remainingTime);;
+				scan.close();
 			}
 			try {
 				Thread.sleep(1000/REFRESH_RATE);  // milliseconds
