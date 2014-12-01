@@ -48,11 +48,12 @@
 
 
 
+
 <player>
 <username>Geoff</username>
 <character>Neslaou</character>
-<ip_address>/127.0.0.1:54943</ip_address>
-<ready>true</ready>
+<ip_address>/127.0.0.1:55310</ip_address>
+<ready>false</ready>
 <score>0</score>
 <comets>0</comets>
 <deaths>0</deaths>
@@ -126,6 +127,9 @@
 		</game>
 <game max_players="2" remaining_time="1:00" title="Hello" total_time="1:00"/>
 <game max_players="2" remaining_time="1:00" title="NewGame" total_time="1:00"/>
+<game max_players="3" remaining_time="1:00" title="NewGame" total_time="1:00"/>
+<game max_players="3" remaining_time="1:00" title="NewGame" total_time="1:00"/>
+<game max_players="2" remaining_time="1:00" title="What'sUp" total_time="1:00"/>
 </games_available>
 
 	<games_active>	

@@ -18,11 +18,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
+
 
 
 
@@ -252,11 +254,19 @@ public class JoinGameGUI extends JFrame{
 					String sTitle = uFieldTitle.getText();
 					int nMinutes = Integer.parseInt(aGameTimes[uComboTime.getSelectedIndex()].substring(0, aGameTimes[uComboTime.getSelectedIndex()].indexOf(" m")));
 					int nMaxPlayers = Integer.parseInt(uFieldMaxPlayers.getText());
-					createGame(sTitle, nMinutes, nMaxPlayers);
-					new WaitGameCreatorGUI();
-					dispose();
+					if(!createGame(sTitle, nMinutes, nMaxPlayers)){
+						showGameCreateError();
+					}
+					else{
+						new WaitGameCreatorGUI();
+						dispose();
+					}
 				}
 			});
+		}
+		
+		private void showGameCreateError(){
+			JOptionPane.showMessageDialog(this, "Error: " ,"A Game with the same name already exists.", JOptionPane.PLAIN_MESSAGE);
 		}
 
 		private void populateListGames(DefaultListModel uModel, Vector<String> vTitleStrings, Vector<String> vTimeStrings) {			
@@ -295,7 +305,7 @@ public class JoinGameGUI extends JFrame{
 		
 		private boolean createGame(String sTitle, int nMinutes, int nMaxPlayers){
 			String msg = Client.sendMsg("CREATE_GAME " + sTitle + " " + nMinutes + ":00 " + nMaxPlayers);
-			if(msg == "CREATE_GAME FAILURE"){
+			if(msg.equals("CREATE_GAME FAILURE")){
 				return false;
 			}
 			else{
@@ -319,6 +329,7 @@ public class JoinGameGUI extends JFrame{
 			
 			while(true){
 			//Update the list boxes every second:
+				//Thread.sleep(1000);
 				//Update the available players:
 					vAvailablePlayersUsernames.clear();
 					vAvailablePlayersCharacters.clear();

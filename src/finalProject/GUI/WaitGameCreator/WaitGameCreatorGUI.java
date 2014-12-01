@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,7 +29,8 @@ public class WaitGameCreatorGUI extends JFrame {
 	private JPanel uPanelPlayersInGame = new JPanel();
 	private JPanel uPanelButtons = new JPanel();
 	private JLabel uLabelPlayersInGame = new JLabel("Who's Playing:");
-	private String[] aPlayersInGame = { "Yuxin", "Jonathan" };
+	private Vector<String> vPlayersInGameUsernames = new Vector<String>();
+	private Vector<String> vPlayersInGameCharacters = new Vector<String>();
 	private String[] aGameTimes = { "1 minute", "2 minutes", "3 minutes", "4 minutes", "5 minutes", "6 minutes", "7 minutes", "8 minutes", "9 minutes", "10 minutes" };
 	private DefaultListModel uModelPlayersInGame = new DefaultListModel();
 	private JScrollPane uScrollPlayersInGame;
@@ -47,7 +49,7 @@ public class WaitGameCreatorGUI extends JFrame {
 		setVisible(true);
 	}
 
-	private class WaitGameCreatorPanel extends JPanel {
+	private class WaitGameCreatorPanel extends JPanel implements Runnable{
 
 		WaitGameCreatorPanel() {
 			initializeComponents();
@@ -60,7 +62,7 @@ public class WaitGameCreatorGUI extends JFrame {
 			this.setLayout(new GridLayout(1, 3, 50, 0));
 			// Players In Game:
 			uPanelPlayersInGame.setLayout(new BoxLayout(uPanelPlayersInGame, BoxLayout.Y_AXIS));
-			populateListStrings(uModelPlayersInGame, aPlayersInGame);
+			populateListStrings(uModelPlayersInGame, vPlayersInGameUsernames, vPlayersInGameCharacters);
 			uListPlayersInGame = new JList(uModelPlayersInGame);
 			uListPlayersInGame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			uScrollPlayersInGame = new JScrollPane(uListPlayersInGame);
@@ -122,9 +124,51 @@ public class WaitGameCreatorGUI extends JFrame {
 			});
 		}
 
-		private void populateListStrings(DefaultListModel uModel, String[] aTitleStrings) {
-			for (int i = 0; i < aTitleStrings.length; i++) {
-				uModel.addElement(aTitleStrings[i]);
+		private void populateListStrings(DefaultListModel uModel, Vector<String> vUsernameStrings, Vector<String> vCharacterStrings) {
+			//Set/add strings:
+			for (int i=0; i<vUsernameStrings.size(); i++) {
+				String sContent = vUsernameStrings.get(i) + " (" + vCharacterStrings.get(i) + ")";
+				if(i < uModel.getSize()){
+					uModel.set(i, sContent);
+				}
+				else{
+					uModel.addElement(sContent);
+				}
+			}
+			//Remove extra strings:
+			for(int i=vUsernameStrings.size(); i<uModel.size(); i++){
+				uModel.remove(i);
+			}
+		}
+		
+		public void run(){
+			Scanner uScan;
+			String sMsg;
+			
+			while(true){
+			//Update the list boxes every second:
+				//Thread.sleep(1000);
+				//Update the players in game:
+					vPlayersInGameUsernames.clear();
+					vPlayersInGameCharacters.clear();
+					//Get the game index:
+					uScan = new Scanner(Client.sendMsg("GET_PLAYER_GAME_INDEX"));
+					uScan.next();
+					int nGameIndex = uScan.nextInt();
+					if(nGameIndex < 0){
+						continue;
+					}
+					uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_NUM_PLAYERS " + nGameIndex));
+					uScan.next();
+					int nNumPlayersInGame = Integer.parseInt(uScan.next());
+					for(int i=0; i<nNumPlayersInGame; i++){
+						uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_PLAYER " + nGameIndex + " " + i));
+						uScan.next();
+						vPlayersInGameUsernames.add(uScan.next());
+						vPlayersInGameCharacters.add(uScan.next());
+					}
+					populateListStrings(uModelPlayersInGame, vPlayersInGameUsernames, vPlayersInGameCharacters);
+					uScan.close();
 			}
 		}
 	}

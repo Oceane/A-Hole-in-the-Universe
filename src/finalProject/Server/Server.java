@@ -152,11 +152,6 @@ public class Server extends JFrame implements Runnable {
 		String msgBody;
 		// Determine ip address of client:
 		sIP = ch.getSocket().getRemoteSocketAddress().toString();
-		switch (msgReceived.charAt(0)) {
-		case 'H':
-			msgSend = "Dear client, the server deems this day to be beautiful as well.";
-			break;
-		}
 		msgType = uScan.next();
 		switch (msgType) {
 		case "CREATE_PLAYER":
@@ -607,7 +602,18 @@ public class Server extends JFrame implements Runnable {
 	public synchronized static String createGame(String uIP, String title, String numMin, String numPla) {
 		String msg = "CREATE_GAME FAILURE";
 
-		// get parent
+		// make sure no other games have the same name:
+		NodeList games = doc.getElementsByTagName("game");
+		for(int i=0; i<games.getLength(); i++){
+			Element game = (Element)games.item(i);
+			if(game.getAttribute("title").equals(title)){
+				if(game.getParentNode().toString() != "games_history"){
+					return msg; //failure
+				}
+			}
+		}
+		
+		// create the game:
 		NodeList parentList = doc.getElementsByTagName("games_available");
 		Node parent = parentList.item(0);
 		Element game = doc.createElement("game");
