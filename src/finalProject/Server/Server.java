@@ -217,8 +217,13 @@ public class Server extends JFrame implements Runnable {
 		case "GET_NUM_GAMES_AVAILABLE":
 			msgSend = getNumGamesAvailable();
 			break;
+		case "GET_GAME_AVAILABLE":
+			msgSend = getGameAvailable(uScan.nextInt());
+			break;
 		case "GET_NUM_GAMES_ACTIVE":
 			msgSend = getNumGamesActive();
+			break;
+		case "GET_GAME_ACTIVE":
 			break;
 		// Chat
 		case "NOTIFICATIONS_GET_NUM":
@@ -492,6 +497,20 @@ public class Server extends JFrame implements Runnable {
 		if (gamesAvailable != null) {
 			numGames = gamesAvailable.getElementsByTagName("game").getLength();
 			msg = "GET_NUM_GAMES_AVAILABLE " + numGames;
+		}
+		return msg;
+	}
+	
+	public synchronized static String getGameAvailable(int nIndex){
+		String msg = "GET_GAME_AVAILABLE FAILURE";
+		Element gamesAvailable = (Element) doc.getElementsByTagName("games_available").item(0);
+		if(gamesAvailable != null){
+			Element game = (Element)gamesAvailable.getElementsByTagName("game").item(nIndex);
+			String sTitle = game.getAttribute("title");
+			String sRemainingTime = game.getAttribute("remaining_time");
+			String sTotalTime = game.getAttribute("total_time");
+			String sMaxPlayers = game.getAttribute("max_players");
+			msg = "GET_GAME_AVAILABLE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
 		}
 		return msg;
 	}

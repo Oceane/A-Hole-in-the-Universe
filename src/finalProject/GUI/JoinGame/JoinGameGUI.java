@@ -298,13 +298,35 @@ public class JoinGameGUI extends JFrame{
 						vAvailablePlayersCharacters.add(uScan.next());
 					}
 					populateListStrings(uModelAvailablePlayers, vAvailablePlayersUsernames, vAvailablePlayersCharacters);
-					//uListAvailablePlayers = new JList(uModelAvailablePlayers);
 				//Update the available games:
-				//aAvailableGames;
-				//aAvailableTimes;
+					vAvailableGamesTitles.clear();
+					vAvailableGamesTimes.clear();
+					uScan = new Scanner(Client.sendMsg("GET_NUM_GAMES_AVAILABLE"));
+					uScan.next();
+					int nNumAvailableGames = Integer.parseInt(uScan.next());
+					for(int i=0; i<nNumAvailableGames; i++){
+						uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE " + i));
+						uScan.next();
+						vAvailableGamesTitles.add(uScan.next());
+						uScan.next();
+						vAvailableGamesTimes.add(uScan.next());
+					}
+					populateListStrings(uModelAvailableGames, vAvailableGamesTitles, vAvailableGamesTimes);
 				//Update the players in game:
-				//aPlayersInGameUsernames = ;
-				//aPlayersInGameCharacters = ;
+					vAvailablePlayersUsernames.clear();
+					vAvailablePlayersCharacters.clear();
+					uScan = new Scanner(Client.sendMsg("GET_NUM_PLAYERS_AVAILABLE"));
+					uScan.next();
+					/*
+					int nNumPlayersInGame = Integer.parseInt(uScan.next());
+					for(int i=0; i<nNumPlayersInGame; i++){
+						uScan = new Scanner(Client.sendMsg("GET_PLAYER_AVAILABLE " + i));
+						uScan.next();
+						vAvailablePlayersUsernames.add(uScan.next());
+						vAvailablePlayersCharacters.add(uScan.next());
+					}
+					populateListStrings(uModelAvailablePlayers, vAvailablePlayersUsernames, vAvailablePlayersCharacters);
+					*/
 			}
 		}
 	}
