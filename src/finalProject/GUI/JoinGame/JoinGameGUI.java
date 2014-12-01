@@ -266,7 +266,7 @@ public class JoinGameGUI extends JFrame{
 		}
 		
 		private void showGameCreateError(){
-			JOptionPane.showMessageDialog(this, "Error: " ,"A Game with the same name already exists.", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "A game with the same name already exists!", "Error: ", JOptionPane.PLAIN_MESSAGE);
 		}
 
 		private void populateListGames(DefaultListModel uModel, Vector<String> vTitleStrings, Vector<String> vTimeStrings) {			
