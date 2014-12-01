@@ -220,10 +220,24 @@ public class Server extends JFrame implements Runnable {
 		case "GET_GAME_AVAILABLE":
 			msgSend = getGameAvailable(uScan.nextInt());
 			break;
+		case "GET_GAME_AVAILABLE_NUM_PLAYERS":
+			msgSend = getGameAvailableNumPlayers(uScan.nextInt());
+			break;
+		case "GET_GAME_AVAILABLE_PLAYER":
+			msgSend = getGameAvailablePlayer(uScan.nextInt(), uScan.nextInt());
+			break;
 		case "GET_NUM_GAMES_ACTIVE":
 			msgSend = getNumGamesActive();
 			break;
 		case "GET_GAME_ACTIVE":
+			break;
+		case "GET_GAME_ACTIVE_NUM_PLAYERS":
+			break;
+		case "GET_GAME_ACTIVE_PLAYER":
+			break;
+		case "GET_GAME_HISTORY_NUM_PLAYERS":
+			break;
+		case "GET_GAME_HISTORY_PLAYER":
 			break;
 		// Chat
 		case "NOTIFICATIONS_GET_NUM":
@@ -473,10 +487,6 @@ public class Server extends JFrame implements Runnable {
 		return n;
 	}
 
-	public synchronized static String getGameAvailable(String gameIndex) {
-		return "";
-	}
-
 	public synchronized static String getNumGamesActive() {
 		String msg = "GET_NUM_GAMES_ACTIVE FAILURE";
 
@@ -511,6 +521,32 @@ public class Server extends JFrame implements Runnable {
 			String sTotalTime = game.getAttribute("total_time");
 			String sMaxPlayers = game.getAttribute("max_players");
 			msg = "GET_GAME_AVAILABLE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
+		}
+		return msg;
+	}
+	
+	public synchronized static String getGameAvailableNumPlayers(int nGameIndex){
+		String msg = "GET_GAME_AVAILABLE_NUM_PLAYERS FAILURE";
+
+		int numPlayers = 0;
+		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(nGameIndex);
+		if (game != null) {
+			numPlayers = game.getElementsByTagName("player").getLength();
+			msg = "GET_GAME_AVAILABLE_NUM_PLAYERS " + numPlayers;
+		}
+		return msg;
+	}
+	
+	public synchronized static String getGameAvailablePlayer(int nGameIndex, int nPlayerIndex){
+		String msg = "GET_GAME_AVAILABLE_PLAYER FAILURE";
+
+		int numPlayers = 0;
+		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(nGameIndex);
+		if (game != null) {
+			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
+			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
+			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
+			msg = "GET_GAME_AVAILABLE_PLAYER " + sUsername + " " + sCharacter;
 		}
 		return msg;
 	}
@@ -576,26 +612,10 @@ public class Server extends JFrame implements Runnable {
 		Node parent = parentList.item(0);
 		Element game = doc.createElement("game");
 		parent.appendChild(game);
-
-		Element titlE = doc.createElement("title");
-		titlE.setTextContent(title);
-		game.appendChild(titlE);
-
-		Element totalTime = doc.createElement("total_time");
-		totalTime.setTextContent(numMin);
-		game.appendChild(totalTime);
-
-		Element remTime = doc.createElement("remaining_time");
-		remTime.setTextContent(numMin);
-		game.appendChild(remTime);
-
-		Element maxPlay = doc.createElement("max_players");
-		maxPlay.setTextContent(numPla);
-		game.appendChild(maxPlay);
-
-		Element hostIP = doc.createElement("host_ip");
-		hostIP.setTextContent(uIP);
-		game.appendChild(hostIP);
+		game.setAttribute("title", title);
+		game.setAttribute("remaining_time", numMin);
+		game.setAttribute("total_time", numMin);
+		game.setAttribute("max_players", numPla);
 
 		if (writeToXML())
 			msg = "CREATE_GAME SUCCESS";

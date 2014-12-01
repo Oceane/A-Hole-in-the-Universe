@@ -36,7 +36,6 @@ public class connectToServer extends JFrame {
 		// adds new instance of ImagePanel that will add all components to the
 		// frame
 		int rand = (int) (Math.random() * 10) + 1;
-		System.out.println(rand);
 		add(new ImagePanel("Backgrounds/universe" + rand + ".jpg"));
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

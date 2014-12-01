@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,7 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import finalProject.Client.Client;
 import finalProject.GUI.JoinGame.JoinGameGUI;
+import finalProject.GUI.game.GameUI;
 
 public class WaitGameCreatorGUI extends JFrame {
 	public static final int WINDOW_X = 950;
@@ -87,6 +90,34 @@ public class WaitGameCreatorGUI extends JFrame {
 				public void actionPerformed(ActionEvent ae) {
 					new JoinGameGUI();
 					dispose();
+				}
+			});
+			
+			uButtonReady.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					Scanner uScan = new Scanner(Client.sendMsg("GET_PLAYER_INFO"));
+					uScan.next();
+					String sUsername = uScan.next();
+					String sCharacter = uScan.next();
+					String sReady = uScan.next();
+					sReady = "true";
+					String sScore = uScan.next();
+					String sComets = uScan.next();
+					String sDeaths = uScan.next();
+					String sPowerUps = uScan.next();
+					String sMaxSpin = uScan.next();
+					String sMaxVel = uScan.next();
+					Client.sendMsg("SET_PLAYER_INFO " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel);
+					uScan.close();
+					
+					//Check to see if the player is in an active game:
+					uScan = new Scanner(Client.sendMsg("GET_PLAYER_STATUS"));
+					uScan.next();
+					String status = uScan.next();
+					if(status == "ACTIVE"){
+						new GameUI();
+						dispose();
+					}
 				}
 			});
 		}

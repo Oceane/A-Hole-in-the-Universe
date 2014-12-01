@@ -67,10 +67,13 @@ public class JoinGameGUI extends JFrame{
 		private JLabel uLabelCreateGame = new JLabel("Create Game:");
 		private JPanel uPanelTitle = new JPanel();
 		private JPanel uPanelTime = new JPanel();
+		private JPanel uPanelMaxPlayers = new JPanel();
 		private JLabel uLabelTitle = new JLabel("Title: ");
 		private JLabel uLabelTime = new JLabel("Time: ");
+		private JLabel uLabelMaxPlayers = new JLabel("Max Players: ");
 		private JTextField uFieldTitle = new JTextField();
 		private JComboBox uComboTime;
+		private JTextField uFieldMaxPlayers = new JTextField();
 		private Vector<String> vAvailablePlayersUsernames = new Vector<String>();
 		private Vector<String> vAvailablePlayersCharacters = new Vector<String>();
 		private Vector<String> vAvailableGamesTitles = new Vector<String>();
@@ -138,9 +141,12 @@ public class JoinGameGUI extends JFrame{
 			uPanelTitle.setBackground(uColorTrans);
 			uPanelTime.setLayout(new BoxLayout(uPanelTime, BoxLayout.X_AXIS));
 			uPanelTime.setBackground(uColorTrans);
+			uPanelMaxPlayers.setLayout(new BoxLayout(uPanelMaxPlayers, BoxLayout.X_AXIS));
+			uPanelMaxPlayers.setBackground(uColorTrans);
 			uLabelTitle.setLabelFor(uFieldTitle);
 			uComboTime = new JComboBox(aGameTimes);
 			uLabelTime.setLabelFor(uComboTime);
+			uLabelMaxPlayers.setLabelFor(uFieldMaxPlayers);
 			uPanelCreateGameButtons.setLayout(new BoxLayout(uPanelCreateGameButtons, BoxLayout.X_AXIS));
 		}
 
@@ -192,6 +198,9 @@ public class JoinGameGUI extends JFrame{
 			uPanelTime.add(uLabelTime);
 			uPanelTime.add(uComboTime);
 			uPanelCreateGameForm.add(uPanelTime);
+			uPanelMaxPlayers.add(uLabelMaxPlayers);
+			uPanelMaxPlayers.add(uFieldMaxPlayers);
+			uPanelCreateGameForm.add(uPanelMaxPlayers);
 			uPanelCreateGameFormCont.add(uPanelCreateGameForm);
 			uPanelCreateGame.add(uPanelCreateGameFormCont);
 			uPanelCreateGameButtons.add(uButtonCancelCreateGame);
@@ -233,12 +242,17 @@ public class JoinGameGUI extends JFrame{
 				public void actionPerformed(ActionEvent ae) {
 					uFieldTitle.setText("");
 					uComboTime.setSelectedIndex(0);
+					uFieldMaxPlayers.setText("");
 					CardLayout cardLayout = (CardLayout) uPanelCard.getLayout();
 					cardLayout.show(uPanelCard, "PlayersInGame");
 				}
 			});
 			uButtonDoneCreateGame.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
+					String sTitle = uFieldTitle.getText();
+					int nMinutes = Integer.parseInt(aGameTimes[uComboTime.getSelectedIndex()].substring(0, aGameTimes[uComboTime.getSelectedIndex()].indexOf(" m")));
+					int nMaxPlayers = Integer.parseInt(uFieldMaxPlayers.getText());
+					createGame(sTitle, nMinutes, nMaxPlayers);
 					new WaitGameCreatorGUI();
 					dispose();
 				}
@@ -248,7 +262,7 @@ public class JoinGameGUI extends JFrame{
 		private void populateListGames(DefaultListModel uModel, Vector<String> vTitleStrings, Vector<String> vTimeStrings) {			
 			//Set/add strings:
 			for (int i=0; i<vTitleStrings.size(); i++) {
-				String sContent = vTitleStrings.get(i) + " [" + vTimeStrings.get(i) + "]";
+				String sContent = vTitleStrings.get(i) + " [" + vTimeStrings.get(i) + " minutes]";
 				if(i < uModel.getSize()){
 					uModel.set(i, sContent);
 				}
@@ -276,6 +290,26 @@ public class JoinGameGUI extends JFrame{
 			//Remove extra strings:
 			for(int i=vUsernameStrings.size(); i<uModel.size(); i++){
 				uModel.remove(i);
+			}
+		}
+		
+		private boolean createGame(String sTitle, int nMinutes, int nMaxPlayers){
+			String msg = Client.sendMsg("CREATE_GAME " + sTitle + " " + nMinutes + ":00 " + nMaxPlayers);
+			if(msg == "CREATE_GAME FAILURE"){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		
+		private boolean joinGame(int nGameIndex){
+			String msg = Client.sendMsg("JOIN_GAME " + nGameIndex);
+			if(msg == "JOIN_GAME SUCCESS"){
+				return true;
+			}
+			else{
+				return false;
 			}
 		}
 		
@@ -309,24 +343,27 @@ public class JoinGameGUI extends JFrame{
 						uScan.next();
 						vAvailableGamesTitles.add(uScan.next());
 						uScan.next();
-						vAvailableGamesTimes.add(uScan.next());
+						String sTime = uScan.next();
+						vAvailableGamesTimes.add("" + sTime.substring(0, sTime.indexOf(":")));
 					}
-					populateListStrings(uModelAvailableGames, vAvailableGamesTitles, vAvailableGamesTimes);
+					populateListGames(uModelAvailableGames, vAvailableGamesTitles, vAvailableGamesTimes);
 				//Update the players in game:
-					vAvailablePlayersUsernames.clear();
-					vAvailablePlayersCharacters.clear();
-					uScan = new Scanner(Client.sendMsg("GET_NUM_PLAYERS_AVAILABLE"));
+					vPlayersInGameUsernames.clear();
+					vPlayersInGameCharacters.clear();
+					int nGameIndex = uListAvailableGames.getSelectedIndex();
+					if(nGameIndex < 0){
+						continue;
+					}
+					uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_NUM_PLAYERS " + nGameIndex));
 					uScan.next();
-					/*
 					int nNumPlayersInGame = Integer.parseInt(uScan.next());
 					for(int i=0; i<nNumPlayersInGame; i++){
-						uScan = new Scanner(Client.sendMsg("GET_PLAYER_AVAILABLE " + i));
+						uScan = new Scanner(Client.sendMsg("GET_GAME_AVAILABLE_PLAYER " + nGameIndex + " " + i));
 						uScan.next();
-						vAvailablePlayersUsernames.add(uScan.next());
-						vAvailablePlayersCharacters.add(uScan.next());
+						vPlayersInGameUsernames.add(uScan.next());
+						vPlayersInGameCharacters.add(uScan.next());
 					}
-					populateListStrings(uModelAvailablePlayers, vAvailablePlayersUsernames, vAvailablePlayersCharacters);
-					*/
+					populateListStrings(uModelPlayersInGame, vPlayersInGameUsernames, vPlayersInGameCharacters);
 			}
 		}
 	}
