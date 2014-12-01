@@ -140,43 +140,6 @@ public class scoreBoardGUI extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
-        	
-        	//draws the background image to fit the size of the JFrame
-            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
-            
-
-            //sets color and font for the Score Board title
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("American Typewriter", Font.PLAIN, 40));
-            g.drawString("Score Board", 380,100);
-            
-           
-            //draws table row and column outlines
-            g.drawLine(50,200,970,200);
-            g.drawLine(50,450,970,450);
-            g.drawLine(50,200,50,450);
-            g.drawLine(970,200,970,450);
-            g.drawLine(50, 262, 970, 262);
-            g.drawLine(50,355,970,355);
-            
-            g.drawLine(203, 200, 203, 450);
-            g.drawLine(356,200,356,450);
-            g.drawLine(509,200,509,450);
-            g.drawLine(662,200,662,450);
-            g.drawLine(815,200,815,450);
-            
-
-            
-            //draws column headers after setting font and text size
-            g.setFont(new Font("American Typewriter",Font.ITALIC,12));
-            g.drawString("Username",95,235);
-            g.drawString("Damage",260,235);
-            g.drawString("Comets Knocked Out",375,235);
-            g.drawString("Max Velocity",550,235);
-            g.drawString("Power Ups Used",690,235);
-            g.drawString("Total Deaths", 855, 235);
-            
-            
             //retrieves all player info
         	//format: "GET_PLAYER_INFO username character ready score comets deaths powerups max_spin max_vel"
         	allPlayerInfoP1 = Client.sendMsg(msg);
@@ -206,20 +169,95 @@ public class scoreBoardGUI extends JFrame {
         	array2[6] = deathsP2;
         	array2[7] = powerupsP2;
         	array2[9] = max_velP2;
+        	
+        	
+       	    //draws the background image to fit the size of the JFrame
+            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
             
-             //draws both players info into the table 
+
+            //sets color and font for the Score Board title
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("American Typewriter", Font.PLAIN, 40));
+            g.drawString("Score Board", 380,100);
+            
+           
+            //draws table row and column outlines
+            g.drawLine(50,200,970,200);
+            g.drawLine(50,450,970,450);
+            g.drawLine(50,200,50,450);
+            g.drawLine(970,200,970,450);
+            g.drawLine(50, 262, 970, 262);
+            g.drawLine(50,355,970,355);
+            
+            g.drawLine(203, 200, 203, 450);
+            g.drawLine(356,200,356,450);
+            g.drawLine(509,200,509,450);
+            g.drawLine(662,200,662,450);
+            g.drawLine(815,200,815,450);
+            
+            
+            //draws column headers after setting font and text size
+            g.setFont(new Font("American Typewriter",Font.ITALIC,12));
+            g.drawString("Username",95,235);
+            g.drawString("Damage",260,235);
+            g.drawString("Comets Knocked Out",375,235);
+            g.drawString("Max Velocity",550,235);
+            g.drawString("Power Ups Used",690,235);
+            g.drawString("Total Deaths", 855, 235);
+            
+            //draws player 1 info in the font of the corresponding planet they chose during Create Profile
+            if (array1[2].equals("Neslaou")){
+            	g.setFont(new Font("Cardinal",Font.BOLD,12));
+            }
+            else if (array1[2].equals("Gigolo")){
+            	g.setFont(new Font("Hatch",Font.BOLD,12));
+            }
+            else if (array1[2].equals("Earth")){
+            	g.setFont(new Font("Earth Kid",Font.BOLD,12));
+            	
+            }
+            else if (array1[2].equals("OraUhlsax")){
+            	g.setFont(new Font("Prakrta",Font.BOLD,12));
+            	
+            }
+            else{
+            	g.setFont(new Font("American Typewriter",Font.ITALIC,12));
+            }
+            //draws player 1 info into the table 
             g.drawString(usernameP1, 85,310);
-            g.drawString(usernameP2, 85,405);
             g.drawString(damageP1,245,310);
-            g.drawString(damageP2,245,405);
             g.drawString(cometsP1,400,310);
-            g.drawString(cometsP2,400,405);
             g.drawString(max_velP1,565,310);
-            g.drawString(max_velP2,565,405);
             g.drawString(powerupsP1,710,310);
-            g.drawString(powerupsP2,710,405);
             g.drawString(deathsP1,860,310);
+            
+          //draws player 2 info in the font of the corresponding planet they chose during Create Profile
+            if (array2[2].equals("Neslaou")){
+            	g.setFont(new Font("Cardinal",Font.BOLD,12));
+            }
+            else if (array2[2].equals("Gigolo")){
+            	g.setFont(new Font("Hatch",Font.BOLD,12));
+            }
+            else if (array2[2].equals("Earth")){
+            	g.setFont(new Font("Earth Kid",Font.BOLD,12));
+            	
+            }
+            else if (array2[2].equals("OraUhlsax")){
+            	g.setFont(new Font("Prakrta",Font.BOLD,12));
+            	
+            }
+            else{
+            	g.setFont(new Font("American Typewriter",Font.ITALIC,12));
+            }
+            
+            //draws player 2 info into the table
+            g.drawString(usernameP2, 85,405);
+            g.drawString(damageP2,245,405);
+            g.drawString(cometsP2,400,405);
+            g.drawString(max_velP2,565,405);
+            g.drawString(powerupsP2,710,405);
             g.drawString(deathsP2,860,405);
+	
             }
 
         }
