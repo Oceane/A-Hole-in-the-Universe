@@ -2,6 +2,7 @@ package finalProject.GUI.game;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -16,40 +17,41 @@ import javax.swing.border.LineBorder;
 
 import finalProject.Client.Client;
 import finalProject.GUI.connectToServer;
+import finalProject.GUI.JoinGame.JoinGameGUI;
+import finalProject.GUI.JoinGame.JoinGameGUI.JoinGamePanel;
 import finalProject.GUI.game.SpaceObjects.Blackhole;
 import finalProject.GUI.game.SpaceObjects.Comet;
 import finalProject.GUI.game.SpaceObjects.Player;
 import finalProject.GUI.game.SpaceObjects.SpaceObject;
 
-public class GameUI {
+public class GameUI extends JFrame{
 	static final int WIDTH = 950;
 	static final int HEIGHT = 650;
 	static final Image BG_IMG = Toolkit.getDefaultToolkit().getImage("Icons/BackgroundGame2.jpg");  // from a friend of mine
-	private final int OFFSET = 9;
+	private final int OFFSET_X = -5;
+	private final int OFFSET_Y = -25;
 	private final int NUM_COMETS = 5;
 	private static Random rand;
 	private Vector<SpaceObject> vObjs;
 	
+	public GameUI(){
+		super("A Hole In The Universe");
+		setLayout(null);
+		setSize(WIDTH, HEIGHT);
+		setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setPlayground();
+		
+		setVisible(true);
+	}
+	
 	public static void main(String [] args) {
 		GameUI myGame = new GameUI();
-		JFrame frame = new JFrame("A Hole in the Universe");
-		frame.setLayout(null);
-		myGame.setJFrame(frame);
-		myGame.setPlayground(frame);
-		//Client.sendMsg("Hello Server, lovely day aint it?");
 	}
 	
-	private void setJFrame(JFrame frame) {
-		// initial setup
-		frame.setSize(GameUI.WIDTH, GameUI.HEIGHT);
-		frame.setLocation(20, 20);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		frame.setVisible(true);
-		frame.setResizable(false);
-	}
-	
-	private void setPlayground(JFrame frame) {
+	private void setPlayground() {
 		vObjs = new Vector<SpaceObject>();
 		JPanel uPanel = new JPanel() {
 			/**
@@ -63,14 +65,14 @@ public class GameUI {
 				g.drawImage(BG_IMG, 0, 0, GameUI.WIDTH, GameUI.HEIGHT, null);
 			}
 		};
-		uPanel.setBounds(0, 0, frame.getContentPane().getWidth() + OFFSET, frame.getContentPane().getHeight() + OFFSET);
+		uPanel.setBounds(0, 0, this.getWidth() + OFFSET_X, this.getHeight() + OFFSET_Y);
 		uPanel.setLayout(null);
-		Player uPlayer = new Player("earth", 100, 100, uPanel, frame);
+		Player uPlayer = new Player("earth", 100, 100, uPanel, this);
 		vObjs.add(uPlayer);
 		for(int i=0; i<NUM_COMETS; i++){
 			vObjs.add(new Comet(uPanel));
 		}
-		frame.add(uPanel);
+		this.add(uPanel);
 		SpaceObjectManager uObjMan = new SpaceObjectManager(vObjs, new Blackhole(vObjs, uPanel), new ScorePanel(uPanel), uPanel);
 		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPlayer, uPanel);
 		CometGenerator uCMGen = new CometGenerator(vObjs, uPanel);

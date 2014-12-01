@@ -682,7 +682,7 @@ public class Server extends JFrame implements Runnable {
 		for(int i=0; i<games.getLength(); i++){
 			Element game = (Element)games.item(i);
 			if(game.getAttribute("title").equals(title)){
-				if(game.getParentNode().toString() != "games_history"){
+				if(!game.getParentNode().getNodeName().equals("games_history")){
 					return msg; //failure
 				}
 			}

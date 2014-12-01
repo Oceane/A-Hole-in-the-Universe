@@ -104,7 +104,7 @@ public class ScorePanel extends JPanel implements Runnable{
 				for (int i=0;i<4;i++) {
 					remainingTime = Integer.parseInt(scan.next());	// 
 				}
-				this.uRemainingTimeLabel.setText("Remaining time: " + remainingTime);;
+				this.uRemainingTimeLabel.setText("Remaining time: " + remainingTime);
 				scan.close();
 			}
 			try {

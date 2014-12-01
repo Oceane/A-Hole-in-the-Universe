@@ -136,13 +136,19 @@ public class WaitGameCreatorGUI extends JFrame {
 		public void run(){
 			Scanner uScan;
 			String sMsg;
+			String sStatus = "";
+			String sPrevStatus = "";
 			
 			while(true){
-			//Update the list box every second:
+				//Update the list boxes every second:
 				//Thread.sleep(1000);
 				//Update the players in game:
 					//Get the game index:
-					uScan = new Scanner(Client.sendMsg("GET_PLAYER_GAME_INDEX"));
+					sMsg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
+					if(sMsg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
+						continue;
+					}
+					uScan = new Scanner(sMsg);
 					uScan.next();
 					int nGameIndex = uScan.nextInt();
 					if(nGameIndex < 0){
@@ -175,12 +181,12 @@ public class WaitGameCreatorGUI extends JFrame {
 					//Check to see if the player is in an active game:
 					uScan = new Scanner(Client.sendMsg("GET_PLAYER_STATUS"));
 					uScan.next();
-					String status = uScan.next();
-					System.out.println(status);
-					if(status == "ACTIVE"){
+					sStatus = uScan.next();
+					if(sStatus.equals("ACTIVE") && sPrevStatus.equals("WAITING")){
 						new GameUI();
 						dispose();
 					}
+					sPrevStatus = sStatus;
 			}
 		}
 	}
