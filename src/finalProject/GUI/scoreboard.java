@@ -56,6 +56,7 @@ public class scoreboard extends JFrame {
 	public static String deathsP1;
 	public static String powerupsP1;
 	public static String max_velP1;
+	
 	public static Vector<String> usernames = new Vector<String>();
 	public static Vector<String> characters = new Vector<String>();
 	public static Vector<String> damages = new Vector<String>();
@@ -143,9 +144,15 @@ public class scoreboard extends JFrame {
 		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
 		//This class is also overriden by the paintComponent method to draw the table and title, and adds the 
 		//Quit and Home JButtons.
-		add(new ImagePanel("Backgrounds/universe1.jpg"));
+		add(new ImagePanel("Icons/space.jpg"));
 		
 		
+
+
+	
+		
+		
+
 		//Example code for vectors:
 		/*
 				rowData[][] = new String[vector.size()][10];
@@ -213,6 +220,30 @@ public class scoreboard extends JFrame {
     			}
     				
     			});
+    		
+    		String[][] rowData = new String[usernames.size()][7]; 
+    		
+    		String[]columnNames = { "Username", "Planet Choice", "Damage","Comets Knocked Out","Max Velocity","Power Ups Used","Total Deaths"};
+    		//JTable table = new JTable(rowData, columnNames);
+    		
+    		for (int i=0;i<usernames.size();i++){
+    			rowData[i][0] = usernames.get(i);
+    			rowData[i][1] = characters.get(i);
+    			rowData[i][2] = damages.get(i);
+    			rowData[i][3] = comets.get(i);
+    			rowData[i][4] = deaths.get(i);
+    			rowData[i][5] = powerups.get(i);
+    			rowData[i][6] = maxvels.get(i);
+    			
+    		}
+    		JTable myTable = new JTable(rowData, columnNames);
+    		JScrollPane scrollpane = new JScrollPane(myTable);
+    		scrollpane.setBounds(50,200,400,400);
+    		this.add(scrollpane);
+    		
+    		
+    		
+    		
             
     		//Player1:
     		ImageIcon img1 = getImageIcon(characterP1);
@@ -260,7 +291,7 @@ public class scoreboard extends JFrame {
             
 
             //sets color and font for the Score Board title
-            g.setColor(Color.WHITE);
+            /*g.setColor(Color.WHITE);
             g.setFont(new Font("American Typewriter", Font.PLAIN, 40));
             g.drawString("Score Board", 380,100);
             
@@ -341,11 +372,12 @@ public class scoreboard extends JFrame {
 	            g.drawString(cometsP2,400,405);
 	            g.drawString(max_velP2,565,405);
 	            g.drawString(powerupsP2,710,405);
-	            g.drawString(deathsP2,860,405);
-            */
+	            g.drawString(deathsP2,860,405);*/
+            
             }
 
         }
+
         
 //main method creates instance of scoreBoardGUI()
 public static void main (String [] args) throws IOException, ParserConfigurationException, SAXException{
