@@ -116,6 +116,7 @@ public class ScorePanel extends JPanel implements Runnable{
 			}
 		}
 		
+		bigloop:
 		while(true) {
 
 			//
@@ -162,8 +163,8 @@ public class ScorePanel extends JPanel implements Runnable{
 			
 			//Get the index of the active game that the current player is in:
 			msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
-			while(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
-				msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
+			if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
+				continue bigloop;
 			}
 			uScan = new Scanner(msg);
 			uScan.next();
@@ -172,8 +173,8 @@ public class ScorePanel extends JPanel implements Runnable{
 				
 			// update enemy score
 				msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
-				while(msg.equals("GET_PLAYER_INDEX FAILURE")){
-					msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
+				if(msg.equals("GET_PLAYER_INDEX FAILURE")){
+					continue bigloop;
 				}
 				uScan = new Scanner(msg);
 				uScan.next();
@@ -182,8 +183,8 @@ public class ScorePanel extends JPanel implements Runnable{
 
 				//Get the number of players
 				msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
-				while(msg.equals("GET_GAME_ACTIVE_NUM_PLAYERS FAILURE")){
-					msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
+				if(msg.equals("GET_GAME_ACTIVE_NUM_PLAYERS FAILURE")){
+					continue bigloop;
 				}
 				uScan = new Scanner(msg);
 				uScan.next();
@@ -197,8 +198,8 @@ public class ScorePanel extends JPanel implements Runnable{
 				for(int i=0; i<numPlayers; i++){
 					if(i != nPlayerIndex){
 						msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + " " + i);
-						while(msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
-							msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + " " + i);
+						if (msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
+							continue bigloop;
 						}
 						uScan = new Scanner(msg);
 						uScan.next();
@@ -228,8 +229,8 @@ public class ScorePanel extends JPanel implements Runnable{
 				
 			// update remaining time
 				msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
-				while(msg.equals("GET_GAME_ACTIVE FAILURE")){
-					msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
+				if(msg.equals("GET_GAME_ACTIVE FAILURE")){
+					continue bigloop;
 				}
 				Scanner scan = new Scanner(msg);
 				String remainingTime = "";
