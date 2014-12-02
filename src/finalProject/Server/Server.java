@@ -378,7 +378,7 @@ public class Server extends JFrame implements Runnable {
 			Element parent = (Element) sender.getParentNode();
 			Element player = (Element) parent.getElementsByTagName("player").item(playerIndex);
 			if (player != null) {
-				msgChat = sender.getElementsByTagName("username").item(0).toString() + ": " + msgChat;
+				msgChat = sender.getElementsByTagName("username").item(0).getTextContent() + ": " + msgChat;
 				if (sendChatMessage(msgChat, sender) && sendChatMessage(msgChat, player)) {
 					if (writeToXML())
 						msg = "NOTIFY_PLAYER SUCCESS";
@@ -395,11 +395,12 @@ public class Server extends JFrame implements Runnable {
 
 		// create Message
 		Element p = getPlayerElement(ip, true);
-		String Vorname = p.getElementsByTagName("username").item(0).toString();
+		String Vorname = p.getElementsByTagName("username").item(0).getTextContent();
 		msgChat = Vorname + ": " + msgChat;
+		Element parent = (Element)p.getParentNode();
 
 		// Get Nodelist of all players' notifications
-		NodeList nList = doc.getElementsByTagName("notifications");
+		NodeList nList = parent.getElementsByTagName("notifications");
 		for (int i = 0; i < nList.getLength(); i++) { // update inboxes
 			if (!sendChatMessage(msgChat, (Element) nList.item(i))){
 				flag = false;
@@ -922,7 +923,6 @@ public class Server extends JFrame implements Runnable {
 			} 
 			else if (player.getParentNode().getParentNode().getNodeName().equals("games_history")) {
 				msg = "GET_PLAYER_STATUS SCOREBOARD";
-				System.out.println("SCOREBOARD STATUS");
 			}
 		}
 		return msg;
