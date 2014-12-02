@@ -177,33 +177,38 @@ public class scoreboard extends JFrame {
         		JLabel labelEarth = new JLabel(imgEarth);
         		labelEarth.setSize(60,50);
         		labelEarth.setLocation(95,300);
+        		this.add(labelEarth);
     		}
     		else if (array1[2].equals("Neslaou")){
     			ImageIcon imgNeslaou= new ImageIcon("Icons/Neslaou.png");
         		Image imageEarth = imgNeslaou.getImage();
         		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
         		imgNeslaou = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgNeslaou);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,300);
+        		JLabel labelNeslaou = new JLabel(imgNeslaou);
+        		labelNeslaou.setSize(60,50);
+        		labelNeslaou.setLocation(95,300);
+        		this.add(labelNeslaou);
+        		
     		}
     		else if (array1[2].equals("Gigolo")){
     			ImageIcon imgGigolo= new ImageIcon("Icons/Gigolo.png");
         		Image imageEarth = imgGigolo.getImage();
         		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
         		imgGigolo = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgGigolo);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,300);
+        		JLabel labelGigolo = new JLabel(imgGigolo);
+        		labelGigolo.setSize(60,50);
+        		labelGigolo.setLocation(95,300);
+        		this.add(labelGigolo);
     		}
     		else if (array1[2].equals("OraUhlsax")){
     			ImageIcon imgOU= new ImageIcon("Icons/OU2.png");
         		Image imageOU = imgOU.getImage();
         		Image newImage = imageOU.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
         		imgOU = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgOU);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,300);
+        		JLabel labelOU = new JLabel(imgOU);
+        		labelOU.setSize(60,50);
+        		labelOU.setLocation(95,300);
+        		this.add(labelOU);
     		}
     		else if (array2[2].equals("Earth")){
     			ImageIcon imgEarth= new ImageIcon("Icons/Earth.png");
@@ -213,33 +218,37 @@ public class scoreboard extends JFrame {
         		JLabel labelEarth = new JLabel(imgEarth);
         		labelEarth.setSize(60,50);
         		labelEarth.setLocation(95,395);
+        		this.add(labelEarth);
     		}
     		else if (array2[2].equals("Neslaou")){
     			ImageIcon imgNeslaou= new ImageIcon("Icons/Neslaou.png");
         		Image imageEarth = imgNeslaou.getImage();
         		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
         		imgNeslaou = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgNeslaou);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,395);
+        		JLabel labelNeslaou = new JLabel(imgNeslaou);
+        		labelNeslaou.setSize(60,50);
+        		labelNeslaou.setLocation(95,395);
+        		this.add(labelNeslaou);
     		}
     		else if (array2[2].equals("Gigolo")){
     			ImageIcon imgGigolo= new ImageIcon("Icons/Gigolo.png");
         		Image imageEarth = imgGigolo.getImage();
         		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
         		imgGigolo = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgGigolo);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,395);
+        		JLabel labelGigolo = new JLabel(imgGigolo);
+        		labelGigolo.setSize(60,50);
+        		labelGigolo.setLocation(95,395);
+        		this.add(labelGigolo);
     		}
     		else if (array2[2].equals("OraUhlsax")){
     			ImageIcon imgOU= new ImageIcon("Icons/OU2.png");
         		Image imageOU = imgOU.getImage();
         		Image newImage = imageOU.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
         		imgOU = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgOU);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,395);
+        		JLabel labelOU = new JLabel(imgOU);
+        		labelOU.setSize(60,50);
+        		labelOU.setLocation(95,395);
+        		this.add(labelOU);
     		}
         }
        

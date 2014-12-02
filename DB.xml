@@ -168,6 +168,46 @@
 	</games_active>
 
 	<games_history>
+<game max_players="2" remaining_time="0:0" title="HeyGuys" total_time="1:00">
+<player>
+<username>Geoff</username>
+<character>Neslaou</character>
+<ip_address>/10.121.11.55:57859</ip_address>
+<ready>true</ready>
+<score>9100</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications>
+<notification/>
+<notification/>
+<notification/>
+<notification/>
+<notification/>
+</notifications>
+</player>
+<player>
+<username>nat</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:53265</ip_address>
+<ready>true</ready>
+<score>5300</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications>
+<notification/>
+<notification/>
+<notification/>
+<notification/>
+<notification/>
+</notifications>
+</player>
+</game>
 <game max_players="2" remaining_time="0:0" title="AwesomePanda" total_time="1:00">
 <player>
 <username>Hflaa</username>
