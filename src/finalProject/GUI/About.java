@@ -1,4 +1,5 @@
 package finalProject.GUI;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -17,33 +18,47 @@ public class About extends JPanel {
 		this.cardPanel = cardPanel;
 		cardLayout = (CardLayout) cardPanel.getLayout();
 
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new FlowLayout());
 
 		window();
 	}
 
 	private void window() {
 
-		// INSTANTIATION
-		DavidLabel = new JLabel("DAVID");
-		David = new JTextArea();
-		David.setEditable(false);
+		// JONATHAN
+		ImageIcon imageIcon = new ImageIcon("Backgrounds/unnamed.jpg");
+		Image image = imageIcon.getImage(); // transform it
+		Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(newimg); // transform it back
+		add(new JLabel(imageIcon));
 
-		GeoffreyLabel = new JLabel("GEOFFREY");
-		Geoffrey = new JTextArea();
-		Geoffrey.setEditable(false);
+		// DAVID
+		imageIcon = new ImageIcon("Backgrounds/YosemitePic.jpg");
+		image = imageIcon.getImage(); // transform it
+		newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(newimg); // transform it back
+		add(new JLabel(imageIcon));
 
-		JonathanLabel = new JLabel("JONATHAN");
-		Jonathan = new JTextArea();
-		Jonathan.setEditable(false);
+		// GEOFFREY
+		imageIcon = new ImageIcon("Backgrounds/geoffrey.jpg");
+		image = imageIcon.getImage(); // transform it
+		newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(newimg); // transform it back
+		add(new JLabel(imageIcon));
 
-		NatalieLabel = new JLabel("NATALIE");
-		Natalie = new JTextArea();
-		Natalie.setEditable(false);
+		// NATALIE
+		imageIcon = new ImageIcon("Backgrounds/natalie.jpg");
+		image = imageIcon.getImage(); // transform it
+		newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(newimg); // transform it back
+		add(new JLabel(imageIcon));
 
-		YuxinLabel = new JLabel("YUXIN");
-		Yuxin = new JTextArea();
-		Yuxin.setEditable(false);
+		// YUXIN
+		imageIcon = new ImageIcon("Backgrounds/yuxin.jpg");
+		image = imageIcon.getImage(); // transform it
+		newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(newimg); // transform it back
+		add(new JLabel(imageIcon));
 
 		JButton returnButton = new JButton("Return");
 
@@ -52,20 +67,7 @@ public class About extends JPanel {
 				cardLayout.show(cardPanel, "titlePanel");
 			}
 		});
-
-		// ADDING
-		add(DavidLabel);
-		add(David);
-		add(GeoffreyLabel);
-		add(Geoffrey);
-		add(JonathanLabel);
-		add(Jonathan);
-		add(NatalieLabel);
-		add(Natalie);
-		add(YuxinLabel);
-		add(Yuxin);
 		add(returnButton);
 
 	}
-
 }

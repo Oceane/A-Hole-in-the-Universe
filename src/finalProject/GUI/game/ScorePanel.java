@@ -102,10 +102,12 @@ public class ScorePanel extends JPanel implements Runnable{
 		String sStatus = "";
 		String sPrevStatus = "";
 		
+		bigloop:
 		while(true) {
 			msg = Client.sendMsg("GET_PLAYER_STATUS");
-			if (msg.equals("GET_PLAYER_STATUS ACTIVE")) {
-				break;
+			while (msg.equals("GET_PLAYER_STATUS ACTIVE")) {
+				msg = Client.sendMsg("GET_PLAYER_STATUS");
+				break bigloop;
 			}
 			try {
 				Thread.sleep(1000/REFRESH_RATE);  // milliseconds
@@ -114,6 +116,7 @@ public class ScorePanel extends JPanel implements Runnable{
 			}
 		}
 		
+		bigloop:
 		while(true) {
 
 			//
@@ -161,7 +164,7 @@ public class ScorePanel extends JPanel implements Runnable{
 			//Get the index of the active game that the current player is in:
 			msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
 			if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
-				continue;
+				continue bigloop;
 			}
 			uScan = new Scanner(msg);
 			uScan.next();
@@ -171,7 +174,7 @@ public class ScorePanel extends JPanel implements Runnable{
 			// update enemy score
 				msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
 				if(msg.equals("GET_PLAYER_INDEX FAILURE")){
-					continue;
+					continue bigloop;
 				}
 				uScan = new Scanner(msg);
 				uScan.next();
@@ -181,7 +184,7 @@ public class ScorePanel extends JPanel implements Runnable{
 				//Get the number of players
 				msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
 				if(msg.equals("GET_GAME_ACTIVE_NUM_PLAYERS FAILURE")){
-					continue;
+					continue bigloop;
 				}
 				uScan = new Scanner(msg);
 				uScan.next();
@@ -195,8 +198,8 @@ public class ScorePanel extends JPanel implements Runnable{
 				for(int i=0; i<numPlayers; i++){
 					if(i != nPlayerIndex){
 						msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + " " + i);
-						if(msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
-							continue;
+						if (msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
+							continue bigloop;
 						}
 						uScan = new Scanner(msg);
 						uScan.next();
@@ -227,7 +230,7 @@ public class ScorePanel extends JPanel implements Runnable{
 			// update remaining time
 				msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
 				if(msg.equals("GET_GAME_ACTIVE FAILURE")){
-					continue;
+					continue bigloop;
 				}
 				Scanner scan = new Scanner(msg);
 				String remainingTime = "";
