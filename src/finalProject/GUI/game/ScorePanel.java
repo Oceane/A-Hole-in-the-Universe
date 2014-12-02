@@ -29,7 +29,7 @@ public class ScorePanel extends JPanel implements Runnable{
 	public ScorePanel(JPanel uPanel, JFrame uFrame){
 		this.uFrame = uFrame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBounds(0, 0, 150, 50);
+		this.setBounds(0, 0, 200, 50);
 		this.setBackground(uSemiTrans);
 		this.uScoreLabel = new JLabel("Damage: 0");
 		this.uScoreLabel.setForeground(Color.white);
@@ -37,9 +37,8 @@ public class ScorePanel extends JPanel implements Runnable{
 		//this.uEnemyScoreLabel.setForeground(Color.white);
 		this.uRemainingTimeLabel = new JLabel("Remaining Time: 0:0");
 		this.uRemainingTimeLabel.setForeground(Color.white);
-		this.add(this.uScoreLabel);
-		//this.add(this.uEnemyScoreLabel);
 		this.add(this.uRemainingTimeLabel);
+		this.add(this.uScoreLabel);
 		uPanel.add(this);
 		new Thread(this).start();
 	}
@@ -85,6 +84,24 @@ public class ScorePanel extends JPanel implements Runnable{
 		
 		while(true) {
 
+			
+			//Update database with current score:
+			uScan = new Scanner(Client.sendMsg("GET_PLAYER_INFO"));
+			uScan.next();
+			String sUsername = uScan.next();
+			String sCharacter = uScan.next();
+			String sReady = uScan.next();
+			String sScore = uScan.next();
+			sScore = this.nScore + "";
+			String sComets = uScan.next();
+			String sDeaths = uScan.next();
+			String sPowerUps = uScan.next();
+			String sMaxSpin = uScan.next();
+			String sMaxVel = uScan.next();
+			Client.sendMsg("SET_PLAYER_INFO " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel);
+			uScan.close();
+			
+			
 			//Get the index of the active game that the current player is in:
 			String msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
 			if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
@@ -142,7 +159,8 @@ public class ScorePanel extends JPanel implements Runnable{
 				vEnemyScoreLabels.clear();
 				// create the new labels:
 				for(int i=0; i<vEnemyUsernames.size(); i++){
-					this.vEnemyScoreLabels.add(new JLabel(vEnemyUsernames.get(i) + " (" + vEnemyCharacters.get(i) +  ") Damage: " + vEnemyScoreLabels.get(i)));
+					this.vEnemyScoreLabels.add(new JLabel(vEnemyUsernames.get(i) + " (" + vEnemyCharacters.get(i) +  ") Damage: " + vEnemyScores.get(i)));
+					this.vEnemyScoreLabels.get(i).setForeground(Color.WHITE);
 				}
 				// add the labels to the score panel:
 				for(int i=0; i<vEnemyScoreLabels.size(); i++){
@@ -151,6 +169,9 @@ public class ScorePanel extends JPanel implements Runnable{
 				
 			// update remaining time
 				msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
+				if(msg.equals("GET_GAME_ACTIVE FAILURE")){
+					continue;
+				}
 				Scanner scan = new Scanner(msg);
 				String remainingTime = "";
 				for (int i=0;i<3;i++) {
