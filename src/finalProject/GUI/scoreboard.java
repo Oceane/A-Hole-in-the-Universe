@@ -79,13 +79,13 @@ public class scoreboard extends JFrame {
 		System.out.println(allPlayerInfoP1);
     	
     	//assign all values in the array to their respective score board values
-    	usernames.add(array1[1]);
-    	characters.add(array1[2]);
-    	damages.add(array1[4]);
-    	comets.add(array1[5]);
-    	deaths.add(array1[6]);
-    	powerups.add(array1[7]);
-    	maxvels.add(array1[9]);
+    	usernameP1 = array1[1];
+    	characterP1 = array1[2];
+    	damageP1 = array1[4];
+    	cometsP1 = array1[5];
+    	deathsP1 = array1[6];
+    	powerupsP1 = array1[7];
+    	max_velP1 = array1[9];
     	
     	Scanner uScan;
 		//Get the index of the active game that the current player is in:
@@ -139,7 +139,7 @@ public class scoreboard extends JFrame {
 		    	characters.add(array2[2]);
 		    	damages.add(array2[4]);
 		    	comets.add(array2[5]);
-		    	deaths.add(array2[6]);
+		    	deaths.add(array1[6]);
 		    	powerups.add(array2[7]);
 		    	maxvels.add(array2[9]);
 			}
@@ -260,7 +260,6 @@ public class scoreboard extends JFrame {
     		
             
     		//Player1:
-    		/*
     		ImageIcon img1 = getImageIcon(characterP1);
     		Image image1 = img1.getImage();
     		Image newImage1 = image1.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
@@ -269,11 +268,9 @@ public class scoreboard extends JFrame {
     		label1.setSize(60,50);
     		label1.setLocation(95,300);
     		this.add(label1);
-    		*/
     		
     		//Other players:
     		for(int i=0; i< characters.size(); i++){
-    			System.out.println(characters.get(i));
 	    		ImageIcon img = getImageIcon(characters.get(i));
 	    		Image image = img.getImage();
 	    		Image newImage = image.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
