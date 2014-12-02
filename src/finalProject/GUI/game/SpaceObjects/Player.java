@@ -41,11 +41,21 @@ public class Player extends SpaceObject implements Runnable{
 		new Thread(this).start(); //start player thread after all other initialization
 	}
 	
-	static Image getCharacterImg(String sCharacter){
+    static Image getCharacterImg(String sCharacter){
 		switch(sCharacter){
-		case "earth":
-			return Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png"); // from http://commons.wikimedia.org/wiki/File:Globe.png
-		} 
+            case "earth":
+                return Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png"); // from http://commons.wikimedia.org/wiki/File:Globe.png
+                
+            case "neslaou":
+                return Toolkit.getDefaultToolkit().getImage("Icons/Neslaou.png");
+                
+            case "gigolo":
+                return Toolkit.getDefaultToolkit().getImage("Icons/Gigolo.png");
+                
+            case "orauhlsax":
+                return Toolkit.getDefaultToolkit().getImage("Icons/OU2.png");
+	    }
+		
 		//Make earth the default image:
 		return Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png");
 	}

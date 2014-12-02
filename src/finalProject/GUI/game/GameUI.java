@@ -33,6 +33,9 @@ public class GameUI extends JFrame{
 	private final int NUM_COMETS = 5;
 	private static Random rand;
 	private Vector<SpaceObject> vObjs;
+	private String playerInfo;
+	private String playerCharacter;
+	private String[] array;
 	
 	public GameUI(){
 		super("A Hole In The Universe");
@@ -55,10 +58,10 @@ public class GameUI extends JFrame{
 		vObjs = new Vector<SpaceObject>();
 		JPanel uPanel = new JPanel() {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
-
+            
 			@Override
 			protected void paintComponent(Graphics g) {
 				
@@ -67,17 +70,26 @@ public class GameUI extends JFrame{
 		};
 		uPanel.setBounds(0, 0, this.getWidth() + OFFSET_X, this.getHeight() + OFFSET_Y);
 		uPanel.setLayout(null);
-		Player uPlayer = new Player("earth", 100, 100, uPanel, this);
+		
+		//obtain player character choice
+		playerInfo =Client.sendMsg("GET_PLAYER_INFO");
+		array = playerInfo.split("\\s+");
+		array[2] = playerCharacter;
+		
+		Player uPlayer = new Player(playerCharacter, 100, 100, uPanel, this);
+		
+		
+		
 		vObjs.add(uPlayer);
 		for(int i=0; i<NUM_COMETS; i++){
 			vObjs.add(new Comet(uPanel));
 		}
 		this.add(uPanel);
-		SpaceObjectManager uObjMan = new SpaceObjectManager(vObjs, new Blackhole(vObjs, uPanel), new ScorePanel(uPanel, this), uPanel);
+		SpaceObjectManager uObjMan = new SpaceObjectManager(vObjs, new Blackhole(vObjs, uPanel), new ScorePanel(uPanel), uPanel);
 		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPlayer, uPanel);
 		CometGenerator uCMGen = new CometGenerator(vObjs, uPanel);
 	}
-
+    
 	/**
 	 * Returns a pseudo-random number between min and max, inclusive.
 	 * The difference between min and max can be at most
@@ -90,15 +102,15 @@ public class GameUI extends JFrame{
 	 * from http://stackoverflow.com/questions/363681/generating-random-integers-in-a-range-with-java
 	 */
 	public static int randInt(int min, int max) {
-	
+        
 	    // NOTE: Usually this should be a field rather than a method
 	    // variable so that it is not re-seeded every call.
 	    rand = new Random();
-	
+        
 	    // nextInt is normally exclusive of the top value,
 	    // so add 1 to make it inclusive
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
-	
+        
 	    return randomNum;
 	}
 }
