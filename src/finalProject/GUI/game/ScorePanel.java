@@ -14,7 +14,7 @@ import finalProject.Client.Client;
 import finalProject.GUI.scoreboard;
 
 public class ScorePanel extends JPanel implements Runnable{
-	public static final int HEIGHT = 60;
+	public static final int HEIGHT = 50;
 	public static final Color uSemiTrans = new Color(0, 0, 0, 150);
 	private JFrame uFrame;
 	private int nScore;
