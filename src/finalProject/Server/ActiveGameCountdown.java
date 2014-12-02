@@ -16,7 +16,7 @@ public class ActiveGameCountdown extends Thread{
 	public void run(){
 		try {
 			while(true){
-				Thread.sleep(1); //TEST STUB: change to 1000
+				Thread.sleep(1000); //TEST STUB: change to 1000
 				synchronized(this.doc){
 					//Decrement all active game times by 1 second:
 					NodeList activeList = this.doc.getElementsByTagName("games_active");

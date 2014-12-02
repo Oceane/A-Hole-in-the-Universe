@@ -90,6 +90,7 @@ public class ScorePanel extends JPanel implements Runnable{
 	}
 	
 	public void calcMaxVel(int nCurVel){
+		System.out.println("");
 		if(nCurVel > this.nMaxVel){
 			this.nMaxVel = nCurVel;
 		}

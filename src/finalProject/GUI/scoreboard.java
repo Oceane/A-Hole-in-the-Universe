@@ -238,7 +238,7 @@ public class scoreboard extends JFrame {
     		
     		String[][] rowData = new String[usernames.size()][7]; 
     		
-    		String[]columnNames = { "Username", "Planet Choice", "Damage","Comets Knocked Out","Max Velocity","Power Ups Used","Total Deaths"};
+    		String[]columnNames = { "Username", "Character", "Damage","Comets Sucked In","Total Deaths","Power Ups Used","Max Velocity"};
     		
     		
     		for (int i=0;i<usernames.size();i++){
