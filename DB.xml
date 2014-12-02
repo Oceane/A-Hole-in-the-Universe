@@ -138,6 +138,34 @@
 	</games_active>
 
 	<games_history>
+<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
+<player>
+<username>Hello</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:57181</ip_address>
+<ready>true</ready>
+<score>34900</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+<player>
+<username>yuxin</username>
+<character>Neslaou</character>
+<ip_address>/10.121.126.180:35870</ip_address>
+<ready>true</ready>
+<score>103100</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
 <game max_players="1" remaining_time="0:0" title="Gamee" total_time="1:00">
 <player>
 <username>ueo</username>
