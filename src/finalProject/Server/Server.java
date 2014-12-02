@@ -922,6 +922,7 @@ public class Server extends JFrame implements Runnable {
 			} 
 			else if (player.getParentNode().getParentNode().getNodeName().equals("games_history")) {
 				msg = "GET_PLAYER_STATUS SCOREBOARD";
+				System.out.println("SCOREBOARD STATUS");
 			}
 		}
 		return msg;

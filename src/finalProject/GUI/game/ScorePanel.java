@@ -68,12 +68,13 @@ public class ScorePanel extends JPanel implements Runnable{
 
 	@Override
 	public void run() {
+		String msg;
 		Scanner uScan;
 		String sStatus = "";
 		String sPrevStatus = "";
 		
 		while(true) {
-			String msg = Client.sendMsg("GET_PLAYER_STATUS");
+			msg = Client.sendMsg("GET_PLAYER_STATUS");
 			if (msg.equals("GET_PLAYER_STATUS ACTIVE")) {
 				break;
 			}
@@ -86,6 +87,26 @@ public class ScorePanel extends JPanel implements Runnable{
 		
 		while(true) {
 
+			//
+			
+			// check to see if the status is score board and navigate to the scoreboard:
+			//Check to see if the player is in an active game:
+			msg = Client.sendMsg("GET_PLAYER_STATUS");
+			System.out.println(msg);
+			uScan = new Scanner(msg);
+			uScan.next();
+			sStatus = uScan.next();
+			System.out.println(msg);
+			if(sStatus.equals("SCOREBOARD") && sPrevStatus.equals("ACTIVE")){
+				try {
+					new scoreboard();
+					this.uFrame.dispose();
+					break;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			sPrevStatus = sStatus;	
 			
 			//Update database with current score:
 			uScan = new Scanner(Client.sendMsg("GET_PLAYER_INFO"));
@@ -105,7 +126,7 @@ public class ScorePanel extends JPanel implements Runnable{
 			
 			
 			//Get the index of the active game that the current player is in:
-			String msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
+			msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
 			if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
 				continue;
 			}
@@ -170,8 +191,6 @@ public class ScorePanel extends JPanel implements Runnable{
 				}
 				this.setSize(this.getWidth(), HEIGHT + vEnemyUsernames.size()*20);
 				
-				//
-				
 			// update remaining time
 				msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
 				if(msg.equals("GET_GAME_ACTIVE FAILURE")){
@@ -196,26 +215,6 @@ public class ScorePanel extends JPanel implements Runnable{
 //				}
 				this.uRemainingTimeLabel.setText("Remaining Time: " + remainingTime);
 				scan.close();
-				
-				
-				
-			// check to see if the status is score board and navigate to the scoreboard:
-				//Check to see if the player is in an active game:
-				msg = Client.sendMsg("GET_PLAYER_STATUS");
-				System.out.println(msg);
-				uScan = new Scanner(msg);
-				uScan.next();
-				sStatus = uScan.next();
-				System.out.println(msg);
-				if(sStatus.equals("SCOREBOARD") && sPrevStatus.equals("ACTIVE")){
-					try {
-						new scoreboard();
-						this.uFrame.dispose();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				sPrevStatus = sStatus;
 				
 			try {
 				Thread.sleep(1000/REFRESH_RATE);  // milliseconds
