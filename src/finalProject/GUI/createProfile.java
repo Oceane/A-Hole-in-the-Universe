@@ -170,7 +170,7 @@ public class createProfile extends JFrame implements MouseListener {
 		Neslaou.add(nTitle);
 		if (selectedPlanet == 2) {
 			if (!playedSound) {
-				playSound("NSound.mp3");
+				playSound("NSound.wav");
 				playedSound = true;
 			}
 			nTitle.setFont(getFont("Neslaou", 60).deriveFont(Font.BOLD)); // bold
@@ -191,6 +191,10 @@ public class createProfile extends JFrame implements MouseListener {
 		Earth.add(eIcon);
 		Earth.add(eTitle);
 		if (selectedPlanet == 3) {
+			if (!playedSound) {
+				playSound("ESound.wav");
+				playedSound = true;
+			}
 			eTitle.setFont(getFont("Earth2", 40).deriveFont(Font.BOLD)); // bold
 																			// it
 			JTextField EBio = new JTextField();
@@ -208,6 +212,10 @@ public class createProfile extends JFrame implements MouseListener {
 		gIcon.setAlignmentX(CENTER_ALIGNMENT);
 		gTitle.setAlignmentX(CENTER_ALIGNMENT);
 		if (selectedPlanet == 4) {
+			if (!playedSound) {
+				playSound("GSound.wav");
+				playedSound = true;
+			}
 			gTitle.setFont(getFont("Gigolo", 40).deriveFont(Font.BOLD)); // bold
 																			// it
 			JTextField GBio = new JTextField();
@@ -311,7 +319,10 @@ public class createProfile extends JFrame implements MouseListener {
 			}
 		} else if (x >= 545 && x <= 866) {
 			if (y >= 170 && y <= 378) {
-				selectedPlanet = 2;
+				if(selectedPlanet != 2){
+					selectedPlanet = 2;
+					playedSound = false;
+				}
 				planetsPanel.removeAll();
 				createPlanetsPanel();
 				validate();
@@ -320,7 +331,10 @@ public class createProfile extends JFrame implements MouseListener {
 		}
 		if (x >= 100 && x <= 377) {
 			if (y >= 402 && y <= 634) {
-				selectedPlanet = 3;
+				if(selectedPlanet!=3){
+					selectedPlanet = 3;
+					playedSound = false;
+				}
 				planetsPanel.removeAll();
 				createPlanetsPanel();
 				validate();
@@ -328,7 +342,10 @@ public class createProfile extends JFrame implements MouseListener {
 			}
 		} else if (x >= 558 && x <= 856) {
 			if (y >= 399 && y <= 629) {
-				selectedPlanet = 4;
+				if(selectedPlanet!=4){
+					selectedPlanet = 4;
+					playedSound = false;
+				}
 				planetsPanel.removeAll();
 				createPlanetsPanel();
 				validate();
@@ -359,5 +376,9 @@ public class createProfile extends JFrame implements MouseListener {
 		} catch (Exception e) {
 			// whatevers
 		}
+	}
+	
+	public static void main(String[] args){
+		new createProfile();
 	}
 }

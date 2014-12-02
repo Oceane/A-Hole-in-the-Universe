@@ -67,7 +67,6 @@ public class scoreboard extends JFrame {
 
 	public scoreboard() throws IOException{
 		super("A Hole in the Universe");
-		System.out.println("JFrame constructor call");
 		setSize(950,650);
 		setLocationRelativeTo(null);
         //retrieves all player info
@@ -77,7 +76,8 @@ public class scoreboard extends JFrame {
     	//splits all player info by whitespace into array
     	//format: [GET_PLAYER_INFO, username, character, ready, score, comets, deaths, powerups, max_spin, max_vel]
     	array1 = allPlayerInfoP1.split("\\s+");
-		
+		System.out.println(allPlayerInfoP1);
+    	
     	//assign all values in the array to their respective score board values
     	usernameP1 = array1[1];
     	characterP1 = array1[2];
@@ -88,30 +88,34 @@ public class scoreboard extends JFrame {
     	max_velP1 = array1[9];
     	
     	Scanner uScan;
-    	System.out.println("1");
 		//Get the index of the active game that the current player is in:
 		msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
-		if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
-			return;
+		
+		while(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
+			msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
+			System.out.println("GET_PLAYER_GAME_INDEX FAILURE");
+			continue;
 		}
 		uScan = new Scanner(msg);
 		uScan.next();
 		int nGameIndex = Integer.parseInt(uScan.next());
-		uScan.close();
-		System.out.println("2");	
+		uScan.close();	
 		// update enemy score
 			msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
-			if(msg.equals("GET_PLAYER_INDEX FAILURE")){
-				return;
+			while(msg.equals("GET_PLAYER_INDEX FAILURE")){
+				msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
+				System.out.println("GET_PLAYER_INDEX FAILURE");
+				continue;
 			}
 			uScan = new Scanner(msg);
 			uScan.next();
 			int nPlayerIndex = Integer.parseInt(uScan.next());
 			uScan.close();
-			System.out.println("3");
 		//Get the number of players
 		msg = Client.sendMsg("GET_GAME_HISTORY_NUM_PLAYERS " + nGameIndex);
 		while(msg.equals("GET_GAME_HISTORY_NUM_PLAYERS FAILURE")){
+			msg = Client.sendMsg("GET_GAME_HISTORY_NUM_PLAYERS " + nGameIndex);
+			System.out.println("GET_GAME_HISTORY_NUM_PLAYERS FAILURE");
 			continue;
 		}
 		uScan = new Scanner(msg);
@@ -122,7 +126,10 @@ public class scoreboard extends JFrame {
 		for(int i=0; i<numPlayers; i++){
 			if(i != nPlayerIndex){
 				msg = Client.sendMsg("GET_GAME_HISTORY_PLAYER " + nGameIndex + " " + i);
-				if(msg.equals("GET_GAME_HISTORY_PLAYER FAILURE")){
+				System.out.println(i+ "th player : "+ msg);
+				while(msg.equals("GET_GAME_HISTORY_PLAYER FAILURE")){
+					msg = Client.sendMsg("GET_GAME_HISTORY_PLAYER " + nGameIndex + " " + i);
+					System.out.println("GET_GAME_HISTORY_PLAYER FAILURE");
 					continue;
 				}
 		    	array2 = msg.split("\\s+");
@@ -136,7 +143,6 @@ public class scoreboard extends JFrame {
 		    	powerups.add(array2[7]);
 		    	maxvels.add(array2[9]);
 			}
-			System.out.println("4");
 		}
 		
 		setTitle("A Hole in the Universe");
@@ -226,7 +232,7 @@ public class scoreboard extends JFrame {
     		String[][] rowData = new String[usernames.size()][7]; 
     		
     		String[]columnNames = { "Username", "Planet Choice", "Damage","Comets Knocked Out","Max Velocity","Power Ups Used","Total Deaths"};
-    		//JTable table = new JTable(rowData, columnNames);
+    		
     		
     		for (int i=0;i<usernames.size();i++){
     			rowData[i][0] = usernames.get(i);
@@ -238,9 +244,15 @@ public class scoreboard extends JFrame {
     			rowData[i][6] = maxvels.get(i);
     			
     		}
+    		for (int i=0;i<usernames.size();i++){
+    			for (int j=0;j<6;j++){
+    				System.out.println(rowData[i][j]+"");
+    			}
+    		}
+    		//System.out.println(rowData);
     		JTable myTable = new JTable(rowData, columnNames);
     		JScrollPane scrollpane = new JScrollPane(myTable);
-    		scrollpane.setBounds(50,200,400,400);
+    		scrollpane.setBounds(70,50,800,400);
     		this.add(scrollpane);
     		
     		
@@ -289,7 +301,6 @@ public class scoreboard extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
         	super.paintComponent(g);
-        	System.out.println("paint component test");
        	    //draws the background image to fit the size of the JFrame
             g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
             
