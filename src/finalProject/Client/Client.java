@@ -23,6 +23,16 @@ public class Client{
 		return true;
 	}
 	
+	public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
+	
 	//This function will send a message to the server and wait until the server responds.
 	//When the server responds, return the message to the caller.
 	//This function is synchronized so that only one thread can send a msg at a time.
