@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -258,7 +259,13 @@ public class scoreboard extends JFrame {
     		}
     		//System.out.println(rowData);
     		JTable myTable = new JTable(rowData, columnNames);
+    		myTable.setFont(new Font("American Typewriter",Font.ITALIC,14));
+    		myTable.setForeground(Color.WHITE);
+    		myTable.setOpaque(false);
+    		((DefaultTableCellRenderer) myTable.getDefaultRenderer(Object.class)).setOpaque(false);
     		JScrollPane scrollpane = new JScrollPane(myTable);
+    		scrollpane.setOpaque(false);
+    		scrollpane.getViewport().setOpaque(false);
     		scrollpane.setBounds(70,50,800,400);
     		this.add(scrollpane);
     		
