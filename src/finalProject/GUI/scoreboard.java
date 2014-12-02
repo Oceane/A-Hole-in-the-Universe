@@ -153,26 +153,26 @@ public class scoreboard extends JFrame {
         	array1 = allPlayerInfoP1.split("\\s+");
         	
         	//assign all values in the array to their respective score board values
-        	array1[1] = usernameP1;
-        	array1[2] = characterP1;
-        	array1[4] = damageP1;
-        	array1[5] = cometsP1;
-        	array1[6] = deathsP1;
-        	array1[7] = powerupsP1;
-        	array1[9] = max_velP1;
+        	usernameP1 = array1[1];
+        	characterP1 = array1[2];
+        	damageP1 = array1[4];
+        	cometsP1 = array1[5];
+        	deathsP1 = array1[6];
+        	powerupsP1 = array1[7];
+        	max_velP1 = array1[9];
         	
         	//retrieve info for player 2 and assign values similar to player 1
         	allPlayerInfoP2 = Client.sendMsg(msg);
         	
         	array2 = allPlayerInfoP2.split("\\s+");
         	
-        	array2[1] = usernameP2;
-        	array2[2] = characterP2;
-        	array2[4] = damageP2;
-        	array2[5] = cometsP2;
-        	array2[6] = deathsP2;
-        	array2[7] = powerupsP2;
-        	array2[9] = max_velP2;
+        	usernameP2 = array2[1];
+        	characterP2 = array2[2];
+        	damageP2 = array2[4];
+        	cometsP2 = array2[5];
+        	deathsP2 = array1[6];
+        	powerupsP2 = array2[7];
+        	max_velP2 = array2[9];
         	
         	
        	    //draws the background image to fit the size of the JFrame
