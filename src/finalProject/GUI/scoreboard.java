@@ -295,7 +295,7 @@ public class scoreboard extends JFrame {
 	    		JLabel label = new JLabel(img);
 	    		label.setSize(60,50);
 	    		label.setLocation(95,300);
-	    		this.add(label);
+	    		//this.add(label);
     		}
         }
        
@@ -307,7 +307,7 @@ public class scoreboard extends JFrame {
         	case "Neslaou":
         		return new ImageIcon("Icons/Neslaou.png");
         	case "OraUhlsax":
-        		return new ImageIcon("Icons/OU2.png");
+        		return new ImageIcon("Icons/OU.png");
         	case "Gigolo":
         		return new ImageIcon("Icons/Gigolo.png");
         	default:
