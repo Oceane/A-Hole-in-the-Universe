@@ -72,20 +72,18 @@ public class GameUI extends JFrame{
 		uPanel.setLayout(null);
 		
 		//obtain player character choice
-		playerInfo =Client.sendMsg("GET_PLAYER_INFO");
+		playerInfo = Client.sendMsg("GET_PLAYER_INFO");
 		array = playerInfo.split("\\s+");
-		array[2] = playerCharacter;
+		playerCharacter = array[2];
 		
 		Player uPlayer = new Player(playerCharacter, 100, 100, uPanel, this);
-		
-		
 		
 		vObjs.add(uPlayer);
 		for(int i=0; i<NUM_COMETS; i++){
 			vObjs.add(new Comet(uPanel));
 		}
 		this.add(uPanel);
-		SpaceObjectManager uObjMan = new SpaceObjectManager(vObjs, new Blackhole(vObjs, uPanel), new ScorePanel(uPanel), uPanel);
+		SpaceObjectManager uObjMan = new SpaceObjectManager(vObjs, new Blackhole(vObjs, uPanel), new ScorePanel(uPanel, this), uPanel);
 		PowerUpGenerator uPUGen = new PowerUpGenerator(vObjs, uPlayer, uPanel);
 		CometGenerator uCMGen = new CometGenerator(vObjs, uPanel);
 	}

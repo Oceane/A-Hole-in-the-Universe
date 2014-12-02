@@ -45,8 +45,8 @@ public class scoreboard extends JFrame {
 	//define all scoreboard values for both players
 	public static String allPlayerInfoP1;
 	public static String allPlayerInfoP2;
-	public static String[] array1;
-	public static String[] array2;
+	public static String[] array1 = new String[10];
+	public static String[] array2 = new String[10];
 	public static String usernameP1;
 	public static String characterP1;
 	public static String damageP1;

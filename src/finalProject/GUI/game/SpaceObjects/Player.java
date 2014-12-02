@@ -42,16 +42,14 @@ public class Player extends SpaceObject implements Runnable{
 	}
 	
     static Image getCharacterImg(String sCharacter){
-		switch(sCharacter){
+		sCharacter = sCharacter.toLowerCase();
+    	switch(sCharacter){
             case "earth":
                 return Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png"); // from http://commons.wikimedia.org/wiki/File:Globe.png
-                
             case "neslaou":
                 return Toolkit.getDefaultToolkit().getImage("Icons/Neslaou.png");
-                
             case "gigolo":
                 return Toolkit.getDefaultToolkit().getImage("Icons/Gigolo.png");
-                
             case "orauhlsax":
                 return Toolkit.getDefaultToolkit().getImage("Icons/OU2.png");
 	    }
