@@ -99,16 +99,7 @@ public class scoreboard extends JFrame {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
- 
-            //will add images of player-chosen planets to username table cell
-            /*ImageIcon imageicon= new ImageIcon("/Users/natalieanndunn/Documents/workspace/aHoleInTheUniverse/src/aHoleInTheUniverse/Earth.png");
-    		Image filler = imageicon.getImage();
-    		Image newImage = filler.getScaledInstance(25,25, java.awt.Image.SCALE_SMOOTH);
-    		imageicon = new ImageIcon(newImage);
-    		JLabel label = new JLabel(imageicon);
-    		this.add(label);*/
- 
+        
             
             //declares and adds the Quit and To Home JButtons
         	JButton quitButton = new JButton("Quit");
@@ -139,6 +130,80 @@ public class scoreboard extends JFrame {
     			}
     				
     			});
+            
+            //displays character image for player-chosen character in the username table cell
+    		if (array1[2].equals("Earth")){
+        		ImageIcon imgEarth= new ImageIcon("Icons/Earth.png");
+        		Image imageEarth = imgEarth.getImage();
+        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgEarth = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgEarth);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,300);
+    		}
+    		else if (array1[2].equals("Neslaou")){
+    			ImageIcon imgNeslaou= new ImageIcon("Icons/Neslaou.png");
+        		Image imageEarth = imgNeslaou.getImage();
+        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgNeslaou = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgNeslaou);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,300);
+    		}
+    		else if (array1[2].equals("Gigolo")){
+    			ImageIcon imgGigolo= new ImageIcon("Icons/Gigolo.png");
+        		Image imageEarth = imgGigolo.getImage();
+        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgGigolo = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgGigolo);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,300);
+    		}
+    		else if (array1[2].equals("OraUhlsax")){
+    			ImageIcon imgOU= new ImageIcon("Icons/OU2.png");
+        		Image imageOU = imgOU.getImage();
+        		Image newImage = imageOU.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgOU = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgOU);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,300);
+    		}
+    		else if (array2[2].equals("Earth")){
+    			ImageIcon imgEarth= new ImageIcon("Icons/Earth.png");
+        		Image imageEarth = imgEarth.getImage();
+        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgEarth = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgEarth);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,395);
+    		}
+    		else if (array2[2].equals("Neslaou")){
+    			ImageIcon imgNeslaou= new ImageIcon("Icons/Neslaou.png");
+        		Image imageEarth = imgNeslaou.getImage();
+        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgNeslaou = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgNeslaou);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,395);
+    		}
+    		else if (array2[2].equals("Gigolo")){
+    			ImageIcon imgGigolo= new ImageIcon("Icons/Gigolo.png");
+        		Image imageEarth = imgGigolo.getImage();
+        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgGigolo = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgGigolo);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,395);
+    		}
+    		else if (array2[2].equals("OraUhlsax")){
+    			ImageIcon imgOU= new ImageIcon("Icons/OU2.png");
+        		Image imageOU = imgOU.getImage();
+        		Image newImage = imageOU.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+        		imgOU = new ImageIcon(newImage);
+        		JLabel labelEarth = new JLabel(imgOU);
+        		labelEarth.setSize(60,50);
+        		labelEarth.setLocation(95,395);
+    		}
         }
        
 
