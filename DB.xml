@@ -67,7 +67,6 @@
 	</games_active>
 
 	<games_history>
-<<<<<<< HEAD
 <game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
 			<player character="ZZZ" ip_address="1983.498.745" username="jane">
 				<ready>true</ready>
