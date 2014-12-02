@@ -159,6 +159,17 @@ public class WaitGameJoineeGUI extends JFrame {
 			String sPrevStatus = "";
 			
 			while(true){
+				//Check to see if the player is in an active game:
+				uScan = new Scanner(Client.sendMsg("GET_PLAYER_STATUS"));
+				uScan.next();
+				sStatus = uScan.next();
+				if(sStatus.equals("ACTIVE") && sPrevStatus.equals("WAITING")){
+					new GameUI();
+					dispose();
+				}
+				sPrevStatus = sStatus;
+				
+				
 			//Update the list boxes every second:
 				//Thread.sleep(1000);
 				//Update the players in game:
@@ -196,16 +207,6 @@ public class WaitGameJoineeGUI extends JFrame {
 						uScan.close();
 					}
 					populateListStrings(uModelPlayersInGame, vPlayersInGameUsernames, vPlayersInGameCharacters);
-					
-					//Check to see if the player is in an active game:
-					uScan = new Scanner(Client.sendMsg("GET_PLAYER_STATUS"));
-					uScan.next();
-					sStatus = uScan.next();
-					if(sStatus.equals("ACTIVE") && sPrevStatus.equals("WAITING")){
-						new GameUI();
-						dispose();
-					}
-					sPrevStatus = sStatus;
 			}
 		}
 	}
