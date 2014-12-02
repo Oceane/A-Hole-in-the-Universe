@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -54,16 +56,13 @@ public class scoreboard extends JFrame {
 	public static String deathsP1;
 	public static String powerupsP1;
 	public static String max_velP1;
-	public static String usernameP2;
-	public static String characterP2;
-	public static String damageP2;
-	public static String cometsP2;
-	public static String deathsP2;
-	public static String powerupsP2;
-	public static String max_velP2;
-	
-
-
+	public static Vector<String> usernames = new Vector<String>();
+	public static Vector<String> characters = new Vector<String>();
+	public static Vector<String> damages = new Vector<String>();
+	public static Vector<String> comets = new Vector<String>();
+	public static Vector<String> deaths = new Vector<String>();
+	public static Vector<String> powerups = new Vector<String>();
+	public static Vector<String> maxvels = new Vector<String>();
 
 	public scoreboard() throws IOException{
         //retrieves all player info
@@ -73,14 +72,6 @@ public class scoreboard extends JFrame {
     	//splits all player info by whitespace into array
     	//format: [GET_PLAYER_INFO, username, character, ready, score, comets, deaths, powerups, max_spin, max_vel]
     	array1 = allPlayerInfoP1.split("\\s+");
-    	
-
-    	
-    	//retrieve info for player 2 and assign values similar to player 1
-    	allPlayerInfoP2 = Client.sendMsg(msg);
-    	
-    	array2 = allPlayerInfoP2.split("\\s+");
-		
 		
     	//assign all values in the array to their respective score board values
     	usernameP1 = array1[1];
@@ -91,14 +82,56 @@ public class scoreboard extends JFrame {
     	powerupsP1 = array1[7];
     	max_velP1 = array1[9];
     	
-    	usernameP2 = array2[1];
-    	characterP2 = array2[2];
-    	damageP2 = array2[4];
-    	cometsP2 = array2[5];
-    	deathsP2 = array1[6];
-    	powerupsP2 = array2[7];
-    	max_velP2 = array2[9];
+    	Scanner uScan;
+    	
+		//Get the index of the active game that the current player is in:
+		msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
+		if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
+			return;
+		}
+		uScan = new Scanner(msg);
+		uScan.next();
+		int nGameIndex = Integer.parseInt(uScan.next());
+		uScan.close();
+			
+		// update enemy score
+			msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
+			if(msg.equals("GET_PLAYER_INDEX FAILURE")){
+				return;
+			}
+			uScan = new Scanner(msg);
+			uScan.next();
+			int nPlayerIndex = Integer.parseInt(uScan.next());
+			uScan.close();
+    	
+		//Get the number of players
+		msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
+		if(msg.equals("GET_GAME_ACTIVE_NUM_PLAYERS FAILURE")){
+			return;
+		}
+		uScan = new Scanner(msg);
+		uScan.next();
+		int numPlayers = Integer.parseInt(uScan.next());
+		uScan.close();
 		
+		for(int i=0; i<numPlayers; i++){
+			if(i != nPlayerIndex){
+				msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + " " + i);
+				if(msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
+					continue;
+				}
+		    	array2 = msg.split("\\s+");
+				//Parse the message returned to get the score from the player info:
+				//username, character, bReady, nScore, nComets, nDeaths, nPowerUps, nMaxSpin, nMaxVel
+		    	usernames.add(array2[1]);
+		    	characters.add(array2[2]);
+		    	damages.add(array2[4]);
+		    	comets.add(array2[5]);
+		    	deaths.add(array1[6]);
+		    	powerups.add(array2[7]);
+		    	maxvels.add(array2[9]);
+			}
+		}
 		
 		setTitle("A Hole in the Universe");
 		setSize(950,650);
