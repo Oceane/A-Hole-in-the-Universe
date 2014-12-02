@@ -80,12 +80,14 @@ public class Server extends JFrame implements Runnable {
 	private static JButton uClearButton;
 	private static JLabel uLabelConnections;
 	private static int nNumLine = 1;
-	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	private static DocumentBuilderFactory dbf = DocumentBuilderFactory
+			.newInstance();
 	private static DocumentBuilder db;
 	private static org.w3c.dom.Document doc = null;
 
 	public Server() throws HeadlessException, UnknownHostException {
-		super("A Hole In The Universe Server " + InetAddress.getLocalHost().getHostAddress());
+		super("A Hole In The Universe Server "
+				+ InetAddress.getLocalHost().getHostAddress());
 		setSize(1300, 700);
 		setLocationRelativeTo(null);
 		setLayout(new GridLayout(1, 2));
@@ -168,6 +170,8 @@ public class Server extends JFrame implements Runnable {
 				msgSend = "CREATE_PLAYER FAILURE USERNAME_ALREADY_EXISTS";
 			}
 			break;
+		case "GET_PLAYER_NAME_BASED_OFF_INDEX":
+			msgSend = getPlayerNameBasedOffIndex(uScan.nextInt());
 		case "GET_PLAYER_STATUS":
 			msgSend = getPlayerStatus(sIP);
 			break;
@@ -253,17 +257,35 @@ public class Server extends JFrame implements Runnable {
 		case "NOTIFY_PLAYER":
 			msgSend = notifyPlayer(sIP, uScan.nextInt(), uScan.nextLine());
 			break;
+		case "GET_LOBBY_NUM_PLAYERS":
+			msgSend = getLobbyNumPlayers(sIP);
+			break;
 		}
 
 		// Print msg transaction to the screen:
 		uTextAreaMsg.append((nNumLine++) + ". CMD: " + msgReceived + "\n");
 		uTextAreaMsg.append((nNumLine++) + ". ECHO: " + msgSend + "\n");
-		uScrollPaneMsg.scrollRectToVisible(new Rectangle(0, uTextAreaMsg.getHeight()-2,1,1));
+		uScrollPaneMsg.scrollRectToVisible(new Rectangle(0, uTextAreaMsg
+				.getHeight() - 2, 1, 1));
 
-		// Update the display of the database after modifications have been made:
+		// Update the display of the database after modifications have been
+		// made:
 		updateDBDisplay();
 
 		return msgSend;
+	}
+
+	private String getPlayerNameBasedOffIndex(int nextInt) {
+		String msg = "GET_PLAYER_NAME_BASED_OFF_INDEX FAILURE";
+
+		NodeList nList = doc.getElementsByTagName("player");
+		Element myEl = (Element) nList.item(nextInt);
+		msg = "GET_PLAYER_NAME_BASED_OFF_INDEX";
+		msg += " "
+				+ myEl.getElementsByTagName("username").item(0)
+						.getTextContent();
+
+		return msg;
 	}
 
 	public static void updateDBDisplay() {
@@ -327,12 +349,14 @@ public class Server extends JFrame implements Runnable {
 
 		Element p = getPlayerElement(ip, false);
 		Element r = (Element) p.getParentNode();
-		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(index);
+		Element game = (Element) ((Element) doc.getElementsByTagName(
+				"games_available").item(0)).getElementsByTagName("game").item(
+				index);
 
-		if(game != null){
-		// add p to game
-		game.appendChild(p);
-		msg = "JOIN_GAME SUCCESS";
+		if (game != null) {
+			// add p to game
+			game.appendChild(p);
+			msg = "JOIN_GAME SUCCESS";
 		}
 
 		return msg;
@@ -359,7 +383,7 @@ public class Server extends JFrame implements Runnable {
 
 		Element g = getGameElement(ip);
 		Element r = (Element) g.getParentNode();
-		NodeList nList = r.getElementsByTagName("game"); //left off here
+		NodeList nList = r.getElementsByTagName("game"); // left off here
 		for (int i = 0; i < nList.getLength(); i++) {
 			if (nList.item(i).equals(g)) {
 				msg = "GET_PLAYER_GAME_INDEX " + i;
@@ -370,16 +394,21 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 
-	public synchronized static String notifyPlayer(String ip, int playerIndex, String msgChat) {
+	public synchronized static String notifyPlayer(String ip, int playerIndex,
+			String msgChat) {
 		String msg = "NOTIFY_PLAYER FAILURE";
 
 		Element sender = getPlayerElement(ip, true);
 		if (sender != null) {
 			Element parent = (Element) sender.getParentNode();
-			Element player = (Element) parent.getElementsByTagName("player").item(playerIndex);
+			Element player = (Element) parent.getElementsByTagName("player")
+					.item(playerIndex);
 			if (player != null) {
-				msgChat = sender.getElementsByTagName("username").item(0).getTextContent() + ": " + msgChat;
-				if (sendChatMessage(msgChat, sender) && sendChatMessage(msgChat, player)) {
+				msgChat = sender.getElementsByTagName("username").item(0)
+						.getTextContent()
+						+ ": " + msgChat;
+				if (sendChatMessage(msgChat, sender)
+						&& sendChatMessage(msgChat, player)) {
 					if (writeToXML())
 						msg = "NOTIFY_PLAYER SUCCESS";
 				}
@@ -395,14 +424,15 @@ public class Server extends JFrame implements Runnable {
 
 		// create Message
 		Element p = getPlayerElement(ip, true);
-		String Vorname = p.getElementsByTagName("username").item(0).getTextContent();
+		String Vorname = p.getElementsByTagName("username").item(0)
+				.getTextContent();
 		msgChat = Vorname + ": " + msgChat;
-		Element parent = (Element)p.getParentNode();
+		Element parent = (Element) p.getParentNode();
 
 		// Get Nodelist of all players' notifications
 		NodeList nList = parent.getElementsByTagName("notifications");
 		for (int i = 0; i < nList.getLength(); i++) { // update inboxes
-			if (!sendChatMessage(msgChat, (Element) nList.item(i))){
+			if (!sendChatMessage(msgChat, (Element) nList.item(i))) {
 				flag = false;
 			}
 		}
@@ -413,13 +443,15 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 
-	public synchronized static boolean sendChatMessage(String message, Element inbox) { 
+	public synchronized static boolean sendChatMessage(String message,
+			Element inbox) {
 		// takes in the message and the node of the recipient's inbox
 		try {
 			// loop through inbox, move every item up one
 			NodeList nList = inbox.getElementsByTagName("notification");
 			for (int i = 1; i < nList.getLength(); i++) {
-				nList.item(i - 1).setTextContent(nList.item(i).getTextContent());
+				nList.item(i - 1)
+						.setTextContent(nList.item(i).getTextContent());
 			}
 
 			// add new message
@@ -430,7 +462,8 @@ public class Server extends JFrame implements Runnable {
 		}
 	}
 
-	public synchronized static String getNotificationAtIndex(String ip, int index) {
+	public synchronized static String getNotificationAtIndex(String ip,
+			int index) {
 		String msg = "NOTIFICATION_GET FAILURE";
 
 		Element p = getPlayerElement(ip, true);
@@ -457,17 +490,20 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 
-	public synchronized static Element getPlayerElement(String ip, boolean history) {
+	public synchronized static Element getPlayerElement(String ip,
+			boolean history) {
 		Element n = null;
 
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			String uIP = myEl.getElementsByTagName("ip_address").item(0)
+					.getTextContent();
 			if (ip.equals(uIP)) {
 				if (history)
 					return myEl;
-				else if (!myEl.getParentNode().toString().equals("games_history")) {
+				else if (!myEl.getParentNode().toString()
+						.equals("games_history")) {
 					return myEl; // if player is not in games_history
 				}
 			}
@@ -480,85 +516,121 @@ public class Server extends JFrame implements Runnable {
 		Element n = null;
 
 		Element player = getPlayerElement(ip, false);
-		if(player != null){
-			Element game = (Element)player.getParentNode();
+		if (player != null) {
+			Element game = (Element) player.getParentNode();
 			return game;
 		}
-			
+
 		return n;
 	}
-	
+
 	public synchronized static String getGameActive(int nIndex) {
-		String msg = "GET_GAMES_ACTIVE FAILURE"; 
-		Element gamesActive = (Element) doc.getElementsByTagName("games_active").item(0);
-		if(gamesActive != null){
-			Element game = (Element)gamesActive.getElementsByTagName("game").item(nIndex);
-			if(game != null){
-			String sTitle = game.getAttribute("title");
-			String sRemainingTime = game.getAttribute("remaining_time");
-			String sTotalTime = game.getAttribute("total_time");
-			String sMaxPlayers = game.getAttribute("max_players");
-			msg = "GET_GAME_ACTIVE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
+		String msg = "GET_GAMES_ACTIVE FAILURE";
+		Element gamesActive = (Element) doc
+				.getElementsByTagName("games_active").item(0);
+		if (gamesActive != null) {
+			Element game = (Element) gamesActive.getElementsByTagName("game")
+					.item(nIndex);
+			if (game != null) {
+				String sTitle = game.getAttribute("title");
+				String sRemainingTime = game.getAttribute("remaining_time");
+				String sTotalTime = game.getAttribute("total_time");
+				String sMaxPlayers = game.getAttribute("max_players");
+				msg = "GET_GAME_ACTIVE " + sTitle + " " + sRemainingTime + " "
+						+ sTotalTime + " " + sMaxPlayers;
 			}
 		}
 		return msg;
 	}
-	
-		
-	public synchronized static String getGameActiveNumPlayers(int nGameIndex){
+
+	public synchronized static String getGameActiveNumPlayers(int nGameIndex) {
 		String msg = "GET_GAME_ACTIVE_NUM_PLAYERS FAILURE";
 
 		int numPlayers = 0;
-		Element game = (Element)((Element)doc.getElementsByTagName("games_active").item(0)).getElementsByTagName("game").item(nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName(
+				"games_active").item(0)).getElementsByTagName("game").item(
+				nGameIndex);
 		if (game != null) {
 			numPlayers = game.getElementsByTagName("player").getLength();
 			msg = "GET_GAME_ACTIVE_NUM_PLAYERS " + numPlayers;
 		}
 		return msg;
 	}
-	
-		
-	public synchronized static String getGameActivePlayer(int nGameIndex, int nPlayerIndex){
+
+	public synchronized static String getGameActivePlayer(int nGameIndex,
+			int nPlayerIndex) {
 		String msg = "GET_GAME_ACTIVE_PLAYER FAILURE";
 
-		Element game = (Element)((Element)doc.getElementsByTagName("games_active").item(0)).getElementsByTagName("game").item(nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName(
+				"games_active").item(0)).getElementsByTagName("game").item(
+				nGameIndex);
 		if (game != null) {
-			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
-			if (player != null){
-				//username, character, bReady, nScore, nComets, nDeaths, nPowerUps, nMaxSpin, nMaxVel
-			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
-			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
-			String sReady = player.getElementsByTagName("ready").item(0).getTextContent();
-			String sScore = player.getElementsByTagName("score").item(0).getTextContent();
-			String sComets = player.getElementsByTagName("comets").item(0).getTextContent();
-			String sDeaths = player.getElementsByTagName("deaths").item(0).getTextContent();
-			String sPowerUps = player.getElementsByTagName("powerups").item(0).getTextContent();
-			String sMaxSpin = player.getElementsByTagName("max_spin").item(0).getTextContent();
-			String sMaxVel = player.getElementsByTagName("max_vel").item(0).getTextContent();
+			Element player = (Element) game.getElementsByTagName("player")
+					.item(nPlayerIndex);
+			if (player != null) {
+				// username, character, bReady, nScore, nComets, nDeaths,
+				// nPowerUps, nMaxSpin, nMaxVel
+				String sUsername = player.getElementsByTagName("username")
+						.item(0).getTextContent();
+				String sCharacter = player.getElementsByTagName("character")
+						.item(0).getTextContent();
+				String sReady = player.getElementsByTagName("ready").item(0)
+						.getTextContent();
+				String sScore = player.getElementsByTagName("score").item(0)
+						.getTextContent();
+				String sComets = player.getElementsByTagName("comets").item(0)
+						.getTextContent();
+				String sDeaths = player.getElementsByTagName("deaths").item(0)
+						.getTextContent();
+				String sPowerUps = player.getElementsByTagName("powerups")
+						.item(0).getTextContent();
+				String sMaxSpin = player.getElementsByTagName("max_spin")
+						.item(0).getTextContent();
+				String sMaxVel = player.getElementsByTagName("max_vel").item(0)
+						.getTextContent();
 
-			msg = "GET_GAME_ACTIVE_PLAYER " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel;
+				msg = "GET_GAME_ACTIVE_PLAYER " + sUsername + " " + sCharacter
+						+ " " + sReady + " " + sScore + " " + sComets + " "
+						+ sDeaths + " " + sPowerUps + " " + sMaxSpin + " "
+						+ sMaxVel;
 			}
 		}
 		return msg;
 	}
-			
-	public synchronized static String getGameHistoryPlayer(int nGameIndex, int nPlayerIndex){
+
+	public synchronized static String getGameHistoryPlayer(int nGameIndex,
+			int nPlayerIndex) {
 		String msg = "GET_GAME_HISTORY_PLAYER FAILURE";
 
-		Element game = (Element)((Element)doc.getElementsByTagName("games_history").item(0)).getElementsByTagName("game").item(nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName(
+				"games_history").item(0)).getElementsByTagName("game").item(
+				nGameIndex);
 		if (game != null) {
-			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
-			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
-			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
-			String sReady = player.getElementsByTagName("ready").item(0).getTextContent();
-			String sScore = player.getElementsByTagName("score").item(0).getTextContent();
-			String sComets = player.getElementsByTagName("comets").item(0).getTextContent();
-			String sDeaths = player.getElementsByTagName("deaths").item(0).getTextContent();
-			String sPowerUps = player.getElementsByTagName("powerups").item(0).getTextContent();
-			String sMaxSpin = player.getElementsByTagName("max_spin").item(0).getTextContent();
-			String sMaxVel = player.getElementsByTagName("max_vel").item(0).getTextContent();
+			Element player = (Element) game.getElementsByTagName("player")
+					.item(nPlayerIndex);
+			String sUsername = player.getElementsByTagName("username").item(0)
+					.getTextContent();
+			String sCharacter = player.getElementsByTagName("character")
+					.item(0).getTextContent();
+			String sReady = player.getElementsByTagName("ready").item(0)
+					.getTextContent();
+			String sScore = player.getElementsByTagName("score").item(0)
+					.getTextContent();
+			String sComets = player.getElementsByTagName("comets").item(0)
+					.getTextContent();
+			String sDeaths = player.getElementsByTagName("deaths").item(0)
+					.getTextContent();
+			String sPowerUps = player.getElementsByTagName("powerups").item(0)
+					.getTextContent();
+			String sMaxSpin = player.getElementsByTagName("max_spin").item(0)
+					.getTextContent();
+			String sMaxVel = player.getElementsByTagName("max_vel").item(0)
+					.getTextContent();
 
-			msg = "GET_GAME_HISTORY_PLAYER " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel;
+			msg = "GET_GAME_HISTORY_PLAYER " + sUsername + " " + sCharacter
+					+ " " + sReady + " " + sScore + " " + sComets + " "
+					+ sDeaths + " " + sPowerUps + " " + sMaxSpin + " "
+					+ sMaxVel;
 		}
 		return msg;
 	}
@@ -567,7 +639,8 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_NUM_GAMES_ACTIVE FAILURE";
 
 		int numGames = 0;
-		Element gamesActive = (Element) doc.getElementsByTagName("games_active").item(0);
+		Element gamesActive = (Element) doc
+				.getElementsByTagName("games_active").item(0);
 		if (gamesActive != null) {
 			numGames = gamesActive.getElementsByTagName("game").getLength();
 			msg = "GET_NUM_GAMES_ACTIVE " + numGames;
@@ -579,52 +652,78 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_NUM_GAMES_AVAILABLE FAILURE";
 
 		int numGames = 0;
-		Element gamesAvailable = (Element) doc.getElementsByTagName("games_available").item(0);
+		Element gamesAvailable = (Element) doc.getElementsByTagName(
+				"games_available").item(0);
 		if (gamesAvailable != null) {
 			numGames = gamesAvailable.getElementsByTagName("game").getLength();
 			msg = "GET_NUM_GAMES_AVAILABLE " + numGames;
 		}
 		return msg;
 	}
-	
-	public synchronized static String getGameAvailable(int nIndex){
+
+	public synchronized static String getGameAvailable(int nIndex) {
 		String msg = "GET_GAME_AVAILABLE FAILURE";
-		Element gamesAvailable = (Element) doc.getElementsByTagName("games_available").item(0);
-		if(gamesAvailable != null){
-			Element game = (Element)gamesAvailable.getElementsByTagName("game").item(nIndex);
-			if(game != null){
+		Element gamesAvailable = (Element) doc.getElementsByTagName(
+				"games_available").item(0);
+		if (gamesAvailable != null) {
+			Element game = (Element) gamesAvailable
+					.getElementsByTagName("game").item(nIndex);
+			if (game != null) {
 				String sTitle = game.getAttribute("title");
 				String sRemainingTime = game.getAttribute("remaining_time");
 				String sTotalTime = game.getAttribute("total_time");
 				String sMaxPlayers = game.getAttribute("max_players");
-				msg = "GET_GAME_AVAILABLE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
+				msg = "GET_GAME_AVAILABLE " + sTitle + " " + sRemainingTime
+						+ " " + sTotalTime + " " + sMaxPlayers;
 			}
 		}
 		return msg;
 	}
 	
-	public synchronized static String getGameAvailableNumPlayers(int nGameIndex){
+	public synchronized static String getLobbyNumPlayers(String uIP){
+		String msg = "GET_LOBBY_NUM_PLAYERS FAILURE";
+		
+		Element p = getPlayerElement(uIP, true);
+		Element parent = (Element)p.getParentNode();
+		
+		NodeList n = parent.getElementsByTagName("player");
+		
+		msg = "GET_LOBBY_NUM_PLAYERS "+n.getLength();
+		
+		return msg;
+	}
+
+	public synchronized static String getGameAvailableNumPlayers(int nGameIndex) {
 		String msg = "GET_GAME_AVAILABLE_NUM_PLAYERS FAILURE";
 
 		int numPlayers = 0;
-		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName(
+				"games_available").item(0)).getElementsByTagName("game").item(
+				nGameIndex);
 		if (game != null) {
 			numPlayers = game.getElementsByTagName("player").getLength();
 			msg = "GET_GAME_AVAILABLE_NUM_PLAYERS " + numPlayers;
 		}
 		return msg;
 	}
-	
-	public synchronized static String getGameAvailablePlayer(int nGameIndex, int nPlayerIndex){
+
+	public synchronized static String getGameAvailablePlayer(int nGameIndex,
+			int nPlayerIndex) {
 		String msg = "GET_GAME_AVAILABLE_PLAYER FAILURE";
 
-		Element game = (Element)((Element)doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName(
+				"games_available").item(0)).getElementsByTagName("game").item(
+				nGameIndex);
 		if (game != null) {
-			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
-			if(player != null){
-				String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
-				String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
-				msg = "GET_GAME_AVAILABLE_PLAYER " + sUsername + " " + sCharacter;
+			Element player = (Element) game.getElementsByTagName("player")
+					.item(nPlayerIndex);
+			if (player != null) {
+				String sUsername = player.getElementsByTagName("username")
+						.item(0).getTextContent();
+				String sCharacter = player.getElementsByTagName("character")
+						.item(0).getTextContent();
+				msg = "GET_GAME_AVAILABLE_PLAYER " + sUsername + " "
+						+ sCharacter;
 			}
 		}
 		return msg;
@@ -634,19 +733,23 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_NUM_PLAYERS_AVAILABLE FAILURE";
 
 		int numPlayers = 0;
-		Element playersAvailable = (Element) doc.getElementsByTagName("players_available").item(0);
+		Element playersAvailable = (Element) doc.getElementsByTagName(
+				"players_available").item(0);
 		if (playersAvailable != null) {
-			numPlayers = playersAvailable.getElementsByTagName("player").getLength();
+			numPlayers = playersAvailable.getElementsByTagName("player")
+					.getLength();
 			msg = "GET_NUM_PLAYERS_AVAILABLE " + numPlayers;
 		}
 		return msg;
 	}
-	
-	public synchronized static String getGameHistoryNumPlayers(int nGameIndex){
+
+	public synchronized static String getGameHistoryNumPlayers(int nGameIndex) {
 		String msg = "GET_GAME_HISTORY_NUM_PLAYERS FAILURE";
 
 		int numPlayers = 0;
-		Element game = (Element)((Element)doc.getElementsByTagName("games_history").item(0)).getElementsByTagName("game").item(nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName(
+				"games_history").item(0)).getElementsByTagName("game").item(
+				nGameIndex);
 		if (game != null) {
 			numPlayers = game.getElementsByTagName("player").getLength();
 			msg = "GET_GAME_HISTORY_NUM_PLAYERS " + numPlayers;
@@ -654,20 +757,24 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 
-	public synchronized static String getPlayerAvailable(int nIndex){
+	public synchronized static String getPlayerAvailable(int nIndex) {
 		String msg = "GET_PLAYER_AVAILABLE FAILURE";
-		Element playersAvailable = (Element) doc.getElementsByTagName("players_available").item(0);
-		if(playersAvailable != null){
-			Element player = (Element)playersAvailable.getElementsByTagName("player").item(nIndex);
-			if(player != null){
-				String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
-				String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
+		Element playersAvailable = (Element) doc.getElementsByTagName(
+				"players_available").item(0);
+		if (playersAvailable != null) {
+			Element player = (Element) playersAvailable.getElementsByTagName(
+					"player").item(nIndex);
+			if (player != null) {
+				String sUsername = player.getElementsByTagName("username")
+						.item(0).getTextContent();
+				String sCharacter = player.getElementsByTagName("character")
+						.item(0).getTextContent();
 				msg = "GET_PLAYER_AVAILABLE " + sUsername + " " + sCharacter;
 			}
 		}
 		return msg;
 	}
-	
+
 	public synchronized static NodeList getPlayersFromGame(Element g) {
 		return g.getElementsByTagName("player");
 	}
@@ -683,7 +790,8 @@ public class Server extends JFrame implements Runnable {
 			NodeList players = getPlayersFromGame(g);
 			for (int i = 0; i < players.getLength(); i++) {
 				Element myEl = (Element) players.item(i);
-				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+				String uIP = myEl.getElementsByTagName("ip_address").item(0)
+						.getTextContent();
 				if (leaveGame(uIP).contains("FAIL")) {
 					flag = false;
 				}
@@ -697,20 +805,21 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 
-	public synchronized static String createGame(String uIP, String title, String numMin, String numPla) {
+	public synchronized static String createGame(String uIP, String title,
+			String numMin, String numPla) {
 		String msg = "CREATE_GAME FAILURE";
 
 		// make sure no other games have the same name:
 		NodeList games = doc.getElementsByTagName("game");
-		for(int i=0; i<games.getLength(); i++){
-			Element game = (Element)games.item(i);
-			if(game.getAttribute("title").equals(title)){
-				if(!game.getParentNode().getNodeName().equals("games_history")){
-					return msg; //failure
+		for (int i = 0; i < games.getLength(); i++) {
+			Element game = (Element) games.item(i);
+			if (game.getAttribute("title").equals(title)) {
+				if (!game.getParentNode().getNodeName().equals("games_history")) {
+					return msg; // failure
 				}
 			}
 		}
-		
+
 		// create the game:
 		NodeList parentList = doc.getElementsByTagName("games_available");
 		Node parent = parentList.item(0);
@@ -734,7 +843,8 @@ public class Server extends JFrame implements Runnable {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			String uIP = myEl.getElementsByTagName("ip_address").item(0)
+					.getTextContent();
 			if (ip.equals(uIP)) {
 				// remove player
 				nList.item(i).getParentNode().removeChild(nList.item(i));
@@ -758,32 +868,44 @@ public class Server extends JFrame implements Runnable {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			if (nList.item(i).getParentNode().getParentNode().toString().contains("games_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_active")) {
-				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (nList.item(i).getParentNode().getParentNode().toString()
+					.contains("games_available")
+					|| nList.item(i).getParentNode().getParentNode().toString()
+							.contains("games_active")) {
+				String uIP = myEl.getElementsByTagName("ip_address").item(0)
+						.getTextContent();
 				if (ip.equals(uIP)) {
 					// reset info
-					myEl.getElementsByTagName("score").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("comets").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("deaths").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("powerups").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("ready").item(0).setTextContent("false");
+					myEl.getElementsByTagName("score").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("comets").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("deaths").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("powerups").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("max_spin").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("max_vel").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("ready").item(0)
+							.setTextContent("false");
 
 					// Move player
-					NodeList mList = doc.getElementsByTagName("players_available");
+					NodeList mList = doc
+							.getElementsByTagName("players_available");
 					mList.item(0).appendChild(myEl);
-					//nList.item(i).getParentNode().removeChild(nList.item(i));
+					// nList.item(i).getParentNode().removeChild(nList.item(i));
 					flag = true;
 					break;
 				}
 			}
 		}
 
-		if (flag && writeToXML()){
+		if (flag && writeToXML()) {
 			msg = "LEAVE_GAME SUCCESS";
 		}
-			
+
 		return msg;
 	}
 
@@ -794,20 +916,30 @@ public class Server extends JFrame implements Runnable {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			if (nList.item(i).getParentNode().getParentNode().toString().contains("games_history")) {
-				String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			if (nList.item(i).getParentNode().getParentNode().toString()
+					.contains("games_history")) {
+				String uIP = myEl.getElementsByTagName("ip_address").item(0)
+						.getTextContent();
 				if (ip.equals(uIP)) {
 					// reset info
-					myEl.getElementsByTagName("score").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("comets").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("deaths").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("powerups").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("max_spin").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("max_vel").item(0).setTextContent(0 + "");
-					myEl.getElementsByTagName("ready").item(0).setTextContent("false");
+					myEl.getElementsByTagName("score").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("comets").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("deaths").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("powerups").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("max_spin").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("max_vel").item(0)
+							.setTextContent(0 + "");
+					myEl.getElementsByTagName("ready").item(0)
+							.setTextContent("false");
 
 					// Move player
-					NodeList mList = doc.getElementsByTagName("players_available");
+					NodeList mList = doc
+							.getElementsByTagName("players_available");
 					mList.item(0).appendChild(myEl);
 					nList.item(i).getParentNode().removeChild(nList.item(i));
 
@@ -831,9 +963,11 @@ public class Server extends JFrame implements Runnable {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			String uIP = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			String uIP = myEl.getElementsByTagName("ip_address").item(0)
+					.getTextContent();
 			if (ip.equals(uIP)) {
-				myEl.getElementsByTagName("ready").item(0).setTextContent("true");
+				myEl.getElementsByTagName("ready").item(0)
+						.setTextContent("true");
 
 				flag = true;
 
@@ -855,18 +989,28 @@ public class Server extends JFrame implements Runnable {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			String ip = myEl.getElementsByTagName("ip_address").item(0)
+					.getTextContent();
 			if (ip.equals(uIP)) {
 				// Set info
-				myEl.getElementsByTagName("username").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("character").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("ready").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("score").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("comets").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("deaths").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("powerups").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("max_spin").item(0).setTextContent(uMsg.next());
-				myEl.getElementsByTagName("max_vel").item(0).setTextContent(uMsg.next());
+				myEl.getElementsByTagName("username").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("character").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("ready").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("score").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("comets").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("deaths").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("powerups").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("max_spin").item(0)
+						.setTextContent(uMsg.next());
+				myEl.getElementsByTagName("max_vel").item(0)
+						.setTextContent(uMsg.next());
 
 				flag = true;
 
@@ -886,19 +1030,38 @@ public class Server extends JFrame implements Runnable {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
+			String ip = myEl.getElementsByTagName("ip_address").item(0)
+					.getTextContent();
 			if (ip.equals(uIP)) {
 				msg = "GET_PLAYER_INFO";
-				msg += " " + myEl.getElementsByTagName("username").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("character").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("ready").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("score").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("comets").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("deaths").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("powerups").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("max_spin").item(0).getTextContent();
-				msg += " " + myEl.getElementsByTagName("max_vel").item(0).getTextContent();
-				System.out.println(msg);
+				msg += " "
+						+ myEl.getElementsByTagName("username").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("character").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("ready").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("score").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("comets").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("deaths").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("powerups").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("max_spin").item(0)
+								.getTextContent();
+				msg += " "
+						+ myEl.getElementsByTagName("max_vel").item(0)
+								.getTextContent();
+
 				break;
 			}
 		}
@@ -911,17 +1074,18 @@ public class Server extends JFrame implements Runnable {
 
 		NodeList nList = doc.getElementsByTagName("player");
 		Element player = getPlayerElement(uIP, true);
-		if(nList != null && player != null){
-			if (player.getParentNode().getNodeName().equals("players_available")) {
+		if (nList != null && player != null) {
+			if (player.getParentNode().getNodeName()
+					.equals("players_available")) {
 				msg = "GET_PLAYER_STATUS AVAILABLE";
-			} 
-			else if (player.getParentNode().getParentNode().getNodeName().equals("games_available")) {
+			} else if (player.getParentNode().getParentNode().getNodeName()
+					.equals("games_available")) {
 				msg = "GET_PLAYER_STATUS WAITING";
-			} 
-			else if (player.getParentNode().getParentNode().getNodeName().equals("games_active")) {
+			} else if (player.getParentNode().getParentNode().getNodeName()
+					.equals("games_active")) {
 				msg = "GET_PLAYER_STATUS ACTIVE";
-			} 
-			else if (player.getParentNode().getParentNode().getNodeName().equals("games_history")) {
+			} else if (player.getParentNode().getParentNode().getNodeName()
+					.equals("games_history")) {
 				msg = "GET_PLAYER_STATUS SCOREBOARD";
 			}
 		}
@@ -932,9 +1096,13 @@ public class Server extends JFrame implements Runnable {
 		NodeList nList = doc.getElementsByTagName("player");
 		for (int i = 0; i < nList.getLength(); i++) {
 			Element myEl = (Element) nList.item(i);
-			String name = myEl.getElementsByTagName("username").item(0).getTextContent();
+			String name = myEl.getElementsByTagName("username").item(0)
+					.getTextContent();
 			if (uName.equals(name)) {
-				if (nList.item(i).getParentNode().toString().contains("players_available") || nList.item(i).getParentNode().getParentNode().toString().contains("games_available")) {
+				if (nList.item(i).getParentNode().toString()
+						.contains("players_available")
+						|| nList.item(i).getParentNode().getParentNode()
+								.toString().contains("games_available")) {
 					// erase this player
 					nList.item(i).getParentNode().removeChild(nList.item(i));
 				} else
@@ -945,7 +1113,8 @@ public class Server extends JFrame implements Runnable {
 		return true;
 	}
 
-	public synchronized static boolean addUsernameToXML(String uName, String Character, String ipAddress) {
+	public synchronized static boolean addUsernameToXML(String uName,
+			String Character, String ipAddress) {
 		// get parent
 		NodeList parentList = doc.getElementsByTagName("players_available");
 		Node parent = parentList.item(0);
@@ -994,8 +1163,8 @@ public class Server extends JFrame implements Runnable {
 
 		Element notifications = doc.createElement("notifications");
 		player.appendChild(notifications);
-		
-		for(int i = 0; i < 5; i++){
+
+		for (int i = 0; i < 5; i++) {
 			Element note = doc.createElement("notification");
 			notifications.appendChild(note);
 		}
@@ -1011,7 +1180,8 @@ public class Server extends JFrame implements Runnable {
 		try {
 			// write the updated document to file or console
 			doc.getDocumentElement().normalize();
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(DB));
