@@ -178,8 +178,22 @@ public class ScorePanel extends JPanel implements Runnable{
 				for (int i=0;i<3;i++) {
 					remainingTime = scan.next();
 				}
+				String min = remainingTime.split(":")[0];
+				String sec = remainingTime.split(":")[1];
+				// if remaining time is 0:0, stop this awesome time
+				if (Integer.parseInt(min)==0 && Integer.parseInt(sec)==0) {
+					try {
+						new scoreboard();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					this.uFrame.dispose();
+				}
 				this.uRemainingTimeLabel.setText("Remaining Time: " + remainingTime);
 				scan.close();
+				
+				
 				
 			// check to see if the status is score board and navigate to the scoreboard:
 				//Check to see if the player is in an active game:
