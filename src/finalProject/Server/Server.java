@@ -171,7 +171,11 @@ public class Server extends JFrame implements Runnable {
 			}
 			break;
 		case "GET_PLAYER_NAME_BASED_OFF_INDEX":
-			msgSend = getPlayerNameBasedOffIndex(uScan.nextInt());
+			msgSend = getPlayerNameBasedOffIndex(sIP, uScan.nextInt());
+			break;
+		case "GET_INDEX_FROM_NAME":
+			msgSend = getIndexFromName(sIP, uScan.next());
+			break;
 		case "GET_PLAYER_STATUS":
 			msgSend = getPlayerStatus(sIP);
 			break;
@@ -275,16 +279,34 @@ public class Server extends JFrame implements Runnable {
 		return msgSend;
 	}
 
-	private String getPlayerNameBasedOffIndex(int nextInt) {
+	private String getIndexFromName(String ip, String name) {
+		String msg = "GET_INDEX_FROM_NAME FAILURE";
+
+		Element p = (Element) getPlayerElement(ip, true).getParentNode();
+
+		NodeList nList = p.getElementsByTagName("player");
+		for(int i = 0; i < nList.getLength(); i++){
+			Element myEl = (Element) nList.item(i);
+			if(myEl.getElementsByTagName("username").item(0).getTextContent().equals(name)){
+				msg = "GET_INDEX_FROM_NAME "+i;
+				break;
+			}
+		}
+		
+		return msg;
+	}
+
+	private String getPlayerNameBasedOffIndex(String ip, int nextInt) {
 		String msg = "GET_PLAYER_NAME_BASED_OFF_INDEX FAILURE";
 
-		NodeList nList = doc.getElementsByTagName("player");
-		Element myEl = (Element) nList.item(nextInt);
-		msg = "GET_PLAYER_NAME_BASED_OFF_INDEX";
-		msg += " "
-				+ myEl.getElementsByTagName("username").item(0)
-						.getTextContent();
+		Element p = (Element) getPlayerElement(ip, true).getParentNode();
 
+		NodeList nList = p.getElementsByTagName("player");
+		Element myEl = (Element) nList.item(nextInt);
+		msg = "GET_PLAYER_NAME_BASED_OFF_INDEX ";
+		msg += myEl.getElementsByTagName("username").item(0)
+						.getTextContent();
+		
 		return msg;
 	}
 
