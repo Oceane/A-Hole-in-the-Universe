@@ -31,13 +31,12 @@ public class ScorePanel extends JPanel implements Runnable{
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBounds(0, 0, 200, 50);
 		this.setBackground(uSemiTrans);
-		this.uScoreLabel = new JLabel("Damage: 0");
+		this.uScoreLabel = new JLabel("You: 0");
 		this.uScoreLabel.setForeground(Color.white);
-		//this.uEnemyScoreLabel = new JLabel("Enemy Damage: 0");
-		//this.uEnemyScoreLabel.setForeground(Color.white);
 		this.uRemainingTimeLabel = new JLabel("Remaining Time: 0:0");
 		this.uRemainingTimeLabel.setForeground(Color.white);
 		this.add(this.uRemainingTimeLabel);
+		this.add(new JLabel("Damage: "));
 		this.add(this.uScoreLabel);
 		uPanel.add(this);
 		new Thread(this).start();
@@ -45,7 +44,7 @@ public class ScorePanel extends JPanel implements Runnable{
 	
 	public void reset(){
 		this.nScore = 0;
-		this.uScoreLabel.setText("Damage: " + this.nScore);
+		this.uScoreLabel.setText("You: " + this.nScore);
 	}
 	
 	public void add(int nAdd){
@@ -53,7 +52,7 @@ public class ScorePanel extends JPanel implements Runnable{
 		if(this.nScore < 0){
 			this.nScore = 0;
 		}
-		this.uScoreLabel.setText("Damage: " + this.nScore);
+		this.uScoreLabel.setText("You: " + this.nScore);
 	}
 	
 	public void subtract(int nSub){
@@ -61,7 +60,7 @@ public class ScorePanel extends JPanel implements Runnable{
 		if(this.nScore < 0){
 			this.nScore = 0;
 		}
-		this.uScoreLabel.setText("Damage: " + this.nScore);
+		this.uScoreLabel.setText("You: " + this.nScore);
 	}
 
 	@Override
@@ -159,7 +158,7 @@ public class ScorePanel extends JPanel implements Runnable{
 				vEnemyScoreLabels.clear();
 				// create the new labels:
 				for(int i=0; i<vEnemyUsernames.size(); i++){
-					this.vEnemyScoreLabels.add(new JLabel(vEnemyUsernames.get(i) + " (" + vEnemyCharacters.get(i) +  ") Damage: " + vEnemyScores.get(i)));
+					this.vEnemyScoreLabels.add(new JLabel(vEnemyUsernames.get(i) + " " + vEnemyScores.get(i)));
 					this.vEnemyScoreLabels.get(i).setForeground(Color.WHITE);
 				}
 				// add the labels to the score panel:
