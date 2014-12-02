@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -54,16 +56,13 @@ public class scoreboard extends JFrame {
 	public static String deathsP1;
 	public static String powerupsP1;
 	public static String max_velP1;
-	public static String usernameP2;
-	public static String characterP2;
-	public static String damageP2;
-	public static String cometsP2;
-	public static String deathsP2;
-	public static String powerupsP2;
-	public static String max_velP2;
-	
-
-
+	public static Vector<String> usernames = new Vector<String>();
+	public static Vector<String> characters = new Vector<String>();
+	public static Vector<String> damages = new Vector<String>();
+	public static Vector<String> comets = new Vector<String>();
+	public static Vector<String> deaths = new Vector<String>();
+	public static Vector<String> powerups = new Vector<String>();
+	public static Vector<String> maxvels = new Vector<String>();
 
 	public scoreboard() throws IOException{
 		super("A Hole in the Universe");
@@ -76,14 +75,6 @@ public class scoreboard extends JFrame {
     	//splits all player info by whitespace into array
     	//format: [GET_PLAYER_INFO, username, character, ready, score, comets, deaths, powerups, max_spin, max_vel]
     	array1 = allPlayerInfoP1.split("\\s+");
-    	
-
-    	
-    	//retrieve info for player 2 and assign values similar to player 1
-    	allPlayerInfoP2 = Client.sendMsg(msg);
-    	
-    	array2 = allPlayerInfoP2.split("\\s+");
-		
 		
     	//assign all values in the array to their respective score board values
     	usernameP1 = array1[1];
@@ -94,18 +85,76 @@ public class scoreboard extends JFrame {
     	powerupsP1 = array1[7];
     	max_velP1 = array1[9];
     	
-    	usernameP2 = array2[1];
-    	characterP2 = array2[2];
-    	damageP2 = array2[4];
-    	cometsP2 = array2[5];
-    	deathsP2 = array1[6];
-    	powerupsP2 = array2[7];
-    	max_velP2 = array2[9];
+    	Scanner uScan;
+    	
+		//Get the index of the active game that the current player is in:
+		msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
+		if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
+			return;
+		}
+		uScan = new Scanner(msg);
+		uScan.next();
+		int nGameIndex = Integer.parseInt(uScan.next());
+		uScan.close();
+			
+		// update enemy score
+			msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
+			if(msg.equals("GET_PLAYER_INDEX FAILURE")){
+				return;
+			}
+			uScan = new Scanner(msg);
+			uScan.next();
+			int nPlayerIndex = Integer.parseInt(uScan.next());
+			uScan.close();
+    	
+		//Get the number of players
+		msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
+		if(msg.equals("GET_GAME_ACTIVE_NUM_PLAYERS FAILURE")){
+			return;
+		}
+		uScan = new Scanner(msg);
+		uScan.next();
+		int numPlayers = Integer.parseInt(uScan.next());
+		uScan.close();
+		
+		for(int i=0; i<numPlayers; i++){
+			if(i != nPlayerIndex){
+				msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + " " + i);
+				if(msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
+					continue;
+				}
+		    	array2 = msg.split("\\s+");
+				//Parse the message returned to get the score from the player info:
+				//username, character, bReady, nScore, nComets, nDeaths, nPowerUps, nMaxSpin, nMaxVel
+		    	usernames.add(array2[1]);
+		    	characters.add(array2[2]);
+		    	damages.add(array2[4]);
+		    	comets.add(array2[5]);
+		    	deaths.add(array1[6]);
+		    	powerups.add(array2[7]);
+		    	maxvels.add(array2[9]);
+			}
+		}
+		
+		setTitle("A Hole in the Universe");
+		setSize(950,650);
+		setLocationRelativeTo(null);
 		
 		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
 		//This class is also overriden by the paintComponent method to draw the table and title, and adds the 
 		//Quit and Home JButtons.
-		add(new ImagePanel("Icons/space.jpg"));
+		add(new ImagePanel("Backgrounds/universe1.jpg"));
+		
+		
+		//Example code for vectors:
+		/*
+				rowData[][] = new String[vector.size()][10];
+				for(int i=0; i<vector.size; i++){
+					rowData[i][0] = scores.get(i);
+					rowData[i][1] = usernames.get(i);
+					rowData[i][2] = vector1.get(i);
+				}
+		*/
 		
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -165,99 +214,27 @@ public class scoreboard extends JFrame {
     				
     			});
             
-    		ImageIcon imgEarth = getImageIcon();
-    		Image imageEarth = imgEarth.getImage();
-    		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-    		imgEarth = new ImageIcon(newImage);
-    		JLabel labelEarth = new JLabel(imgEarth);
-    		labelEarth.setSize(60,50);
-    		labelEarth.setLocation(95,300);
-    		this.add(labelEarth);
+    		//Player1:
+    		ImageIcon img1 = getImageIcon(characterP1);
+    		Image image1 = img1.getImage();
+    		Image newImage1 = image1.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+    		img1 = new ImageIcon(newImage1);
+    		JLabel label1 = new JLabel(img1);
+    		label1.setSize(60,50);
+    		label1.setLocation(95,300);
+    		this.add(label1);
     		
-            //displays character image for player-chosen character in the username table cell
-    		if (array1[2].equals("Earth")){
-        		ImageIcon imgEarth= new ImageIcon("Icons/Earth.png");
-        		Image imageEarth = imgEarth.getImage();
-        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgEarth = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgEarth);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,300);
-        		this.add(labelEarth);
+    		//Other players:
+    		for(int i=0; i< characters.size(); i++){
+	    		ImageIcon img = getImageIcon(characters.get(i));
+	    		Image image = img.getImage();
+	    		Image newImage = image.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+	    		img = new ImageIcon(newImage);
+	    		JLabel label = new JLabel(img);
+	    		label.setSize(60,50);
+	    		label.setLocation(95,300);
+	    		this.add(label);
     		}
-    		else if (array1[2].equals("Neslaou")){
-    			ImageIcon imgNeslaou= new ImageIcon("Icons/Neslaou.png");
-        		Image imageEarth = imgNeslaou.getImage();
-        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgNeslaou = new ImageIcon(newImage);
-        		JLabel labelNeslaou = new JLabel(imgNeslaou);
-        		labelNeslaou.setSize(60,50);
-        		labelNeslaou.setLocation(95,300);
-        		this.add(labelNeslaou);
-        		
-    		}
-    		else if (array1[2].equals("Gigolo")){
-    			ImageIcon imgGigolo= new ImageIcon("Icons/Gigolo.png");
-        		Image imageEarth = imgGigolo.getImage();
-        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgGigolo = new ImageIcon(newImage);
-        		JLabel labelGigolo = new JLabel(imgGigolo);
-        		labelGigolo.setSize(60,50);
-        		labelGigolo.setLocation(95,300);
-        		this.add(labelGigolo);
-    		}
-    		else if (array1[2].equals("OraUhlsax")){
-    			ImageIcon imgOU= new ImageIcon("Icons/OU2.png");
-        		Image imageOU = imgOU.getImage();
-        		Image newImage = imageOU.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgOU = new ImageIcon(newImage);
-        		JLabel labelOU = new JLabel(imgOU);
-        		labelOU.setSize(60,50);
-        		labelOU.setLocation(95,300);
-        		this.add(labelOU);
-    		}
-    		else if (array2[2].equals("Earth")){
-    			ImageIcon imgEarth= new ImageIcon("Icons/Earth.png");
-        		Image imageEarth = imgEarth.getImage();
-        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgEarth = new ImageIcon(newImage);
-        		JLabel labelEarth = new JLabel(imgEarth);
-        		labelEarth.setSize(60,50);
-        		labelEarth.setLocation(95,395);
-        		this.add(labelEarth);
-    		}
-    		else if (array2[2].equals("Neslaou")){
-    			ImageIcon imgNeslaou= new ImageIcon("Icons/Neslaou.png");
-        		Image imageEarth = imgNeslaou.getImage();
-        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgNeslaou = new ImageIcon(newImage);
-        		JLabel labelNeslaou = new JLabel(imgNeslaou);
-        		labelNeslaou.setSize(60,50);
-        		labelNeslaou.setLocation(95,395);
-        		this.add(labelNeslaou);
-    		}
-    		else if (array2[2].equals("Gigolo")){
-    			ImageIcon imgGigolo= new ImageIcon("Icons/Gigolo.png");
-        		Image imageEarth = imgGigolo.getImage();
-        		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgGigolo = new ImageIcon(newImage);
-        		JLabel labelGigolo = new JLabel(imgGigolo);
-        		labelGigolo.setSize(60,50);
-        		labelGigolo.setLocation(95,395);
-        		this.add(labelGigolo);
-    		}
-    		else if (array2[2].equals("OraUhlsax")){
-    			ImageIcon imgOU= new ImageIcon("Icons/OU2.png");
-        		Image imageOU = imgOU.getImage();
-        		Image newImage = imageOU.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
-        		imgOU = new ImageIcon(newImage);
-        		JLabel labelOU = new JLabel(imgOU);
-        		labelOU.setSize(60,50);
-        		labelOU.setLocation(95,395);
-        		this.add(labelOU);
-    		}
-    		
-    		
         }
        
         
@@ -358,19 +335,21 @@ public class scoreboard extends JFrame {
             }
             
             //draws player 2 info into the table
-            g.drawString(usernameP2, 85,405);
-            g.drawString(damageP2,245,405);
-            g.drawString(cometsP2,400,405);
-            g.drawString(max_velP2,565,405);
-            g.drawString(powerupsP2,710,405);
-            g.drawString(deathsP2,860,405);
-	
+           /*
+	            g.drawString(usernameP2, 85,405);
+	            g.drawString(damageP2,245,405);
+	            g.drawString(cometsP2,400,405);
+	            g.drawString(max_velP2,565,405);
+	            g.drawString(powerupsP2,710,405);
+	            g.drawString(deathsP2,860,405);
+            */
             }
 
         }
         
 //main method creates instance of scoreBoardGUI()
 public static void main (String [] args) throws IOException, ParserConfigurationException, SAXException{
+	
 	scoreboard instance = new scoreboard();}
 	
 }

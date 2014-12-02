@@ -21,6 +21,7 @@ public class ScorePanel extends JPanel implements Runnable{
 	private Vector<String> vEnemyUsernames = new Vector<String>();
 	private Vector<String> vEnemyCharacters = new Vector<String>();
 	private Vector<Integer> vEnemyScores = new Vector<Integer>();
+	
 	private int nRemainingTime;
 	private JLabel uScoreLabel;
 	private Vector<JLabel> vEnemyScoreLabels = new Vector<JLabel>();
