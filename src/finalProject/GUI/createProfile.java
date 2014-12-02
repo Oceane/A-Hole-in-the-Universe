@@ -41,6 +41,7 @@ import javax.swing.text.StyledDocument;
 
 import finalProject.Client.Client;
 import finalProject.GUI.JoinGame.JoinGameGUI;
+import finalProject.GUI.game.Chat;
 
 public class createProfile extends JFrame implements MouseListener {
 	public JPanel namePanel = new JPanel();
@@ -267,6 +268,7 @@ public class createProfile extends JFrame implements MouseListener {
 			String rec = Client.sendMsg("CREATE_PLAYER "+Benutzername+" "+character);
 			if(rec.contains("SUCCESS")){
 				new JoinGameGUI();
+				new Chat();
 				this.dispose();
 			} else if(rec.contains("XML")){
 				JOptionPane.showMessageDialog(this, "DataBase error. Please contact your server.", "Uh oh...", JOptionPane.WARNING_MESSAGE);
