@@ -13,6 +13,8 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,6 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
+
+
+
 
 
 
@@ -262,19 +267,30 @@ public class JoinGameGUI extends JFrame{
 				public void actionPerformed(ActionEvent ae) {
 					String sTitle = uFieldTitle.getText();
 					int nMinutes = Integer.parseInt(aGameTimes[uComboTime.getSelectedIndex()].substring(0, aGameTimes[uComboTime.getSelectedIndex()].indexOf(" m")));
-					int nMaxPlayers = Integer.parseInt(uFieldMaxPlayers.getText());
-					if(!createGame(sTitle, nMinutes, nMaxPlayers)){
-						showGameCreateError();
-					}
-					else{
-						Scanner uScan = new Scanner(Client.sendMsg("GET_NUM_GAMES_AVAILABLE"));
-						uScan.next();
-						int nNumAvailableGames = Integer.parseInt(uScan.next());
-						joinGame(nNumAvailableGames - 1);
-						uScan.close();
-						new WaitGameCreatorGUI();
-						dispose();
-						bDisplay = false;
+					int nMaxPlayers = 0;
+					if(Client.isInteger(uFieldMaxPlayers.getText())){
+						try{ //hard
+							nMaxPlayers = Integer.parseInt(uFieldMaxPlayers.getText());
+						
+							if(!createGame(sTitle, nMinutes, nMaxPlayers)){
+								showGameCreateError();
+							}
+							else{
+								Scanner uScan = new Scanner(Client.sendMsg("GET_NUM_GAMES_AVAILABLE"));
+								uScan.next();
+								int nNumAvailableGames = Integer.parseInt(uScan.next());
+								joinGame(nNumAvailableGames - 1);
+								uScan.close();
+								new WaitGameCreatorGUI();
+								dispose();
+								bDisplay = false;
+							}
+						} catch(NumberFormatException n) {
+							//noting
+						}
+					} else {
+						Icon kev = new ImageIcon("Icons/Mitnick.png");
+						JOptionPane.showMessageDialog(null, "Enter only integers for maximum Players, Mitnick", "Stop it, Kevin!",JOptionPane.ERROR_MESSAGE, kev);
 					}
 				}
 			});
@@ -349,7 +365,12 @@ public class JoinGameGUI extends JFrame{
 				}
 				
 			//Update the list boxes every second:
-				//Thread.sleep(1000);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//Update the available players:
 					vAvailablePlayersUsernames.clear();
 					vAvailablePlayersCharacters.clear();
@@ -386,7 +407,8 @@ public class JoinGameGUI extends JFrame{
 						vAvailableGamesTitles.add(uScan.next());
 						uScan.next();
 						String sTime = uScan.next();
-						vAvailableGamesTimes.add("" + sTime.substring(0, sTime.indexOf(":")));
+						try{vAvailableGamesTimes.add("" + sTime.substring(0, sTime.indexOf(":")));}
+						catch(NullPointerException n){} catch(StringIndexOutOfBoundsException s){}
 						uScan.close();
 					}
 					populateListGames(uModelAvailableGames, vAvailableGamesTitles, vAvailableGamesTimes);
