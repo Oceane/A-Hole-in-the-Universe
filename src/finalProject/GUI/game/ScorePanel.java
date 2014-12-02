@@ -17,7 +17,13 @@ public class ScorePanel extends JPanel implements Runnable{
 	public static final int HEIGHT = 50;
 	public static final Color uSemiTrans = new Color(0, 0, 0, 150);
 	private JFrame uFrame;
-	private int nScore;
+	//nScore, nComets, nDeaths, nPowerUps, nMaxSpin, nMaxVel
+	private int nScore = 0;
+	private int nComets = 0;
+	private int nDeaths = 0;
+	private int nPowerUps = 0;
+	private int nMaxSpin = 0;
+	private int nMaxVel = -1;
 	private Vector<String> vEnemyUsernames = new Vector<String>();
 	private Vector<String> vEnemyCharacters = new Vector<String>();
 	private Vector<Integer> vEnemyScores = new Vector<Integer>();
@@ -66,7 +72,29 @@ public class ScorePanel extends JPanel implements Runnable{
 		}
 		this.uScoreLabel.setText("You: " + this.nScore);
 	}
-
+	
+	public void countComet(){
+		this.nComets++;
+	}
+	
+	public void countDeaths(){
+		this.nDeaths++;
+	}
+	
+	public void countPowerUps(){
+		this.nPowerUps++;
+	}
+	
+	public void countMaxSpin(){ //not yet implemented
+		this.nMaxSpin++;
+	}
+	
+	public void calcMaxVel(int nCurVel){
+		if(nCurVel > this.nMaxVel){
+			this.nMaxVel = nCurVel;
+		}
+	}
+	
 	@Override
 	public void run() {
 		String msg;
@@ -118,10 +146,14 @@ public class ScorePanel extends JPanel implements Runnable{
 			String sScore = uScan.next();
 			sScore = this.nScore + "";
 			String sComets = uScan.next();
+			sComets = this.nComets + "";
 			String sDeaths = uScan.next();
+			sDeaths = this.nDeaths + "";
 			String sPowerUps = uScan.next();
+			sPowerUps = this.nPowerUps + "";
 			String sMaxSpin = uScan.next();
 			String sMaxVel = uScan.next();
+			sMaxVel = this.nMaxVel + "";
 			Client.sendMsg("SET_PLAYER_INFO " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel);
 			uScan.close();
 			

@@ -229,6 +229,7 @@ public class SpaceObjectManager extends Thread{
 					//Remove powerup from vector:
 					uPanel.remove(uPowerUp);
 					vObjs.remove(uPowerUp);
+					uScorePanel.countPowerUps();
 					break;
 				}
 			}
@@ -256,6 +257,7 @@ public class SpaceObjectManager extends Thread{
 			uScorePanel.add(100 * uObj.getRad()); //player can inflict damage on own blackhole
 			vObjs.remove(uObj);
 			uBlackHole.trapped(uObj);
+			uScorePanel.countDeaths();
 		}
 	}
 	
@@ -266,6 +268,7 @@ public class SpaceObjectManager extends Thread{
 			uBlackHole.trapped(cometObj);
 			vObjs.add(new Comet(uPanel));
 			uScorePanel.add(100*cometObj.getRad());
+			uScorePanel.countComet();
 		}
 	}
 	
@@ -310,6 +313,10 @@ public class SpaceObjectManager extends Thread{
 			for(int i=0; i<vObjs.size(); i++){
 				//Update the position of the object and repaint:
 				vObjs.get(i).updatePos();
+				if(vObjs.get(i) instanceof Player){
+					int vel = (int)Math.sqrt(vObjs.get(i).getVelX()*vObjs.get(i).getVelX() + vObjs.get(i).getVelY()*vObjs.get(i).getVelY());
+					uScorePanel.calcMaxVel(vel);
+				}
 				uPanel.revalidate();
 				uPanel.repaint();
 			}
