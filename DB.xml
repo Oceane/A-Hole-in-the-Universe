@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document>
 	<players_available>
-		<player>
-			<character>Gigolo</character>
-			<ip_address>1983.492.745</ip_address>
-			<username>Juggalo</username>
-			<ready>false</ready>
+		<player character="Neslaou" ip_address="1983.498.746" username="tommy">
+			<ready>true</ready>
+			<ip_address>1983.498.746</ip_address>
 			<score>0</score>
 			<comets>0</comets>
 			<deaths>0</deaths>
@@ -13,14 +11,33 @@
 			<max_spin>0</max_spin>
 			<max_vel>0</max_vel>
 			<notifications>
+			<notification>122222</notification>
+			<notification>211111</notification>
+			<notification>Hello!!!</notification>
+			<notification>981823</notification>
+			<notification>4 THe G0V3rnMENt</notification>
 			</notifications>
 		</player>
-
-
-<player>
-<username>Hey</username>
+		<player character="Earth" ip_address="1983.498.745" username="sandy">
+			<ready>true</ready>
+			<score>0</score>
+			<comets>0</comets>
+			<deaths>0</deaths>
+			<powerups>0</powerups>
+			<max_spin>0</max_spin>
+			<max_vel>0</max_vel>
+			<notifications>
+			<notification>122222</notification>
+			<notification>211111</notification>
+			<notification>Hello!!!</notification>
+			<notification>981823</notification>
+			<notification>4 THe G0V3rnMENt</notification>
+			</notifications>
+		</player>
+	<player>
+<username>Bobby</username>
 <character>Neslaou</character>
-<ip_address>/127.0.0.1:56000</ip_address>
+<ip_address>100</ip_address>
 <ready>false</ready>
 <score>0</score>
 <comets>0</comets>
@@ -29,272 +46,194 @@
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
 <notifications/>
+<notification>122222</notification>
+			<notification>211111</notification>
+			<notification>Hello!!!</notification>
+			<notification>981823</notification>
+			<notification>4 THe G0V3rnMENt</notification>
+</notifications>
 </player>
-<player>
-<username>Horse</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56003</ip_address>
-<ready>false</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>Tea</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56011</ip_address>
-<ready>false</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-
-<player>
-<username>Howdy</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56039</ip_address>
-<ready>false</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>Pick</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56506</ip_address>
-<ready>false</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>Use</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56510</ip_address>
-<ready>false</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>Yeah</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56511</ip_address>
-<ready>false</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-
 </players_available>
 
 	<games_available>
 		
-<game max_players="2" remaining_time="1:00" title="Hard" total_time="1:00">
-<player>
-<username>Yams</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56056</ip_address>
-<ready>false</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-</games_available>
+		
+	</games_available>
 
 	<games_active>
 
 
-	
+		
 	</games_active>
 
 	<games_history>
-<game max_players="1" remaining_time="0:0" title="Gamee" total_time="1:00">
-<player>
-<username>ueo</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57168</ip_address>
-<ready>true</ready>
-<score>24300</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>usld</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57166</ip_address>
-<ready>true</ready>
-<score>44800</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
-<player>
-<username>fjd</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57165</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
-<player>
-<username>dkd</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57150</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>eyr</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57149</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
-<player>
-<username>ABC</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57121</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>XYZ</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57120</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
-<player>
-<username>Geoff</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57118</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
-<player>
-<username>dfkj</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:57024</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
-<player>
-<username>Playerb</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56875</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-<player>
-<username>Playera</username>
-<character>Neslaou</character>
-<ip_address>/127.0.0.1:56874</ip_address>
-<ready>true</ready>
-<score>0</score>
-<comets>0</comets>
-<deaths>0</deaths>
-<powerups>0</powerups>
-<max_spin>0</max_spin>
-<max_vel>0</max_vel>
-<notifications/>
-</player>
-</game>
-
-	</games_history>
+<game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
+			<player character="ZZZ" ip_address="1983.498.745" username="jane">
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+					<notification>122222</notification>
+			<notification>211111</notification>
+			<notification>Hello!!!</notification>
+			<notification>981823</notification>
+			<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+			<player character="Whatup" ip_address="1983.498.745" username="samuel">	
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+		</game>
+<game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
+			<player character="OU" ip_address="1983.498.745" username="jane">
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+			<player character="Gigolo" ip_address="1983.498.745" username="samuel">	
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+		</game>
+<game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
+			<player character="ZZZ" ip_address="1983.498.745" username="jane">
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+			<player character="Whatup" ip_address="1983.498.745" username="samuel">	
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+		</game>
+<game max_players="2" remaining_time="0:0" title="Planet of the Apes" total_time="0:30">
+			<player character="OU" ip_address="1983.498.745" username="jane">
+				<ready>true</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+			<player character="Gigolo" ip_address="1983.498.745" username="samuel">	
+				<ready>false</ready>
+				<score>0</score>
+				<comets>0</comets>
+				<deaths>0</deaths>
+				<powerups>0</powerups>
+				<max_spin>0</max_spin>
+				<max_vel>0</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+		</game>
+		<game max_players="2" remaining_time="0:30" title="Planet of the Apes" total_time="0:30">
+			<player character="planet1" ip_address="1983.498.745" username="jane">
+				<score>50000</score>
+				<comets>30</comets>
+				<deaths>4</deaths>
+				<powerups>2</powerups>
+				<max_spin>2</max_spin>
+				<max_vel>3</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>
+			</player>
+			<player character="planet3" ip_address="1983.498.745" username="samuel">
+				<score>50000</score>
+				<comets>30</comets>
+				<deaths>4</deaths>
+				<powerups>2</powerups>
+				<max_spin>7</max_spin>
+				<max_vel>6</max_vel>
+				<notifications>
+				<notification>122222</notification>
+				<notification>211111</notification>
+				<notification>Hello!!!</notification>
+				<notification>981823</notification>
+				<notification>4 THe G0V3rnMENt</notification>
+				</notifications>		
+			</player>
+		</game>
+</games_history>
 </document>
