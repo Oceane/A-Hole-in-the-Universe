@@ -102,10 +102,6 @@ public class scoreboard extends JFrame {
     	powerupsP2 = array2[7];
     	max_velP2 = array2[9];
 		
-		
-
-		
-		
 		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
 		//This class is also overriden by the paintComponent method to draw the table and title, and adds the 
 		//Quit and Home JButtons.
@@ -169,6 +165,15 @@ public class scoreboard extends JFrame {
     				
     			});
             
+    		ImageIcon imgEarth = getImageIcon();
+    		Image imageEarth = imgEarth.getImage();
+    		Image newImage = imageEarth.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
+    		imgEarth = new ImageIcon(newImage);
+    		JLabel labelEarth = new JLabel(imgEarth);
+    		labelEarth.setSize(60,50);
+    		labelEarth.setLocation(95,300);
+    		this.add(labelEarth);
+    		
             //displays character image for player-chosen character in the username table cell
     		if (array1[2].equals("Earth")){
         		ImageIcon imgEarth= new ImageIcon("Icons/Earth.png");
@@ -251,8 +256,25 @@ public class scoreboard extends JFrame {
         		labelOU.setLocation(95,395);
         		this.add(labelOU);
     		}
+    		
+    		
         }
        
+        
+        private ImageIcon getImageIcon(String sCharacter){
+        	switch(sCharacter){
+        	case "Earth":
+        		return new ImageIcon("Icons/Earth.png");
+        	case "Neslaou":
+        		return new ImageIcon("Icons/Neslaou.png");
+        	case "OraUhlsax":
+        		return new ImageIcon("Icons/OU2.png");
+        	case "Gigolo":
+        		return new ImageIcon("Icons/Gigolo.png");
+        	default:
+        		return new ImageIcon("Icons/Earth.png");	
+        	}
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
