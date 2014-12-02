@@ -45,7 +45,7 @@ public class Player extends SpaceObject implements Runnable{
 		sCharacter = sCharacter.toLowerCase();
     	switch(sCharacter){
             case "earth":
-                return Toolkit.getDefaultToolkit().getImage("Icons/EarthGame.png"); // from http://commons.wikimedia.org/wiki/File:Globe.png
+                return Toolkit.getDefaultToolkit().getImage("Icons/Earth.png"); // from http://commons.wikimedia.org/wiki/File:Globe.png
             case "neslaou":
                 return Toolkit.getDefaultToolkit().getImage("Icons/Neslaou.png");
             case "gigolo":
