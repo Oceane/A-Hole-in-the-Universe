@@ -45,7 +45,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 <notification>122222</notification>
 			<notification>211111</notification>
 			<notification>Hello!!!</notification>
@@ -250,7 +250,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 <player>
 <username>yuxin</username>
@@ -263,7 +263,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 <game max_players="1" remaining_time="0:0" title="Gamee" total_time="1:00">
@@ -278,7 +278,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 <player>
 <username>usld</username>
@@ -291,7 +291,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 <game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
@@ -306,7 +306,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 <game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
@@ -321,7 +321,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 <player>
 <username>eyr</username>
@@ -334,7 +334,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 <game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
@@ -349,7 +349,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 <player>
 <username>XYZ</username>
@@ -362,7 +362,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 <game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
@@ -377,7 +377,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 <game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
@@ -392,7 +392,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 <game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
@@ -407,7 +407,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 <player>
 <username>Playera</username>
@@ -420,7 +420,7 @@
 <powerups>0</powerups>
 <max_spin>0</max_spin>
 <max_vel>0</max_vel>
-<notifications/>
+<notifications>
 </player>
 </game>
 
