@@ -67,6 +67,7 @@ public class scoreboard extends JFrame {
 
 	public scoreboard() throws IOException{
 		super("A Hole in the Universe");
+		System.out.println("JFrame constructor call");
 		setSize(950,650);
 		setLocationRelativeTo(null);
         //retrieves all player info
@@ -87,7 +88,7 @@ public class scoreboard extends JFrame {
     	max_velP1 = array1[9];
     	
     	Scanner uScan;
-    	
+    	System.out.println("1");
 		//Get the index of the active game that the current player is in:
 		msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
 		if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
@@ -97,7 +98,7 @@ public class scoreboard extends JFrame {
 		uScan.next();
 		int nGameIndex = Integer.parseInt(uScan.next());
 		uScan.close();
-			
+		System.out.println("2");	
 		// update enemy score
 			msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
 			if(msg.equals("GET_PLAYER_INDEX FAILURE")){
@@ -107,11 +108,11 @@ public class scoreboard extends JFrame {
 			uScan.next();
 			int nPlayerIndex = Integer.parseInt(uScan.next());
 			uScan.close();
-    	
+			System.out.println("3");
 		//Get the number of players
-		msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
-		if(msg.equals("GET_GAME_ACTIVE_NUM_PLAYERS FAILURE")){
-			return;
+		msg = Client.sendMsg("GET_GAME_HISTORY_NUM_PLAYERS " + nGameIndex);
+		while(msg.equals("GET_GAME_HISTORY_NUM_PLAYERS FAILURE")){
+			continue;
 		}
 		uScan = new Scanner(msg);
 		uScan.next();
@@ -120,8 +121,8 @@ public class scoreboard extends JFrame {
 		
 		for(int i=0; i<numPlayers; i++){
 			if(i != nPlayerIndex){
-				msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + " " + i);
-				if(msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
+				msg = Client.sendMsg("GET_GAME_HISTORY_PLAYER " + nGameIndex + " " + i);
+				if(msg.equals("GET_GAME_HISTORY_PLAYER FAILURE")){
 					continue;
 				}
 		    	array2 = msg.split("\\s+");
@@ -135,6 +136,7 @@ public class scoreboard extends JFrame {
 		    	powerups.add(array2[7]);
 		    	maxvels.add(array2[9]);
 			}
+			System.out.println("4");
 		}
 		
 		setTitle("A Hole in the Universe");
@@ -164,7 +166,7 @@ public class scoreboard extends JFrame {
 		*/
 		
 		pack();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
 	}
@@ -180,10 +182,10 @@ public class scoreboard extends JFrame {
             this.add(new JLabel(name));
             try {
                 img = ImageIO.read(new File(name));
-                planet = ImageIO.read(new File(name));
+               
                 this.setPreferredSize(new Dimension(
                     img.getWidth(), img.getHeight()));
-                this.setPreferredSize(new Dimension(planet.getWidth(),planet.getHeight()));
+              
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -286,6 +288,8 @@ public class scoreboard extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+        	super.paintComponent(g);
+        	System.out.println("paint component test");
        	    //draws the background image to fit the size of the JFrame
             g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
             
