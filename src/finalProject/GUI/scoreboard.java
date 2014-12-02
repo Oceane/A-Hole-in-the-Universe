@@ -61,12 +61,49 @@ public class scoreboard extends JFrame {
 	public static String deathsP2;
 	public static String powerupsP2;
 	public static String max_velP2;
+	
+
 
 
 	public scoreboard() throws IOException{
+        //retrieves all player info
+    	//format: "GET_PLAYER_INFO username character ready score comets deaths powerups max_spin max_vel"
+    	allPlayerInfoP1 = Client.sendMsg(msg);
+    	
+    	//splits all player info by whitespace into array
+    	//format: [GET_PLAYER_INFO, username, character, ready, score, comets, deaths, powerups, max_spin, max_vel]
+    	array1 = allPlayerInfoP1.split("\\s+");
+    	
+
+    	
+    	//retrieve info for player 2 and assign values similar to player 1
+    	allPlayerInfoP2 = Client.sendMsg(msg);
+    	
+    	array2 = allPlayerInfoP2.split("\\s+");
+		
+		
+    	//assign all values in the array to their respective score board values
+    	usernameP1 = array1[1];
+    	characterP1 = array1[2];
+    	damageP1 = array1[4];
+    	cometsP1 = array1[5];
+    	deathsP1 = array1[6];
+    	powerupsP1 = array1[7];
+    	max_velP1 = array1[9];
+    	
+    	usernameP2 = array2[1];
+    	characterP2 = array2[2];
+    	damageP2 = array2[4];
+    	cometsP2 = array2[5];
+    	deathsP2 = array1[6];
+    	powerupsP2 = array2[7];
+    	max_velP2 = array2[9];
+		
+		
 		setTitle("A Hole in the Universe");
 		setSize(950,650);
 		setLocationRelativeTo(null);
+		
 		
 		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
 		//This class is also overriden by the paintComponent method to draw the table and title, and adds the 
@@ -209,37 +246,6 @@ public class scoreboard extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
-            //retrieves all player info
-        	//format: "GET_PLAYER_INFO username character ready score comets deaths powerups max_spin max_vel"
-        	allPlayerInfoP1 = Client.sendMsg(msg);
-        	
-        	//splits all player info by whitespace into array
-        	//format: [GET_PLAYER_INFO, username, character, ready, score, comets, deaths, powerups, max_spin, max_vel]
-        	array1 = allPlayerInfoP1.split("\\s+");
-        	
-        	//assign all values in the array to their respective score board values
-        	usernameP1 = array1[1];
-        	characterP1 = array1[2];
-        	damageP1 = array1[4];
-        	cometsP1 = array1[5];
-        	deathsP1 = array1[6];
-        	powerupsP1 = array1[7];
-        	max_velP1 = array1[9];
-        	
-        	//retrieve info for player 2 and assign values similar to player 1
-        	allPlayerInfoP2 = Client.sendMsg(msg);
-        	
-        	array2 = allPlayerInfoP2.split("\\s+");
-        	
-        	usernameP2 = array2[1];
-        	characterP2 = array2[2];
-        	damageP2 = array2[4];
-        	cometsP2 = array2[5];
-        	deathsP2 = array1[6];
-        	powerupsP2 = array2[7];
-        	max_velP2 = array2[9];
-        	
-        	
        	    //draws the background image to fit the size of the JFrame
             g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
             
