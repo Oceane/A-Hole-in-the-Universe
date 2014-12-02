@@ -401,8 +401,9 @@ public class Server extends JFrame implements Runnable {
 		// Get Nodelist of all players' notifications
 		NodeList nList = doc.getElementsByTagName("notifications");
 		for (int i = 0; i < nList.getLength(); i++) { // update inboxes
-			if (!sendChatMessage(msgChat, (Element) nList.item(i)))
+			if (!sendChatMessage(msgChat, (Element) nList.item(i))){
 				flag = false;
+			}
 		}
 
 		if (flag && writeToXML())
@@ -992,6 +993,11 @@ public class Server extends JFrame implements Runnable {
 
 		Element notifications = doc.createElement("notifications");
 		player.appendChild(notifications);
+		
+		for(int i = 0; i < 5; i++){
+			Element note = doc.createElement("notification");
+			notifications.appendChild(note);
+		}
 
 		return writeToXML();
 	}
