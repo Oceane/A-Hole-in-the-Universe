@@ -61,6 +61,21 @@
 	</games_available>
 
 	<games_active>
+<game max_players="2" remaining_time="0:26" title="Hi" total_time="1:00">
+<player>
+<username>Bye</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:57291</ip_address>
+<ready>true</ready>
+<score>25600</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
 
 
 		
@@ -237,6 +252,64 @@
 		</game>
 </games_history>
 =======
+<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
+<player>
+<username>eiur</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:57287</ip_address>
+<ready>true</ready>
+<score>3000</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
+<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
+<player>
+<username>pyoti</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:57285</ip_address>
+<ready>true</ready>
+<score>28100</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
+<game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
+<player>
+<username>Yuxin</username>
+<character>Neslaou</character>
+<ip_address>/10.121.126.180:35925</ip_address>
+<ready>true</ready>
+<score>7700</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+<player>
+<username>Hi</username>
+<character>Neslaou</character>
+<ip_address>/127.0.0.1:57269</ip_address>
+<ready>true</ready>
+<score>14000</score>
+<comets>0</comets>
+<deaths>0</deaths>
+<powerups>0</powerups>
+<max_spin>0</max_spin>
+<max_vel>0</max_vel>
+<notifications/>
+</player>
+</game>
 <game max_players="2" remaining_time="0:0" title="Game" total_time="1:00">
 <player>
 <username>Hello</username>

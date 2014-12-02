@@ -14,6 +14,7 @@ import finalProject.Client.Client;
 import finalProject.GUI.scoreboard;
 
 public class ScorePanel extends JPanel implements Runnable{
+	public static final int HEIGHT = 60;
 	public static final Color uSemiTrans = new Color(0, 0, 0, 150);
 	private JFrame uFrame;
 	private int nScore;
@@ -29,7 +30,7 @@ public class ScorePanel extends JPanel implements Runnable{
 	public ScorePanel(JPanel uPanel, JFrame uFrame){
 		this.uFrame = uFrame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBounds(0, 0, 200, 50);
+		this.setBounds(0, 0, 200, HEIGHT);
 		this.setBackground(uSemiTrans);
 		this.uScoreLabel = new JLabel("You: 0");
 		this.uScoreLabel.setForeground(Color.white);
@@ -165,6 +166,7 @@ public class ScorePanel extends JPanel implements Runnable{
 				for(int i=0; i<vEnemyScoreLabels.size(); i++){
 					this.add(vEnemyScoreLabels.get(i));
 				}
+				this.setSize(this.getWidth(), HEIGHT + vEnemyUsernames.size()*20);
 				
 			// update remaining time
 				msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
