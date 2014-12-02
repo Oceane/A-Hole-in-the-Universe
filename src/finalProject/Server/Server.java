@@ -569,9 +569,7 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_GAME_ACTIVE_NUM_PLAYERS FAILURE";
 
 		int numPlayers = 0;
-		Element game = (Element) ((Element) doc.getElementsByTagName(
-				"games_active").item(0)).getElementsByTagName("game").item(
-				nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName("games_active").item(0)).getElementsByTagName("game").item(nGameIndex);
 		if (game != null) {
 			numPlayers = game.getElementsByTagName("player").getLength();
 			msg = "GET_GAME_ACTIVE_NUM_PLAYERS " + numPlayers;
@@ -620,13 +618,10 @@ public class Server extends JFrame implements Runnable {
 		return msg;
 	}
 
-	public synchronized static String getGameHistoryPlayer(int nGameIndex,
-			int nPlayerIndex) {
+	public synchronized static String getGameHistoryPlayer(int nGameIndex, int nPlayerIndex) {
 		String msg = "GET_GAME_HISTORY_PLAYER FAILURE";
 
-		Element game = (Element) ((Element) doc.getElementsByTagName(
-				"games_history").item(0)).getElementsByTagName("game").item(
-				nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName("games_history").item(0)).getElementsByTagName("game").item(nGameIndex);
 		if (game != null) {
 			Element player = (Element) game.getElementsByTagName("player")
 					.item(nPlayerIndex);
@@ -719,9 +714,7 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_GAME_AVAILABLE_NUM_PLAYERS FAILURE";
 
 		int numPlayers = 0;
-		Element game = (Element) ((Element) doc.getElementsByTagName(
-				"games_available").item(0)).getElementsByTagName("game").item(
-				nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName("games_available").item(0)).getElementsByTagName("game").item(nGameIndex);
 		if (game != null) {
 			numPlayers = game.getElementsByTagName("player").getLength();
 			msg = "GET_GAME_AVAILABLE_NUM_PLAYERS " + numPlayers;
@@ -769,9 +762,7 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_GAME_HISTORY_NUM_PLAYERS FAILURE";
 
 		int numPlayers = 0;
-		Element game = (Element) ((Element) doc.getElementsByTagName(
-				"games_history").item(0)).getElementsByTagName("game").item(
-				nGameIndex);
+		Element game = (Element) ((Element) doc.getElementsByTagName("games_history").item(0)).getElementsByTagName("game").item(nGameIndex);
 		if (game != null) {
 			numPlayers = game.getElementsByTagName("player").getLength();
 			msg = "GET_GAME_HISTORY_NUM_PLAYERS " + numPlayers;
