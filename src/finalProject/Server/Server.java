@@ -897,7 +897,7 @@ public class Server extends JFrame implements Runnable {
 				msg += " " + myEl.getElementsByTagName("powerups").item(0).getTextContent();
 				msg += " " + myEl.getElementsByTagName("max_spin").item(0).getTextContent();
 				msg += " " + myEl.getElementsByTagName("max_vel").item(0).getTextContent();
-
+				System.out.println(msg);
 				break;
 			}
 		}

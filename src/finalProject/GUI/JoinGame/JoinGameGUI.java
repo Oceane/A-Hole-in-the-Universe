@@ -97,11 +97,15 @@ public class JoinGameGUI extends JFrame{
 		private JButton uButtonJoinGame = new JButton("Join");
 		private JButton uButtonCancelCreateGame = new JButton("Cancel");
 		private JButton uButtonDoneCreateGame = new JButton("Done");
+		private Thread uThread;
+		private boolean bDisplay = true;
+		
 		public JoinGamePanel() {
 			initializeComponents();
 			positionComponents();
 			addActionListeners();
-			new Thread(this).start();
+			uThread = new Thread(this);
+			uThread.start();
 		}
 
 		private void initializeComponents() {
@@ -270,6 +274,7 @@ public class JoinGameGUI extends JFrame{
 						uScan.close();
 						new WaitGameCreatorGUI();
 						dispose();
+						bDisplay = false;
 					}
 				}
 			});
@@ -338,6 +343,11 @@ public class JoinGameGUI extends JFrame{
 			String sMsg;
 			
 			while(true){
+				
+				if(!bDisplay){
+					break;
+				}
+				
 			//Update the list boxes every second:
 				//Thread.sleep(1000);
 				//Update the available players:
