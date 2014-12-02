@@ -1,5 +1,6 @@
 package finalProject.GUI;
 import finalProject.Client.Client;
+import finalProject.GUI.JoinGame.JoinGameGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +11,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -28,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -139,7 +142,7 @@ public class scoreboard extends JFrame {
 		    	characters.add(array2[2]);
 		    	damages.add(array2[4]);
 		    	comets.add(array2[5]);
-		    	deaths.add(array1[6]);
+		    	deaths.add(array2[6]);
 		    	powerups.add(array2[7]);
 		    	maxvels.add(array2[9]);
 			}
@@ -152,7 +155,7 @@ public class scoreboard extends JFrame {
 		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
 		//This class is also overriden by the paintComponent method to draw the table and title, and adds the 
 		//Quit and Home JButtons.
-		add(new ImagePanel("Icons/space.jpg"));
+		add(new ImagePanel("Icons/space.jpg", this));
 		
 		
 
@@ -179,12 +182,11 @@ public class scoreboard extends JFrame {
 	
 	
 	public static class ImagePanel extends JPanel {
-
         BufferedImage img;
         BufferedImage planet;
        
         //constructor for ImagePanel- takes name of file and constructs a background image by adding it to a JLabel.
-        ImagePanel(String name) {
+        ImagePanel(String name, final JFrame f) {
             this.add(new JLabel(name));
             try {
                 img = ImageIO.read(new File(name));
@@ -224,7 +226,12 @@ public class scoreboard extends JFrame {
     		//show Home Page card in CardLayout implementation
     		toHomeButton.addActionListener(new ActionListener(){
     			public void actionPerformed(ActionEvent ae){
-    				
+    				if(Client.sendMsg("LEAVE_SCOREBOARD").contains("FAILURE")){
+    					JOptionPane.showMessageDialog(null,"Nah, I won't let you.", "Oops! Try again.", JOptionPane.NO_OPTION);
+    				} else {
+    					new JoinGameGUI();
+    					f.dispose();
+    				}
     			}
     				
     			});
@@ -273,6 +280,7 @@ public class scoreboard extends JFrame {
     		
     		//Other players:
     		for(int i=0; i< characters.size(); i++){
+    			System.out.println(characters.get(i));
 	    		ImageIcon img = getImageIcon(characters.get(i));
 	    		Image image = img.getImage();
 	    		Image newImage = image.getScaledInstance(100,100, java.awt.Image.SCALE_SMOOTH);
