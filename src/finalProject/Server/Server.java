@@ -491,11 +491,13 @@ public class Server extends JFrame implements Runnable {
 		Element gamesActive = (Element) doc.getElementsByTagName("games_active").item(0);
 		if(gamesActive != null){
 			Element game = (Element)gamesActive.getElementsByTagName("game").item(nIndex);
+			if(game != null){
 			String sTitle = game.getAttribute("title");
 			String sRemainingTime = game.getAttribute("remaining_time");
 			String sTotalTime = game.getAttribute("total_time");
 			String sMaxPlayers = game.getAttribute("max_players");
 			msg = "GET_GAME_ACTIVE " + sTitle + " " + sRemainingTime + " " + sTotalTime + " " + sMaxPlayers;
+			}
 		}
 		return msg;
 	}
@@ -520,9 +522,20 @@ public class Server extends JFrame implements Runnable {
 		Element game = (Element)((Element)doc.getElementsByTagName("games_active").item(0)).getElementsByTagName("game").item(nGameIndex);
 		if (game != null) {
 			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
+			if (player != null){
+				//username, character, bReady, nScore, nComets, nDeaths, nPowerUps, nMaxSpin, nMaxVel
 			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
 			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
-			msg = "GET_GAME_ACTIVE_PLAYER " + sUsername + " " + sCharacter;
+			String sReady = player.getElementsByTagName("ready").item(0).getTextContent();
+			String sScore = player.getElementsByTagName("score").item(0).getTextContent();
+			String sComets = player.getElementsByTagName("comets").item(0).getTextContent();
+			String sDeaths = player.getElementsByTagName("deaths").item(0).getTextContent();
+			String sPowerUps = player.getElementsByTagName("powerups").item(0).getTextContent();
+			String sMaxSpin = player.getElementsByTagName("max_spin").item(0).getTextContent();
+			String sMaxVel = player.getElementsByTagName("max_vel").item(0).getTextContent();
+
+			msg = "GET_GAME_ACTIVE_PLAYER " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel;
+			}
 		}
 		return msg;
 	}
@@ -535,7 +548,15 @@ public class Server extends JFrame implements Runnable {
 			Element player = (Element)game.getElementsByTagName("player").item(nPlayerIndex);
 			String sUsername = player.getElementsByTagName("username").item(0).getTextContent();
 			String sCharacter = player.getElementsByTagName("character").item(0).getTextContent();
-			msg = "GET_GAME_HISTORY_PLAYER " + sUsername + " " + sCharacter;
+			String sReady = player.getElementsByTagName("ready").item(0).getTextContent();
+			String sScore = player.getElementsByTagName("score").item(0).getTextContent();
+			String sComets = player.getElementsByTagName("comets").item(0).getTextContent();
+			String sDeaths = player.getElementsByTagName("deaths").item(0).getTextContent();
+			String sPowerUps = player.getElementsByTagName("powerups").item(0).getTextContent();
+			String sMaxSpin = player.getElementsByTagName("max_spin").item(0).getTextContent();
+			String sMaxVel = player.getElementsByTagName("max_vel").item(0).getTextContent();
+
+			msg = "GET_GAME_HISTORY_PLAYER " + sUsername + " " + sCharacter + " " + sReady + " " + sScore + " " + sComets + " " + sDeaths + " " + sPowerUps + " " + sMaxSpin + " " + sMaxVel;
 		}
 		return msg;
 	}
@@ -887,38 +908,21 @@ public class Server extends JFrame implements Runnable {
 		String msg = "GET_PLAYER_STATUS PLAYER_NOT_FOUND";
 
 		NodeList nList = doc.getElementsByTagName("player");
-		Element player = getPlayerElement(uIP, false);
+		Element player = getPlayerElement(uIP, true);
 		if(nList != null && player != null){
-			if (player.getParentNode().toString().contains("players_available")) {
+			if (player.getParentNode().getNodeName().equals("players_available")) {
 				msg = "GET_PLAYER_STATUS AVAILABLE";
-			} else if (player.getParentNode().getParentNode().toString().contains("games_available")) {
+			} 
+			else if (player.getParentNode().getParentNode().getNodeName().equals("games_available")) {
 				msg = "GET_PLAYER_STATUS WAITING";
-			} else if (player.getParentNode().getParentNode().toString().contains("games_active")) {
+			} 
+			else if (player.getParentNode().getParentNode().getNodeName().equals("games_active")) {
 				msg = "GET_PLAYER_STATUS ACTIVE";
-			} else if (player.getParentNode().getParentNode().toString().contains("games_history")) {
+			} 
+			else if (player.getParentNode().getParentNode().getNodeName().equals("games_history")) {
 				msg = "GET_PLAYER_STATUS SCOREBOARD";
 			}
 		}
-		
-		/*
-		for (int i = 0; i < nList.getLength(); i++) {
-			Element myEl = (Element) nList.item(i);
-			String ip = myEl.getElementsByTagName("ip_address").item(0).getTextContent();
-			if (ip.equals(uIP)) {
-				if (nList.item(i).getParentNode().toString().contains("players_available")) {
-					msg = "GET_PLAYER_STATUS AVAILABLE";
-				} else if (nList.item(i).getParentNode().toString().contains("games_available")) {
-					msg = "GET_PLAYER_STATUS WAITING";
-				} else if (nList.item(i).getParentNode().toString().contains("games_active")) {
-					msg = "GET_PLAYER_STATUS ACTIVE";
-				} else if (nList.item(i).getParentNode().toString().contains("games_history")) {
-					msg = "GET_PLAYER_STATUS SCOREBOARD";
-				}
-				break;
-			}
-		}
-		*/
-
 		return msg;
 	}
 

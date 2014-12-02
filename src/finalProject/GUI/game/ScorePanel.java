@@ -1,36 +1,45 @@
 package finalProject.GUI.game;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import finalProject.Client.Client;
+import finalProject.GUI.scoreboard;
 
 public class ScorePanel extends JPanel implements Runnable{
 	public static final Color uSemiTrans = new Color(0, 0, 0, 150);
+	private JFrame uFrame;
 	private int nScore;
-	private int nEnemyScore;
+	private Vector<String> vEnemyUsernames = new Vector<String>();
+	private Vector<String> vEnemyCharacters = new Vector<String>();
+	private Vector<Integer> vEnemyScores = new Vector<Integer>();
 	private int nRemainingTime;
 	private JLabel uScoreLabel;
-	private JLabel uEnemyScoreLabel;
+	private Vector<JLabel> vEnemyScoreLabels = new Vector<JLabel>();
 	private JLabel uRemainingTimeLabel;
 	private final int REFRESH_RATE = 1;
 	
-	public ScorePanel(JPanel uPanel){
+	public ScorePanel(JPanel uPanel, JFrame uFrame){
+		this.uFrame = uFrame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBounds(0, 0, 150, 50);
 		this.setBackground(uSemiTrans);
 		this.uScoreLabel = new JLabel("Damage: 0");
 		this.uScoreLabel.setForeground(Color.white);
-		this.uEnemyScoreLabel = new JLabel("Enemy Damage: 0");
-		this.uEnemyScoreLabel.setForeground(Color.white);
-		this.uRemainingTimeLabel = new JLabel("Remaining Time: 123");
+		//this.uEnemyScoreLabel = new JLabel("Enemy Damage: 0");
+		//this.uEnemyScoreLabel.setForeground(Color.white);
+		this.uRemainingTimeLabel = new JLabel("Remaining Time: 0:0");
+		this.uRemainingTimeLabel.setForeground(Color.white);
 		this.add(this.uScoreLabel);
-		this.add(this.uEnemyScoreLabel);
-		this.add(this.uEnemyScoreLabel);
+		//this.add(this.uEnemyScoreLabel);
+		this.add(this.uRemainingTimeLabel);
 		uPanel.add(this);
 		new Thread(this).start();
 	}
@@ -58,9 +67,13 @@ public class ScorePanel extends JPanel implements Runnable{
 
 	@Override
 	public void run() {
+		Scanner uScan;
+		String sStatus = "";
+		String sPrevStatus = "";
+		
 		while(true) {
 			String msg = Client.sendMsg("GET_PLAYER_STATUS");
-			if (msg.equals("ACTIVE")) {
+			if (msg.equals("GET_PLAYER_STATUS ACTIVE")) {
 				break;
 			}
 			try {
@@ -74,39 +87,95 @@ public class ScorePanel extends JPanel implements Runnable{
 
 			//Get the index of the active game that the current player is in:
 			String msg = Client.sendMsg("GET_PLAYER_GAME_INDEX");
-			int nGameIndex = Integer.parseInt(msg);
+			if(msg.equals("GET_PLAYER_GAME_INDEX FAILURE")){
+				continue;
+			}
+			uScan = new Scanner(msg);
+			uScan.next();
+			int nGameIndex = Integer.parseInt(uScan.next());
+			uScan.close();
 				
 			// update enemy score
-			{
 				msg = Client.sendMsg("GET_PLAYER_INDEX " + nGameIndex);
-				int nPlayerIndex = Integer.parseInt(msg);
+				if(msg.equals("GET_PLAYER_INDEX FAILURE")){
+					continue;
+				}
+				uScan = new Scanner(msg);
+				uScan.next();
+				int nPlayerIndex = Integer.parseInt(uScan.next());
+				uScan.close();
 
 				//Get the number of players
 				msg = Client.sendMsg("GET_GAME_ACTIVE_NUM_PLAYERS " + nGameIndex);
-				int numPlayers = Integer.parseInt(msg);
+				if(msg.equals("GET_GAME_ACTIVE_NUM_PLAYERS FAILURE")){
+					continue;
+				}
+				uScan = new Scanner(msg);
+				uScan.next();
+				int numPlayers = Integer.parseInt(uScan.next());
+				uScan.close();
 
+				vEnemyUsernames.clear();
+				vEnemyCharacters.clear();
+				vEnemyScores.clear();
+				
 				for(int i=0; i<numPlayers; i++){
 					if(i != nPlayerIndex){
-						msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + "," + i);
+						msg = Client.sendMsg("GET_GAME_ACTIVE_PLAYER " + nGameIndex + " " + i);
+						if(msg.equals("GET_GAME_ACTIVE_PLAYER FAILURE")){
+							continue;
+						}
+						uScan = new Scanner(msg);
+						uScan.next();
 						//Parse the message returned to get the score from the player info:
-						int nScore = Integer.parseInt(msg);
-						this.nEnemyScore=nScore;
-						this.uEnemyScoreLabel.setText("Damage: " + this.nEnemyScore);
+						//username, character, bReady, nScore, nComets, nDeaths, nPowerUps, nMaxSpin, nMaxVel
+						vEnemyUsernames.add(uScan.next());
+						vEnemyCharacters.add(uScan.next());
+						uScan.next();
+						vEnemyScores.add(new Integer(uScan.nextInt()));
 					}
 				}
-			}
-			
+				// remove the old labels:
+				for(int i=0; i<vEnemyScoreLabels.size(); i++){
+					this.remove(vEnemyScoreLabels.get(i));
+				}
+				vEnemyScoreLabels.clear();
+				// create the new labels:
+				for(int i=0; i<vEnemyUsernames.size(); i++){
+					this.vEnemyScoreLabels.add(new JLabel(vEnemyUsernames.get(i) + " (" + vEnemyCharacters.get(i) +  ") Damage: " + vEnemyScoreLabels.get(i)));
+				}
+				// add the labels to the score panel:
+				for(int i=0; i<vEnemyScoreLabels.size(); i++){
+					this.add(vEnemyScoreLabels.get(i));
+				}
+				
 			// update remaining time
-			{
 				msg = Client.sendMsg("GET_GAME_ACTIVE " + nGameIndex);
 				Scanner scan = new Scanner(msg);
-				int remainingTime = 0;
-				for (int i=0;i<4;i++) {
-					remainingTime = Integer.parseInt(scan.next());	// 
+				String remainingTime = "";
+				for (int i=0;i<3;i++) {
+					remainingTime = scan.next();
 				}
-				this.uRemainingTimeLabel.setText("Remaining time: " + remainingTime);
+				this.uRemainingTimeLabel.setText("Remaining Time: " + remainingTime);
 				scan.close();
-			}
+				
+			// check to see if the status is score board and navigate to the scoreboard:
+				//Check to see if the player is in an active game:
+				msg = Client.sendMsg("GET_PLAYER_STATUS");
+				uScan = new Scanner(msg);
+				uScan.next();
+				sStatus = uScan.next();
+				System.out.println(msg);
+				if(sStatus.equals("SCOREBOARD") && sPrevStatus.equals("ACTIVE")){
+					try {
+						new scoreboard();
+						this.uFrame.dispose();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				sPrevStatus = sStatus;
+				
 			try {
 				Thread.sleep(1000/REFRESH_RATE);  // milliseconds
 			} catch (InterruptedException ex) {
