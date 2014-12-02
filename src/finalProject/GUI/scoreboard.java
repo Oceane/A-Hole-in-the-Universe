@@ -66,6 +66,9 @@ public class scoreboard extends JFrame {
 
 
 	public scoreboard() throws IOException{
+		super("A Hole in the Universe");
+		setSize(950,650);
+		setLocationRelativeTo(null);
         //retrieves all player info
     	//format: "GET_PLAYER_INFO username character ready score comets deaths powerups max_spin max_vel"
     	allPlayerInfoP1 = Client.sendMsg(msg);
@@ -100,9 +103,7 @@ public class scoreboard extends JFrame {
     	max_velP2 = array2[9];
 		
 		
-		setTitle("A Hole in the Universe");
-		setSize(950,650);
-		setLocationRelativeTo(null);
+
 		
 		
 		//add instance of ImagePanel, which takes the name of an image as input to construct a background image.
